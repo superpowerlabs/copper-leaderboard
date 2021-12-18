@@ -1,7 +1,7 @@
 
 let isDev
 if (typeof window !== 'undefined') {
-  isDev = /localhost/.test(window.location.host) || /\.local/.test(window.location.host)
+  isDev = /localhost/.test(window.location.hostname)
 } else if (typeof process !== undefined && process.env) {
   isDev = process.env.NODE_ENV === 'development'
 }
@@ -24,7 +24,7 @@ const config = {
   supportedId,
   address,
   abi: require('./ABIs.json').contracts,
-  key: 'dcfb1f21611543539204b8757bf24809',
+  // key: 'dcfb1f21611543539204b8757bf24809',
   season: 2
 }
 

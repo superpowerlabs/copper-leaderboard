@@ -13,11 +13,8 @@ import ls from 'local-storage'
 
 import Common from './Common'
 import Header from './Header'
-import Redeem from './Redeem'
 import LandingPage from './LandingPage'
 import Error404 from './Error404'
-import Token from './Token'
-import Welcome from './Welcome'
 
 class App extends Common {
 
@@ -245,25 +242,6 @@ class App extends Common {
       />
       <main>
         <Switch>
-          <Route exact path="/claim/:code">
-            <Redeem
-              Store={Store}
-              setStore={this.setStore}
-            />
-          </Route>
-          <Route exact path="/token">
-            <Token
-              Store={Store}
-              setStore={this.setStore}
-            />
-          </Route>
-          {/*<Route path="/welcome">*/}
-          {/*  <Welcome*/}
-          {/*    Store={Store}*/}
-          {/*    setStore={this.setStore}*/}
-          {/*  />*/}
-          {/*</Route>*/}
-          {/*</Route>*/}
           <Route exact path="/">
             <LandingPage/>
           </Route>

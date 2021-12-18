@@ -29,33 +29,23 @@ export default class LandingPage extends React.Component {
 
   render() {
 
-    // if (window.location.hostname === 'nft.syn.city') {
 
-
-      return (<div>
+    return (<div>
         <Container className={'topContainer'}>
-          <Loading/>
-          {/*<div className={'centered imgLogo'}><img src={'/images/syn-city-large.png'} alt={'Syn City logo'}/></div>*/}
-          {/*<div className={'home-section centered'}>*/}
-          {/*  <h3 className={'notTooLarge'}>This website is for service only.<br/>The ARG components have been moved to <Ab label={'arg.syn.city'} link={'https://arg.syn.city'}/></h3></div>*/}
+          <div className={'yellowLogo'}><img src={'/images/yellowLogo.png'} alt={'logo'}/></div>
+
+
+          <div className={'centered imgLogo'}><img src={'/images/syn-city-large.png'} alt={'Syn City logo'}/></div>
+          <div className={'home-section centered'}>
+            <h1 className={'notTooLarge'}>You were told once before,<br/>now we repeat and pay attention</h1>
+            <div>
+              {/*{this.links()}*/}
+            </div>
+          </div>
+          <br style={{clear: 'both'}} />
+          <div className={'haveFun'}><h1 className={'centered'}>Have fun!</h1></div>
         </Container>
-      </div>)
-
-    // }
-
-    // return (<div>
-    //     <Container className={'topContainer'}>
-    //       <div className={'centered imgLogo'}><img src={'/images/syn-city-large.png'} alt={'Syn City logo'}/></div>
-    //       <div className={'home-section centered'}>
-    //         <h1 className={'notTooLarge'}>You were told once before,<br/>now we repeat and pay attention</h1>
-    //         <div>
-    //           {this.links()}
-    //         </div>
-    //       </div>
-    //       <br style={{clear: 'both'}} />
-    //       <div className={'haveFun'}><h1 className={'centered'}>Have fun!</h1></div>
-    //     </Container>
-    //   </div>
-    // )
+      </div>
+    )
   }
 }

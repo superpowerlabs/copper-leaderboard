@@ -150,14 +150,6 @@ export default class Header extends Base {
         </Navbar.Text>
 
         <Navbar.Text>
-          {this.Store.discordUser
-          ? <div>
-              Welcome <b className={'discordUsername'}>{this.Store.discordUser.username}</b>
-            </div>
-            : null
-          }
-        </Navbar.Text>
-        <Navbar.Text>
           {connectedTo}
         </Navbar.Text>
 
