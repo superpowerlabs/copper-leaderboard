@@ -1,0 +1,22 @@
+{
+  "name": "discord-auto-publisher",
+  "description": "A Discord bot to publish following a schedule",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "start": "node ."
+  },
+  "author": "Francesco Sullo <francesco@sullo.co> (https://francesco.sullo.co)",
+  "contributors": [],
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {
+    "discord.js": "^11.5.1",
+    "dotenv": "^8.2.0",
+    "ethers": "^5.5.1",
+    "fs-extra": "^10.0.0",
+    "lodash": "^4.17.21",
+    "simple-json-db": "^1.2.3"
+  }
+}

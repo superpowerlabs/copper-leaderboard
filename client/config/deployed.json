@@ -1,0 +1,24 @@
+{
+  "1": {
+    "SynCityPasses": "0x6f24A2A5Ecfffb0610F69929e9AA7fceF441897a"
+  },
+  "3": {
+    "SynCityPasses": "0xC5Db86Bc6e2d15371f24E84DC5Fe9dec9d78f2FE"
+  },
+  "4": {
+    "SynCityPasses": "0xb9063F8053cdf615F7ab9F5576c0401392F93823",
+    "SynCityCoupons": "0x7AbEA8B4450Dc0687309D322F937D77f3d47437a"
+  },
+  "56": {
+    "SynCityCoupons": "0x1eC94bE5C72CF0E0524D6EcB6E7bD0bA1700BF70"
+  },
+  "97": {
+    "SynCityCoupons": "0x585209B82b155df14f607652184f5DCF74Bc0618"
+  },
+  "1337": {
+    "SynCityPasses": "0x4e3e4889c08BFd2d202FACbae3978499B1E27366",
+    "SynCityCoupons": "0xF758A89A9EbA1F6d74d32d9C00edC78E8e27fC6a",
+    "SynCityBlueprints": "0xFae8bf5E0bCBdcc44f3E13966C8c3F16917463bE",
+    "SynCitySwapper": "0x2A7EC1a948C356c3D5cf0b275B0FAa4Df10701D5"
+  }
+}
