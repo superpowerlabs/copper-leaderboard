@@ -6,11 +6,8 @@ import galia from 'galia'
 const ethers = require('ethers')
 import {Contract} from '@ethersproject/contracts'
 import clientApi from '../utils/ClientApi'
-
 import config from '../config'
-
 import ls from 'local-storage'
-
 import Common from './Common'
 import Header from './Header'
 import LandingPage from './LandingPage'

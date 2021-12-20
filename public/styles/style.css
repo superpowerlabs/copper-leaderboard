@@ -1057,6 +1057,7 @@ h1.landingpageText {
     width: 250px;
 }
 
+<<<<<<< HEAD
 .progressBar {
     display: flex;
     flex-direction: row;
@@ -1082,4 +1083,24 @@ h1.landingpageText {
     color: white;
     align-content: flex-start;
     
+=======
+table {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+table td {
+    border: 1px solid black;
+    padding: 5px;
+}
+
+.rank-header {
+  color: blue;
+  font-size: 20px;
+  font-weight: bold;
+}
+.data:first-child {
+  font-size: 18px;
+  font-weight: bold;
+>>>>>>> d1c6498da049b7775a5c6ae7075772e5d07f7948
 }
