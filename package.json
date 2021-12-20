@@ -73,8 +73,7 @@
     "start": "node .",
     "start:dev": "NODE_ENV=development node .",
     "build": "webpack",
-    "docker-build": "docker buildx build --platform linux/amd64 -t offficiallly-app -f docker/Dockerfile .",
-    "docker-run": "docker run --rm -p 6660:6660 offficiallly-app",
+  
     "lint": "npm run lint:client && npm run lint:server",
     "lint:client": "eslint client/**/*.js",
     "lint:server": "eslint server/**/*.js",

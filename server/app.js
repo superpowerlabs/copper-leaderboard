@@ -2,7 +2,6 @@ const express = require('express')
 const fs = require('fs-extra')
 const path = require('path')
 const cookieParser = require('cookie-parser')
-const apiV1 = require('./routes/apiV1')
 const metaApi = require('./routes/metaApi')
 const authApi = require('./routes/authApi')
 const Logger = require('./lib/Logger')
@@ -42,7 +41,6 @@ app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({limit: '10mb', extended: false}))
 
-app.use('/api/v1', apiV1)
 app.use('/auth', authApi)
 
 app.use(async (req, res, next) => {
