@@ -16,7 +16,6 @@ async function migrate() {
     try {
       const Klass = require(`./${migrations[i]}`)
       let klass = new Klass(i + 1)
-      await klass.exec()
     } catch (e) {
       console.error(`Error migrating ${migrations[i]}`)
       console.error(e)

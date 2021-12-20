@@ -12,7 +12,7 @@ class Migration extends Sql {
   async exec() {
     await this.body(this.migrationIndex, this.pgData.database)
   }
-
+  
   async body() {
     // must be implemented in any extending class
   }
