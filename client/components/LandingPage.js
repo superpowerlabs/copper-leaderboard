@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-undef
 import Loading from './lib/Loading'
+import NFTs from './NFTs'
 
 const {Container} = ReactBootstrap
 // eslint-disable-next-line no-undef
@@ -33,15 +34,10 @@ export default class LandingPage extends React.Component {
     return (<div>
         <Container className={'topContainer'}>
           <div className={'yellowLogo'}><img src={'/images/yellowLogo.png'} alt={'logo'}/></div>
+          {//<div className={'centered imgLogo'}><img src={'/images/syn-city-large.png'} alt={'Syn City logo'}/></div>
+          }
+            <NFTs/>
 
-
-          <div className={'centered imgLogo'}><img src={'/images/syn-city-large.png'} alt={'Syn City logo'}/></div>
-          <div className={'home-section centered'}>
-            <h1 className={'notTooLarge'}>You were told once before,<br/>now we repeat and pay attention</h1>
-            <div>
-              {/*{this.links()}*/}
-            </div>
-          </div>
           <br style={{clear: 'both'}} />
           <div className={'haveFun'}><h1 className={'centered'}>Have fun!</h1></div>
         </Container>
