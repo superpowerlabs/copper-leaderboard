@@ -1056,3 +1056,30 @@ h1.landingpageText {
 .yellowLogo img {
     width: 250px;
 }
+
+.progressBar {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.buySYNbtn {
+    padding-right: 10%;
+    height: 20;
+    font-weight: bold;
+
+}
+
+.progressBarComplete {
+    justify-content: flex-start;
+}
+
+.progressBarAddress {
+    padding-top: 25px;
+    display: flex;
+    flex-direction: row;
+    font-size: 0.8rem;
+    color: white;
+    align-content: flex-start;
+    
+}
