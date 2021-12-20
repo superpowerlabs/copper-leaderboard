@@ -1061,12 +1061,20 @@ h1.landingpageText {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
+    border: 2px white;
+    border-style: solid;
+    padding: 0px;
 }
 
 .buySYNbtn {
     padding-right: 10%;
-    height: 20;
+    height: 30;
+    width: 90;
     font-weight: bold;
+    text-align: center;
+    padding: 0px;
+    font-size: 0.8rem;
+    border-width: 0;
 
 }
 
