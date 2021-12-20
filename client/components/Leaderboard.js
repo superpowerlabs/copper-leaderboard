@@ -50,7 +50,8 @@ export default class Leaderboard extends Base {
      * @function componentDidMount
      * @desc Sorts users by score then adds a ranking key to each user object when the component loads. Then sets the ranking state
   */
-  componentDidMount() {
+
+  rankingsorter() {
     const ranking = this.state.users;
     const paginate = this.state.paginate;
     ranking.sort(this.compareScore).reverse();
@@ -58,6 +59,9 @@ export default class Leaderboard extends Base {
     ranking.map((user, index) => user.page = Math.ceil((index+1)/paginate));
     this.setState({ pageMax: ranking[ranking.length - 1].page})
     this.setState({ ranking: ranking});
+  }
+  componentDidMount() {
+    this.rankingsorter()
   }
 
   /**
