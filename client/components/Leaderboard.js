@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import Base from "./Base"
 
 /**
    * @class Leaderboard
@@ -6,23 +6,43 @@ import React, { Component } from 'react';
    * @param {Prop} users-an array of objects with name and score properties
    * @param {Prop} paginate-integer to determine how many users to display on each page
 */
-export default class Leaderboard extends Component {
+export default class Leaderboard extends Base {
   constructor(props) {
     super(props);
 
-    this.sortUsersByScore = this.sortUsersByScore.bind(this);
-    this.sortUsersByName = this.sortUsersByName.bind(this);
-    this.filterRank = this.filterRank.bind(this);
-    this.increasePage = this.increasePage.bind(this);
-    this.decreasePage = this.decreasePage.bind(this);
+    this.bindMany[
+      'sortUsersByScore',
+      'sortUsersByName',
+      'filterRank'
+  ]
 
     this.state = {
-      users: this.props.users,
       ranking: [],
       asc: false,
       alph: false,
       page: 1,
       pageMax: 1,
+      users: [{name: "Tj", score: 1},
+              {name: "Chris", score: 69},
+              {name: "Dave", score: 17},
+              {name: "Ben", score: 11},
+              {name: "Caty", score: 21},
+              {name: "Miller", score: 33},
+              {name: "Zack", score: 88},
+              {name: "Sam", score: 42},
+              {name: "Nicky", score: 22},
+              {name: "Cheyenne", score: 55},
+              {name: "Adela", score: 72},
+              {name: "Wongo", score: 35},
+              {name: "Brett", score: 98},
+              {name: "Gina", score: 4},
+              {name: "Allen", score: 7},
+              {name: "Matt", score: 46},
+              {name: "Amanda", score: 31},
+              {name: "Jamie", score: 100},
+              {name: "Sarah", score: 56},
+              {name: "Owen", score: 45}],
+      paginate: 100
     };
   }
 
@@ -32,7 +52,7 @@ export default class Leaderboard extends Component {
   */
   componentDidMount() {
     const ranking = this.state.users;
-    const paginate = this.props.paginate;
+    const paginate = this.state.paginate;
     ranking.sort(this.compareScore).reverse();
     ranking.map((user, index) => user.rank = index +1);
     ranking.map((user, index) => user.page = Math.ceil((index+1)/paginate));
@@ -72,7 +92,7 @@ export default class Leaderboard extends Component {
   */
   sortUsersByScore() {
     const ranking = this.state.ranking;
-    const paginate = this.props.paginate;
+    const paginate = this.state.paginate;
     if(this.state.asc === true) {
       ranking.sort(this.compareScore).reverse();
       ranking.map((user, index) => user.page = Math.ceil((index+1)/paginate));
@@ -94,7 +114,7 @@ export default class Leaderboard extends Component {
   */
   sortUsersByName() {
     const ranking = this.state.ranking;
-    const paginate = this.props.paginate;
+    const paginate = this.state.paginate;
     if(this.state.alph === true) {
       ranking.sort(this.compareName).reverse();
       ranking.map((user, index) => user.page = Math.ceil((index+1)/paginate));
@@ -117,7 +137,7 @@ export default class Leaderboard extends Component {
   */
   filterRank(e) {
     const ranking = this.state.users;
-    const paginate = this.props.paginate;
+    const paginate = this.state.paginate;
     const newRanking = [];
     const inputLength = e.target.value.length
     for(var i = 0; i < ranking.length; i++) {
@@ -131,32 +151,6 @@ export default class Leaderboard extends Component {
     this.setState({ ranking: newRanking});
     this.setState({ page: 1});
     this.setState({ pageMax: newRanking[newRanking.length - 1].page})
-  }
-
-  /**
-     * @function increasePage
-     * @desc Increments page by one
-     * @param {Event} Click
-  */
-  increasePage(e) {
-    let page = this.state.page;
-    if(page < this.state.pageMax){
-      page += 1;
-    }
-    this.setState({ page: page});
-  }
-
-  /**
-     * @function increasePage
-     * @desc Decrements page by one
-     * @param {Event} Click
-  */
-  decreasePage(e) {
-    let page = this.state.page;
-    if(page > 1){
-      page -= 1;
-    }
-    this.setState({ page: page});
   }
 
   /**

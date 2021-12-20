@@ -9,7 +9,10 @@ class Migration extends Sql {
     this.migrationIndex = migrationIndex || 0
   }
 
-
+  async exec() {
+    await this.body(this.migrationIndex, this.pgData.database)
+  }
+  
   async body() {
     // must be implemented in any extending class
   }
