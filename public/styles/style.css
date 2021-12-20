@@ -1057,14 +1057,41 @@ h1.landingpageText {
     width: 250px;
 }
 
+.progressBar {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.buySYNbtn {
+    padding-right: 10%;
+    height: 20;
+    font-weight: bold;
+
+}
+
+.progressBarComplete {
+    justify-content: flex-start;
+}
+
+.progressBarAddress {
+    padding-top: 25px;
+    display: flex;
+    flex-direction: row;
+    font-size: 0.8rem;
+    color: white;
+    align-content: flex-start;
+}
+    
 table {
-    border: 1px solid black;
+    border: 1px solid gold;
     border-collapse: collapse;
 }
 
 table td {
-    border: 1px solid black;
+    border: 1px solid gold;
     padding: 5px;
+    padding-left: 110px;
 }
 
 .rank-header {
