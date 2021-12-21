@@ -1105,11 +1105,15 @@ table td {
 table h1 {
     margin-right: auto;
     margin-left: auto;
-    padding-left: 55px;
+    padding-left: 80px;
+    color: gold;
+    font-size: 20px;
+    font-weight: bold;
+
 }
 
 .rank-header {
-  color: blue;
+  color: gold;
   font-size: 20px;
   font-weight: bold;
 }
