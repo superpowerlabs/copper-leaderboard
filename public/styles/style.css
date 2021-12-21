@@ -1092,11 +1092,10 @@ h1.landingpageText {
 }
     
 table {
-    border: 1px solid gold;
+    border: 0.5px solid white;
     border-collapse: collapse;
     margin-right: auto;
     margin-left: auto;
-    
 }
 
 table td {
@@ -1106,6 +1105,7 @@ table td {
 table h1 {
     margin-right: auto;
     margin-left: auto;
+    padding-left: 55px;
 }
 
 .rank-header {
