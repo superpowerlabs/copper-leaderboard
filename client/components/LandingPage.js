@@ -58,8 +58,9 @@ export default class LandingPage extends React.Component {
           <br style={{clear: 'both'}} />
           <div className={'haveFun'}><h1 className={'centered'}>Have fun!</h1></div>
 
-          <Leaderboard />
+          
         </Container>
+        <Leaderboard />
       </div>
     )
   }

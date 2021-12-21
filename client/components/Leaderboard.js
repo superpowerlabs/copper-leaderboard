@@ -171,7 +171,7 @@ export default class Leaderboard extends Base {
             </tr>
             <tr>
               <td className='rank-header sortScore' onClick={ this.sortUsersByScore }> Rank </td>
-              <td className='rank-header sortAlpha' onClick={ this.sortUsersByName }> Name </td>
+              <td className='rank-header sortAlpha' onClick={ this.sortUsersByName }> Adresses </td>
               <td className='rank-header' onClick={ this.sortUsersByScore }> Score </td>
             </tr>
             {
