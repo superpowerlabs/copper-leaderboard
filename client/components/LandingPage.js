@@ -52,12 +52,16 @@ export default class LandingPage extends React.Component {
               <div classname="progressBarComplete">
                 <h4 className="progressBarAddress">You:address placeholder</h4>
                 <div className="progressBar">
-                  <Progressbar
-                    bgcolor="yellow"
-                    progress={progress_now}
-                    height={40}
-                  />
-                  <Button classname="buySYNbtn" text="BUY $SYN" />
+                  <div className="progressBar2">
+                    <Progressbar
+                      bgcolor="yellow"
+                      progress={progress_now}
+                      height={40}
+                    />
+                  </div>
+                  <div className="buySYNbtn2">
+                    <Button classname="buySYNbtn" text="BUY $SYN" />
+                  </div>
                 </div>
               </div>
             </p>

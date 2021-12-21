@@ -1061,9 +1061,14 @@ h1.landingpageText {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    border: 2px white;
+}
+.progressBar2 {
+    border: 1px white;
     border-style: solid;
-    padding: 0px;
+    width: 100%;
+}
+.buySYNbtn2 {
+    padding-left: 10px;
 }
 
 .buySYNbtn {
@@ -1072,10 +1077,8 @@ h1.landingpageText {
     width: 90;
     font-weight: bold;
     text-align: center;
-    padding: 0px;
     font-size: 0.8rem;
     border-width: 0;
-
 }
 
 .progressBarComplete {
@@ -1090,13 +1093,12 @@ h1.landingpageText {
     color: white;
     align-content: flex-start;
 }
-    
+
 table {
     border: 1px solid gold;
     border-collapse: collapse;
     margin-right: auto;
     margin-left: auto;
-    
 }
 
 table td {
@@ -1109,13 +1111,13 @@ table h1 {
 }
 
 .rank-header {
-  color: blue;
-  font-size: 20px;
-  font-weight: bold;
+    color: blue;
+    font-size: 20px;
+    font-weight: bold;
 }
 .data:first-child {
-  font-size: 18px;
-  font-weight: bold;
+    font-size: 18px;
+    font-weight: bold;
 }
 
 .data {
