@@ -6,11 +6,14 @@ class CreateInitialTables extends require("../Migration") {
     // await sql.schema.dropTableIfExists("investments");
 
     if (!(await sql.schema.hasTable("investments"))) {
-      await sql.schema.createTable("investments", (t) => {
-        t.increments("id").primary();
-        t.bigInteger("amount").notNullable();
-        t.string("wallet").notNullable();
-        t.timestamp("created_at").defaultTo(sql.fn.now());
+      await sql.schema.createTable("investments", (table) => {
+        table.increments("id").primary();
+        table.bigInteger("amount").notNullable();
+        table.string("wallet").notNullable();
+        table.timestamp("created_at").defaultTo(sql.fn.now());
+
+        // to be sure we do not insert two times the same amount by wallet
+        table.string("tx_hash").notNullable();
       });
       done = true;
       console.info('Table "investments" created.');

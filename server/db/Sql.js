@@ -39,7 +39,7 @@ class Sql {
             });
             await tmpClient.raw("create database " + newDb);
           } else {
-            console.error(err);
+            // console.error(err);
           }
         }
         await sleep(1000);

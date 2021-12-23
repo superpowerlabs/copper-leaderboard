@@ -1,10 +1,13 @@
 const express = require("express");
 const router = express.Router();
-// const ethers = require('ethers')
-// const sigUtil = require('eth-sig-util')
-// const dbManager = require('../lib/DbManager')
-// const Address = require('../../client/utils/Address')
-// const {signPackedData, getPackedHash, getContract} = require('../lib/utils')
-// const _ = require('lodash')
+const dbManager = require("../lib/DbManager");
+
+router.get("/investments", async (req, res) => {
+  const investments = await dbManager.getInvestments();
+  res.json({
+    success: true,
+    investments,
+  });
+});
 
 module.exports = router;
