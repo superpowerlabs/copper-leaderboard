@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const ethers = require('ethers')
+const pool = require("./pool")
 const sigUtil = require('eth-sig-util')
 const DiscordOauth2 = require('discord-oauth2')
 const dbManager = require('../lib/DbManager')
@@ -373,11 +374,12 @@ function kriminal(ts) {
 // })
 
 const mintedById = require('../../client/config/minted.json')
+const { Pool } = require('pg')
 const mintedByAddress = _.invert(mintedById)
 
-const values = process.env.NODE_ENV === 'development'
-  ? 'a,b,c,d,e,f,g'.split(',')
-  : process.env.SOLUTIONS.split(',')
+//const values = process.env.NODE_ENV === 'development'
+  //? 'a,b,c,d,e,f,g'.split(',')
+  //: process.env.SOLUTIONS.split(',')
 
 function fixName(city) {
   city = city.replace(/í/, 'i')
@@ -538,6 +540,13 @@ router.post('/give-me-my-token', async (req, res) => {
   res.json({
     success: false
   })
+})
+
+router.use(express.json())
+router.get("/contracts", async (req, res) => {
+  const contract = await pool.query("SELECT * FROM contracts")
+  console.log(contract.rows)
+  res.json("contracts")
 })
 
 module.exports = router
