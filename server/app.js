@@ -6,6 +6,7 @@ const Logger = require("./lib/Logger");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const rateLimit = require("express-rate-limit");
+const apiV1 = require("./routes/apiV1");
 
 process.on("uncaughtException", function (error) {
   Logger.error(error.message);
@@ -40,6 +41,8 @@ app.use(cors());
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ limit: "10mb", extended: false }));
+
+app.use("/api/v1", apiV1);
 
 app.use("/index.html", function (req, res) {
   res.redirect("/");

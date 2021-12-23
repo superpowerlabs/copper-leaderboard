@@ -1,3 +1,6 @@
+// eslint-disable-next-line no-undef
+// const { ProgressBar } = ReactBootstrap;
+
 import Base from "./Base";
 
 /**
@@ -10,7 +13,12 @@ export default class Leaderboard extends Base {
   constructor(props) {
     super(props);
 
-    this.bindMany[("sortUsersByScore", "sortUsersByName", "filterRank")];
+    this.bindMany([
+      "sortUsersByScore",
+      "sortUsersByName",
+      "filterRank",
+      "getInvestments",
+    ]);
 
     this.state = {
       ranking: [],
@@ -44,6 +52,23 @@ export default class Leaderboard extends Base {
     };
   }
 
+  componentDidMount() {
+    this.rankingsorter();
+    this.getInvestments();
+  }
+
+  async getInvestments() {
+    const res = await this.request("investments");
+
+    console.log(res);
+
+    if (res.success) {
+      this.setStore({
+        investments: res.investments,
+      });
+    }
+  }
+
   /**
    * @function componentDidMount
    * @desc Sorts users by score then adds a ranking key to each user object when the component loads. Then sets the ranking state
@@ -59,9 +84,6 @@ export default class Leaderboard extends Base {
     );
     this.setState({ pageMax: ranking[ranking.length - 1].page });
     this.setState({ ranking: ranking });
-  }
-  componentDidMount() {
-    this.rankingsorter();
   }
 
   /**
