@@ -1,6 +1,6 @@
 const knex = require("knex");
 const Spinner = require("cli-spinner").Spinner;
-const _ = require('lodash');
+const _ = require("lodash");
 
 async function sleep(millis) {
   // eslint-disable-next-line no-undef
@@ -30,9 +30,9 @@ class Sql {
           break;
         } catch (err) {
           if (/database ".*" does not exist/.test(err)) {
-            const pgData0 = _.clone(pgData)
-            const newDb = pgData0.database
-            delete pgData0.database
+            const pgData0 = _.clone(pgData);
+            const newDb = pgData0.database;
+            delete pgData0.database;
             let tmpClient = knex({
               client: "pg",
               connection: pgData0,
