@@ -59,6 +59,7 @@
     "simple-json-db": "^1.2.3",
     "superagent": "^4.1.0",
     "video-react": "^0.14.1",
+    "web3": "^1.6.1",
     "web3modal": "^1.9.3"
   },
   "devDependencies": {
