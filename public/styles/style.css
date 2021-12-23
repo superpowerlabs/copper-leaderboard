@@ -1067,7 +1067,6 @@ h1.landingpageText {
     padding-right: 10%;
     height: 20;
     font-weight: bold;
-
 }
 
 .progressBarComplete {
@@ -1082,7 +1081,7 @@ h1.landingpageText {
     color: white;
     align-content: flex-start;
 }
-    
+
 table {
     border: 1px solid gold;
     border-collapse: collapse;
@@ -1095,11 +1094,11 @@ table td {
 }
 
 .rank-header {
-  color: blue;
-  font-size: 20px;
-  font-weight: bold;
+    color: blue;
+    font-size: 20px;
+    font-weight: bold;
 }
 .data:first-child {
-  font-size: 18px;
-  font-weight: bold;
+    font-size: 18px;
+    font-weight: bold;
 }

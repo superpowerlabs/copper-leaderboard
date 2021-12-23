@@ -1,6 +1,6 @@
-const { Container } = ReactBootstrap;
 // eslint-disable-next-line no-undef
-const { Redirect } = ReactRouterDOM;
+const { Container } = ReactBootstrap;
+
 // eslint-disable-next-line no-undef
 export default class NFTs extends React.Component {
   render() {
