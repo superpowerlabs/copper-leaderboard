@@ -1,8 +1,7 @@
 // eslint-disable-next-line no-undef
-const {BrowserRouter, Route, Switch, Redirect} = ReactRouterDOM
+const {BrowserRouter, Route, Switch} = ReactRouterDOM
 // eslint-disable-next-line no-undef
 const {Modal, Button} = ReactBootstrap
-import galia from 'galia'
 const ethers = require('ethers')
 import {Contract} from '@ethersproject/contracts'
 import clientApi from '../utils/ClientApi'
@@ -30,7 +29,6 @@ class App extends Common {
         temp: {},
         menuVisibility: false,
         config,
-        galia: galia(Date.now()),
         width: this.getWidth(),
         pathname: window.location.pathname
       }, localStore),

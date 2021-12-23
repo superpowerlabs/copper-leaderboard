@@ -82,8 +82,11 @@
     "start:dev": "NODE_ENV=development node .",
     "build": "webpack",
     "lint": "npm run lint:client && npm run lint:server",
+    "lint:fix": "npm run lint:client:fix && npm run lint:server:fix",
     "lint:client": "eslint client/**/*.js",
     "lint:server": "eslint server/**/*.js",
+    "lint:client:fix": "eslint client/**/*.js --fix",
+    "lint:server:fix": "eslint server/**/*.js --fix",
     "dev": "npm run build && npm run start:dev"
   },
   "eslintConfig": {

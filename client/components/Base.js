@@ -2,7 +2,6 @@ import PropTypes from 'prop-types'
 
 import Common from './Common'
 import clientApi from '../utils/ClientApi'
-import Address from '../utils/Address'
 
 class Base extends Common {
 
@@ -73,6 +72,7 @@ class Base extends Common {
   }
 
   async sleep(millis) {
+    // eslint-disable-next-line no-undef
     return new Promise(resolve => setTimeout(resolve, millis))
   }
 

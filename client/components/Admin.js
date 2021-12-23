@@ -1,8 +1,5 @@
 // eslint-disable-next-line no-undef
-const {Button, Container, Form, InputGroup, FormControl, Table} = ReactBootstrap
-
-// eslint-disable-next-line no-undef
-const {Redirect} = ReactRouterDOM
+const {Button, Container, InputGroup, FormControl, Table} = ReactBootstrap
 
 import Base from './Base'
 import Loading from './lib/Loading'

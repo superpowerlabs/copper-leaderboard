@@ -2,8 +2,6 @@ const express = require('express')
 const fs = require('fs-extra')
 const path = require('path')
 const cookieParser = require('cookie-parser')
-const metaApi = require('./routes/metaApi')
-const authApi = require('./routes/authApi')
 const Logger = require('./lib/Logger')
 const bodyParser = require('body-parser')
 const cors = require('cors')
@@ -41,24 +39,6 @@ app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({limit: '10mb', extended: false}))
 
-app.use('/auth', authApi)
-
-app.use(async (req, res, next) => {
-  if (req.hostname === 'arg.syn.city') {
-    res.redirect('https://nft.syn.city')
-  } else {
-    next()
-  }
-})
-
-app.use('/meta/:symbol/:id', async (req, res) => {
-  res.json(metaApi.getMetadata(res, req))
-})
-
-app.use('/meta/:symbol', async (req, res) => {
-  res.json(metaApi.getContractMetadata(res, req))
-})
-
 app.use('/index.html', function (req, res) {
   res.redirect('/')
 })
@@ -72,9 +52,9 @@ app.use('/:anything', function (req, res, next) {
   let v = req.params.anything
   switch (v) {
     case 'favicon.png':
+    case 'favicon.ico':
     case 'styles':
     case 'images':
-    case 'nft':
     case 'bundle':
       next()
       break
@@ -84,7 +64,6 @@ app.use('/:anything', function (req, res, next) {
 })
 
 app.use(express.static(path.resolve(__dirname, '../public')))
-
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -120,16 +99,6 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500)
   res.json({error: 'Error'})
 })
-
-// app.closeDb = () => {
-//   // if (db.isOpen()) {
-//   //   db.close()
-//   // }
-// }
-
-//   return app
-// }
-
 
 module.exports = app
 

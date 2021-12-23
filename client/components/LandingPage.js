@@ -1,15 +1,13 @@
 // eslint-disable-next-line no-undef
-import Loading from './lib/Loading'
 import NFTs from './NFTs'
 import Leaderboard from './Leaderboard'
-import Progressbar from './ProgressBar'
+import MyProgressbar from './MyProgressBar'
 import Button from './BuySynbtn'
 
-
-const {Container} = ReactBootstrap
 // eslint-disable-next-line no-undef
-const {Redirect} = ReactRouterDOM
+const {Container} = ReactBootstrap
 const progress_now = 25
+
 // eslint-disable-next-line no-undef
 export default class LandingPage extends React.Component {
 
@@ -19,7 +17,7 @@ export default class LandingPage extends React.Component {
   }
 
   links() {
-    const baseUri = `https://syn-city-nfts.s3.us-east-2.amazonaws.com/arg2-images/`
+    const baseUri = 'https://syn-city-nfts.s3.us-east-2.amazonaws.com/arg2-images/'
     const images = 'step1-hqimage.png,step2-royimage.png,step3-devanshimage.png,step4-zhiminimage.png,step5-sullofimage.png'.split(',')
     const rows = []
     for (let i = 0; i < 5; i++) {
@@ -45,10 +43,10 @@ export default class LandingPage extends React.Component {
             <NFTs/>
             <div className="App">
               <p>
-                <div classname="progressBarComplete">
+                <div className="progressBarComplete">
               <h4 className="progressBarAddress">You:address placeholder</h4>
             <div className="progressBar">
-                <Progressbar bgcolor="yellow" progress={progress_now} height={40} />
+                <MyProgressbar bgcolor="yellow" progress={progress_now} height={40} />
                 <Button classname="buySYNbtn" text="BUY $SYN"/>
                 </div>
             </div>

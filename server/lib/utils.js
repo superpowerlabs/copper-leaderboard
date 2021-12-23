@@ -1,11 +1,8 @@
 const ethers = require('ethers')
 const {Contract} = require('@ethersproject/contracts')
 const config = require('../../client/config')
-const path = require('path')
-const {execSync} = require('child_process')
-const _ = require('lodash')
+// const _ = require('lodash')
 
-// cache:
 const contracts = {}
 
 const utils = {
@@ -33,30 +30,6 @@ const utils = {
       return contracts[chainId][contractName]
     }
     return false
-  },
-
-  async signPackedData0(hash, privateKey = process.env.VALIDATOR_PRIVATE_KEY) {
-    const signingKey = new ethers.utils.SigningKey(privateKey)
-    const signedDigest = signingKey.signDigest(hash)
-    return ethers.utils.joinSignature(signedDigest)
-  },
-
-  signPackedData(hash) {
-    const scriptPath = path.resolve(__dirname, '../../sign.js')
-    return _.trim(execSync(`node ${scriptPath} ${hash} ${process.env.NODE_ENV}`).toString())
-  },
-
-  async getPackedHash(chainId, recipient, authCode, redeemCode) {
-    const synCityPasses = utils.getContract(chainId, 'SynCityPasses')
-    let typeIndex = parseInt(redeemCode.substring(2, 3))
-    if (isNaN(typeIndex) || typeIndex < 0 || typeIndex > 4 || !synCityPasses) {
-      return false
-    }
-    return await synCityPasses.encodeForSignature(
-      recipient,
-      authCode,
-      ethers.BigNumber.from(typeIndex.toString())
-    )
   }
 }
 

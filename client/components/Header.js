@@ -1,10 +1,6 @@
 // eslint-disable-next-line no-undef
-const {Link} = ReactRouterDOM
-
-// eslint-disable-next-line no-undef
 const {Navbar, Nav, Button} = ReactBootstrap
 
-import Address from '../utils/Address'
 import Base from './Base'
 
 export default class Header extends Base {
@@ -56,8 +52,6 @@ export default class Header extends Base {
 
     const {expanded} = this.state
 
-    let isPhone = this.Store.width < 900
-
     let address = null
     let shortAddress
     if (this.Store.connectedWallet) {
@@ -90,23 +84,7 @@ export default class Header extends Base {
 
     if (connectedNetwork) {
       connectedTo = ''
-      // <span><i className="fa fa-plug"
-      //          style={{color: '#40cc90', marginRight: 10}}/></span>
-    } else {
-      // connectedTo = '
     }
-
-    const getTitle = (what, title) => {
-      let {which} = this.state
-      title = title || what.substring(0, 1).toUpperCase() + what.substring(1)
-      if (which === what) {
-        return <b>{title}</b>
-      } else {
-        return title
-      }
-    }
-
-    // console.log(this.state.pathname)
 
     return <Navbar expanded={expanded}  fixed="top" bg="dark" expand="lg" className={'roboto'}>
       <Navbar.Brand href="/"><img src={'/images/syncity-full-horizontal.png'} style={{height: 40}}/></Navbar.Brand>
@@ -119,13 +97,6 @@ export default class Header extends Base {
             className="mr-auto my-2 my-lg-0"
             navbarScroll
           >
-            {/*<Scroll.Link*/}
-            {/*  offset={-80}*/}
-            {/*  spy={true} smooth={true} to='intro' onClick={this.setExpanded}>Intro</Scroll.Link>*/}
-
-            {/*<Scroll.Link*/}
-            {/*  offset={-80}*/}
-            {/*  spy={true} smooth={true} to='ed'>ED Original</Scroll.Link>*/}
           </Nav>
 
       </Navbar.Collapse>

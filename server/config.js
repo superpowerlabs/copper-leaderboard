@@ -27,7 +27,7 @@ const pgData = {
   port: pgConfMaster.port,
   user: process.env.POSTGRES_USER || process.env.POSTGRES_ENV_POSTGRES_USER,
   password: process.env.POSTGRES_PASSWORD || process.env.POSTGRES_ENV_POSTGRES_PASSWORD,
-  database: process.env.POSTGRES_DATABASE || 'blueprints' //'nft' in production
+  database: process.env.POSTGRES_DATABASE || 'leaderboard'
 }
 
 module.exports = {

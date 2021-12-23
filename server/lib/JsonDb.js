@@ -2,7 +2,8 @@ const JSONdb = require('simple-json-db')
 const path = require('path')
 const fs = require('fs-extra')
 
-class Db {
+// this is used for caching purposes
+class JsonDb {
 
   constructor() {
     const dbDir = path.resolve(__dirname, '../../db')
@@ -19,5 +20,5 @@ class Db {
   }
 }
 
-module.exports = Db
+module.exports = JsonDb
 

@@ -75,20 +75,7 @@ async function main() {
   }
 
   const server = app.listen(port)
-
-  // process.on('SIGINT', () => {
-  //   console.info('SIGINT signal received.')
-  //   server.close(async function (err) {
-  //     process.exit(0)
-  //   })
-  // })
-  //
-  // process.on('exit', function () {
-  //   console.info('Closing connections...')
-  //   // app.closeDb()
-  //   console.info('Closed.')
-  // })
-
+  
   /**
    * Listen on provided port, on all network interfaces.
    */
