@@ -1,10 +1,7 @@
-const Sql = require('../db/Sql')
+const Sql = require("../db/Sql");
 
 class DbManager extends Sql {
-
-
   // examples
-
   // async getPlayer(user_discord_id, now) {
   //   const sql = await this.sql()
   //   const rows = await sql.select('*')
@@ -14,7 +11,6 @@ class DbManager extends Sql {
   //     })
   //   return rows[0]
   // }
-
   // async setPlayer(user_discord_id) {
   //   const row = await this.getPlayer(user_discord_id)
   //   if (row) {
@@ -39,12 +35,10 @@ class DbManager extends Sql {
   //       game_started_at: Date.now()
   //     })
   // }
-
 }
 
-let dbManager
+let dbManager;
 if (!dbManager) {
-  dbManager = new DbManager()
+  dbManager = new DbManager();
 }
-module.exports = dbManager
-
+module.exports = dbManager;

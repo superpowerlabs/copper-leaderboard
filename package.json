@@ -75,18 +75,17 @@
     "eslint": "^6.8.0",
     "eslint-plugin-react": "^6.10.3",
     "mocha": "^8.2.1",
+    "prettier": "2.5.1",
     "webpack": "^2.7.0"
   },
   "scripts": {
     "start": "node .",
     "start:dev": "NODE_ENV=development node .",
     "build": "webpack",
+    "format": "npx prettier --write .",
     "lint": "npm run lint:client && npm run lint:server",
-    "lint:fix": "npm run lint:client:fix && npm run lint:server:fix",
     "lint:client": "eslint client/**/*.js",
     "lint:server": "eslint server/**/*.js",
-    "lint:client:fix": "eslint client/**/*.js --fix",
-    "lint:server:fix": "eslint server/**/*.js --fix",
     "dev": "npm run build && npm run start:dev"
   },
   "eslintConfig": {

@@ -4,4 +4,6 @@ Private
 Strategic
 Seed
 Public
-IDO`.split('\n').sort()
+IDO`
+  .split("\n")
+  .sort();

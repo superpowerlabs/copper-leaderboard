@@ -1,5 +1,5 @@
-const express = require('express')
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
 // const ethers = require('ethers')
 // const sigUtil = require('eth-sig-util')
 // const dbManager = require('../lib/DbManager')
@@ -7,5 +7,4 @@ const router = express.Router()
 // const {signPackedData, getPackedHash, getContract} = require('../lib/utils')
 // const _ = require('lodash')
 
-
-module.exports = router
+module.exports = router;

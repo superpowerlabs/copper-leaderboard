@@ -1,28 +1,27 @@
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types";
 
-export default function MyProgressBar({bgcolor, progress, height}) {
-
+export default function MyProgressBar({ bgcolor, progress, height }) {
   const Parentdiv = {
     height: height,
-    width: '100%',
-    backgroundColor: '',
+    width: "100%",
+    backgroundColor: "",
     borderRadius: 0,
-    margin: 10
-  }
+    margin: 10,
+  };
 
   const Childdiv = {
-    height: '100%',
+    height: "100%",
     width: `${progress}%`,
     backgroundColor: bgcolor,
     borderRadius: 0,
-    textAlign: 'right'
-  }
+    textAlign: "right",
+  };
 
   const progresstext = {
     padding: 10,
-    color: 'black',
-    fontWeight: 900
-  }
+    color: "black",
+    fontWeight: 900,
+  };
 
   return (
     <div style={Parentdiv}>
@@ -30,11 +29,11 @@ export default function MyProgressBar({bgcolor, progress, height}) {
         <span style={progresstext}>{`${progress}%`}</span>
       </div>
     </div>
-  )
+  );
 }
 
 MyProgressBar.propTypes = {
   bgcolor: PropTypes.string,
   progress: PropTypes.number,
-  height: PropTypes.number
-}
+  height: PropTypes.number,
+};

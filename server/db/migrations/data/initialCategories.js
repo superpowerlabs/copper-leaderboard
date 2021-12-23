@@ -473,4 +473,6 @@ Infra
 Derivatives
 Wallets
 Analytics
-Yoga`.split('\n').sort()
+Yoga`
+  .split("\n")
+  .sort();
