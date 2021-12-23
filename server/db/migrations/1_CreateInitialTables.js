@@ -3,23 +3,7 @@ class CreateInitialTables extends require("../Migration") {
     let done = false;
     let sql = await this.sql();
 
-    let result = await sql.select("datname").from("pg_database");
-    let found;
-    for (let row of result) {
-      if (row.datname === database) {
-        found = true;
-        break;
-      }
-    }
-    if (!found) {
-      await sql.raw("create database " + database);
-      done = true;
-      console.info("Database created.");
-    }
-
-    // EXAMPLES
-
-    await sql.schema.dropTableIfExists("investments");
+    // await sql.schema.dropTableIfExists("investments");
 
     if (!(await sql.schema.hasTable("investments"))) {
       await sql.schema.createTable("investments", (t) => {
