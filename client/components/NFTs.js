@@ -1,5 +1,3 @@
-// eslint-disable-next-line no-undef
-const { Container } = ReactBootstrap;
 
 // eslint-disable-next-line no-undef
 export default class NFTs extends React.Component {

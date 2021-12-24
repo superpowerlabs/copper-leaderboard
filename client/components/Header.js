@@ -74,7 +74,7 @@ export default class Header extends Base {
       }
     }
 
-    let connectedTo = "";
+    // let connectedTo = "";
     //   =
     //   (
     //   <span className={"connected"}>
@@ -83,11 +83,11 @@ export default class Header extends Base {
     //     ) : null}
     //   </span>
     // );
-    let { connectedNetwork } = this.Store;
+    // let { connectedNetwork } = this.Store;
 
-    if (connectedNetwork) {
-      connectedTo = "";
-    }
+    // if (connectedNetwork) {
+    //   connectedTo = "";
+    // }
 
     return (
       <Navbar
