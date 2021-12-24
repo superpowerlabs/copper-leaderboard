@@ -8,7 +8,6 @@ const CONTRACT_ADDRESS = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";
 
 const queryService = {
     getContract() {
-        console.log("hi");
         const contract = new web3.eth.Contract(ERC20abi, CONTRACT_ADDRESS);
         const START_BLOCK = 7700000;
         const END_BLOCK = 7700100;
