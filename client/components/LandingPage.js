@@ -40,46 +40,48 @@ export default class LandingPage extends React.Component {
     return (
       <div>
         <Container>
-          <div className={'centered'}>
-            <div className={'inside'}>
-          <div className={"yellowLogo"}>
-            <img src={"/images/yellowLogo.png"} />
-          </div>
-          <div className={"topsynnersLogo"}>
-            <img src={"/images/topSinners.png"} />
-          </div>
-          <div className={"home-section centered"}>
-            <div className={"landingpageText"}>
-              We believe in rewarding our community, especially the early
-              supporters, which is why we have decided to reward our early
-              supporters with exclusive "Original SYNNER" NFTs to the top
-              contributors during our launch auction!
-            </div>
-          </div>
-
-          <NFTs />
-          <div className="App">
-            <p>
-              <div className="progressBarComplete">
-                <h4 className="progressBarAddress">You:address placeholder</h4>
-                <div className="progressBar">
-                  <MyProgressbar
-                    bgcolor="yellow"
-                    progress={progress_now}
-                    height={40}
-                  />
-                  <Button classname="buySYNbtn" text="BUY $SYN" />
+          <div className={"centered"}>
+            <div className={"inside"}>
+              <div className={"yellowLogo"}>
+                <img src={"/images/yellowLogo.png"} />
+              </div>
+              <div className={"topsynnersLogo"}>
+                <img src={"/images/topSinners.png"} />
+              </div>
+              <div className={"home-section centered"}>
+                <div className={"landingpageText"}>
+                  We believe in rewarding our community, especially the early
+                  supporters, which is why we have decided to reward our early
+                  supporters with exclusive "Original SYNNER" NFTs to the top
+                  contributors during our launch auction!
                 </div>
               </div>
-            </p>
-          </div>
 
-          <br style={{ clear: "both" }} />
-          <div className={"haveFun"}>
-            <h1 className={"centered"}>Have fun!</h1>
-          </div>
+              <NFTs />
+              <div className="App">
+                <p>
+                  <div className="progressBarComplete">
+                    <h4 className="progressBarAddress">
+                      You:address placeholder
+                    </h4>
+                    <div className="progressBar">
+                      <MyProgressbar
+                        bgcolor="yellow"
+                        progress={progress_now}
+                        height={40}
+                      />
+                      <Button classname="buySYNbtn" text="BUY $SYN" />
+                    </div>
+                  </div>
+                </p>
+              </div>
 
-          <Leaderboard />
+              <br style={{ clear: "both" }} />
+              <div className={"haveFun"}>
+                <h1 className={"centered"}>Have fun!</h1>
+              </div>
+
+              <Leaderboard />
             </div>
           </div>
         </Container>

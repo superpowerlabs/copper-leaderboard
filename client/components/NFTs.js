@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-undef
-const {Container} = ReactBootstrap;
+const { Container } = ReactBootstrap;
 
 // eslint-disable-next-line no-undef
 export default class NFTs extends React.Component {
@@ -9,7 +9,7 @@ export default class NFTs extends React.Component {
         <div>
           <div className={"nftLogos bold"}>
             <div className={"centered "}>
-              <img src={"/images/NFTleft.png"} alt={"logo"}/>
+              <img src={"/images/NFTleft.png"} alt={"logo"} />
               <div className={"topRow centered"}>
                 <span className={"nftTextGold"}>Top 50 </span>
                 <spam className={"nftText"}>reward:</spam>
@@ -17,7 +17,7 @@ export default class NFTs extends React.Component {
               <b className={"boldNFT centered"}>ORIGINAL SYNNER CEO</b>
             </div>
             <div className={"centered"}>
-              <img src={"/images/NFTcenter.png"} alt={"logo"}/>
+              <img src={"/images/NFTcenter.png"} alt={"logo"} />
               <div className={"topRow centered"}>
                 <span className={"nftTextSilver"}>Top 51-100 </span>
                 <span className={"nftText"}>reward:</span>
@@ -25,7 +25,7 @@ export default class NFTs extends React.Component {
               <b className={"boldNFT centered"}>ORIGINAL SYNNER GUNMAN</b>
             </div>
             <div className={"centered"}>
-              <img src={"/images/NFTright.png"} alt={"logo"}/>
+              <img src={"/images/NFTright.png"} alt={"logo"} />
               <div className={"topRow centered"}>
                 <span className={"nftTextBronze"}>Top 101-200 </span>
                 <span className={"nftText"}>reward:</span>
