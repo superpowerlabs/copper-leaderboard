@@ -39,13 +39,24 @@ export default class LandingPage extends React.Component {
   render() {
     return (
       <div>
-        <Container className={"topContainer"}>
+        <Container>
+          <div className={'centered'}>
+            <div className={'inside'}>
           <div className={"yellowLogo"}>
-            <img src={"/images/yellowLogo.png"} alt={"logo"} />
+            <img src={"/images/yellowLogo.png"} />
           </div>
-          {
-            //<div className={'centered imgLogo'}><img src={'/images/syn-city-large.png'} alt={'Syn City logo'}/></div>
-          }
+          <div className={"topsynnersLogo"}>
+            <img src={"/images/topSinners.png"} />
+          </div>
+          <div className={"home-section centered"}>
+            <div className={"landingpageText"}>
+              We believe in rewarding our community, especially the early
+              supporters, which is why we have decided to reward our early
+              supporters with exclusive "Original SYNNER" NFTs to the top
+              contributors during our launch auction!
+            </div>
+          </div>
+
           <NFTs />
           <div className="App">
             <p>
@@ -69,6 +80,8 @@ export default class LandingPage extends React.Component {
           </div>
 
           <Leaderboard />
+            </div>
+          </div>
         </Container>
       </div>
     );
