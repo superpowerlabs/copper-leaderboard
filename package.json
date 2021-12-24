@@ -33,7 +33,6 @@
     "fs-extra": "^8.1.0",
     "fspath": "^0.15.0",
     "galia": "^0.1.0",
-    "husky": "^7.0.4",
     "ipfs-http-client": "^49.0.4",
     "knex": "^0.21.19",
     "local-storage": "^1.4.2",
@@ -75,6 +74,7 @@
     "css-loader": "^3.6.0",
     "eslint": "^6.8.0",
     "eslint-plugin-react": "^6.10.3",
+    "husky": "^7.0.4",
     "mocha": "^8.2.1",
     "prettier": "2.5.1",
     "webpack": "^2.7.0"
@@ -87,7 +87,8 @@
     "lint": "npm run lint:client && npm run lint:server",
     "lint:client": "eslint client/**/*.js",
     "lint:server": "eslint server/**/*.js",
-    "dev": "npm run build && npm run start:dev"
+    "dev": "npm run build && npm run start:dev",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -106,10 +107,5 @@
   },
   "engines": {
     "node": ">=16.0.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run format"
-    }
   }
 }
