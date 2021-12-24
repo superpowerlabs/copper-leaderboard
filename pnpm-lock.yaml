@@ -35,6 +35,7 @@ specifiers:
   fs-extra: ^8.1.0
   fspath: ^0.15.0
   galia: ^0.1.0
+  husky: ^7.0.4
   ipfs-http-client: ^49.0.4
   knex: ^0.21.19
   local-storage: ^1.4.2
@@ -90,6 +91,7 @@ dependencies:
   fs-extra: 8.1.0
   fspath: 0.15.0
   galia: 0.1.0
+  husky: 7.0.4
   ipfs-http-client: 49.0.4_node-fetch@3.1.0
   knex: 0.21.19_pg@8.7.1
   local-storage: 1.4.2
@@ -4028,6 +4030,12 @@ packages:
   /https-browserify/1.0.0:
     resolution: {integrity: sha1-7AbBDgo0wPL68Zn3/X/Hj//QPHM=}
     dev: true
+
+  /husky/7.0.4:
+    resolution: {integrity: sha512-vbaCKN2QLtP/vD4yvs6iz6hBEo6wkSzs8HpRah1Z6aGmF2KW5PdYuAd7uX5a+OyBZHBhd+TFLqgjUgytQr4RvQ==}
+    engines: {node: '>=12'}
+    hasBin: true
+    dev: false
 
   /iconv-lite/0.4.24:
     resolution: {integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==}
