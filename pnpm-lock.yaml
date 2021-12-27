@@ -35,6 +35,7 @@ specifiers:
   fs-extra: ^8.1.0
   fspath: ^0.15.0
   galia: ^0.1.0
+  husky: ^7.0.4
   ipfs-http-client: ^49.0.4
   knex: ^0.21.19
   local-storage: ^1.4.2
@@ -130,6 +131,7 @@ devDependencies:
   css-loader: 3.6.0_webpack@2.7.0
   eslint: 6.8.0
   eslint-plugin-react: 6.10.3_eslint@6.8.0
+  husky: 7.0.4
   mocha: 8.3.2
   prettier: 2.5.1
   webpack: 2.7.0
@@ -4003,6 +4005,12 @@ packages:
 
   /https-browserify/1.0.0:
     resolution: {integrity: sha1-7AbBDgo0wPL68Zn3/X/Hj//QPHM=}
+    dev: true
+
+  /husky/7.0.4:
+    resolution: {integrity: sha512-vbaCKN2QLtP/vD4yvs6iz6hBEo6wkSzs8HpRah1Z6aGmF2KW5PdYuAd7uX5a+OyBZHBhd+TFLqgjUgytQr4RvQ==}
+    engines: {node: '>=12'}
+    hasBin: true
     dev: true
 
   /iconv-lite/0.4.24:

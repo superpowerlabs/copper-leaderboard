@@ -74,18 +74,20 @@ export default class Header extends Base {
       }
     }
 
-    let connectedTo = (
-      <span className={"connected"}>
-        {this.Store.connectedWallet ? (
-          <span className={"notConnected"}>Switch to Ethereum Mainnet</span>
-        ) : null}
-      </span>
-    );
-    let { connectedNetwork } = this.Store;
+    // let connectedTo = "";
+    //   =
+    //   (
+    //   <span className={"connected"}>
+    //     {this.Store.connectedWallet ? (
+    //       <span className={"notConnected"}>Switch to Ethereum Mainnet</span>
+    //     ) : null}
+    //   </span>
+    // );
+    // let { connectedNetwork } = this.Store;
 
-    if (connectedNetwork) {
-      connectedTo = "";
-    }
+    // if (connectedNetwork) {
+    //   connectedTo = "";
+    // }
 
     return (
       <Navbar
@@ -95,12 +97,12 @@ export default class Header extends Base {
         expand="lg"
         className={"roboto"}
       >
-        <Navbar.Brand href="/">
-          <img
-            src={"/images/syncity-full-horizontal.png"}
-            style={{ height: 40 }}
-          />
-        </Navbar.Brand>
+        {/*<Navbar.Brand href="/">*/}
+        {/*  <img*/}
+        {/*    src={"/images/syncity-full-horizontal.png"}*/}
+        {/*    style={{ height: 40 }}*/}
+        {/*  />*/}
+        {/*</Navbar.Brand>*/}
         <Navbar.Toggle
           aria-controls="basic-navbar-nav"
           onClick={this.setExpanded}
@@ -139,7 +141,7 @@ export default class Header extends Base {
             </a>
           </Navbar.Text>
 
-          <Navbar.Text>{connectedTo}</Navbar.Text>
+          {/*<Navbar.Text>{connectedTo}</Navbar.Text>*/}
 
           {this.Store.connectedWallet ? (
             <Navbar.Text className={"aqua"}>
