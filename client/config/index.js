@@ -10,7 +10,8 @@ const supportedId = {
 };
 
 if (isDev) {
-  (supportedId[1337] = "Local EVM"), (supportedId[4] = "Rinkeby");
+  supportedId[1337] = "Local EVM";
+  supportedId[42] = "Kovan";
 }
 
 const address = Object.assign(
