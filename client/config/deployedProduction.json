@@ -1,2 +1,8 @@
 {
+  "42": {
+    "SyndicateERC20": "0x585209B82b155df14f607652184f5DCF74Bc0618",
+    "EscrowedSyndicateERC20": "0x99caee95218c2150273b0d24C2eB104c294d956C",
+    "SyndicatePoolFactory": "0xC408861DD54174917506F347Cc6FD2c888322D7E",
+    "SyndicateCorePool": "0x9DB71DA1fbD73f8A0a69A7bE1cB6d44813cFAE0F"
+  }
 }

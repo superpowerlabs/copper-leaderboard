@@ -8,7 +8,6 @@ const Logger = require("./lib/Logger");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const rateLimit = require("express-rate-limit");
-const queryService = require("./blockchainQueryService");
 
 process.on("uncaughtException", function (error) {
   Logger.error(error.message);
@@ -86,7 +85,6 @@ app.use("/:anything", function (req, res, next) {
 });
 
 app.use(express.static(path.resolve(__dirname, "../public")));
-queryService.getContract();
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
