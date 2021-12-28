@@ -6,7 +6,6 @@ export default function MyProgressBar({ bgcolor, progress, height }) {
     width: "100%",
     backgroundColor: "",
     borderRadius: 0,
-    margin: 10,
   };
 
   const Childdiv = {
