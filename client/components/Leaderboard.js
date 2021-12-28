@@ -167,12 +167,12 @@ export default class Leaderboard extends Base {
         <table id="lBoard">
           <tbody className='ranking'>
             <tr>
-              <td colspan="10000"><h1>Leaderboard</h1></td>
+              <td colspan="10000"><h1>Auction</h1></td>
             </tr>
             <tr>
               <td className='rank-header sortScore' onClick={ this.sortUsersByScore }> Rank </td>
-              <td className='rank-header sortAlpha' onClick={ this.sortUsersByName }> Name </td>
-              <td className='rank-header' onClick={ this.sortUsersByScore }> Score </td>
+              <td className='rank-header sortAlpha' onClick={ this.sortUsersByName }> Adresses </td>
+              <td className='rank-header' onClick={ this.sortUsersByScore }> Amount </td>
             </tr>
             {
             this.state.ranking.map((user, index) =>
