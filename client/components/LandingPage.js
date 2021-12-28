@@ -85,6 +85,7 @@ export default class LandingPage extends React.Component {
             </div>
           </div>
         </Container>
+        <Leaderboard />
       </div>
     );
   }

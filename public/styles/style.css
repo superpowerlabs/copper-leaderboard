@@ -1025,10 +1025,19 @@ h1.notTooLarge {
     flex-direction: row;
     justify-content: flex-start;
 }
+.progressBar2 {
+    border: 1px white;
+    border-style: solid;
+    width: 100%;
+}
+.buySYNbtn2 {
+    padding-left: 10px;
+}
 
 .buySYNbtn {
     padding-right: 10%;
-    height: 20;
+    height: 30;
+    width: 90;
     font-weight: bold;
 }
 
