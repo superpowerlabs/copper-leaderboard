@@ -1,34 +1,11 @@
-/*.bd-placeholder-img {*/
-/*    font-size: 1.125rem;*/
-/*    text-anchor: middle;*/
-/*    -webkit-user-select: none;*/
-/*    -moz-user-select: none;*/
-/*    -ms-user-select: none;*/
-/*    user-select: none;*/
-/*}*/
-
-/*main > .container {*/
-/*    padding: 60px 15px 0;*/
-/*}*/
-
-/*body::before {
-    content: "";
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
-    background-color: rgba(0,0,0,0.25);
-}*/
-
 body {
     width: 100%;
     margin: 0;
     padding: 0;
-    background-color: #fff;
+    background-color: black;
     color: whitesmoke;
     /*color: #222222;*/
-    font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: 300;
     /*background-size: 100%;*/
     /*background-position-y: 0;*/
@@ -72,8 +49,7 @@ body {
 
 @media (min-width: 1200px) {
     body {
-        background-image: url(../images/SiteBackground.jpg);
-        background-size: cover;
+        background-color: black;
     }
 }
 
@@ -170,7 +146,7 @@ a {
     .container-md,
     .container-sm,
     .container-xl {
-        max-width: 1000px !important;
+        max-width: 1200px !important;
     }
 }
 
@@ -525,10 +501,10 @@ span.button {
 }
 
 .navbar {
-    background-color: #00000060 !important;
+    background-color: #00000020 !important;
     border-bottom: none !important;
     background-size: 100%;
-    padding: 1.4rem !important;
+    padding: 0.2rem 1.4rem !important;
 }
 
 .hina {
@@ -789,12 +765,12 @@ img.pc90 {
 }
 
 .socialLinks i {
-    font-size: 1.4rem;
+    font-size: 1rem;
 }
 
 .bitSmaller {
-    font-size: 0.8rem;
-    margin-right: 12px;
+    font-size: 0.7rem;
+    margin-right: 6px;
     color: yellow !important;
 }
 
@@ -829,8 +805,7 @@ div.label {
 }
 
 .topContainer {
-    margin-top: 20px;
-    width: 650px;
+    margin-top: 100px;
 }
 
 .crimson {
@@ -987,8 +962,10 @@ hr.crimson {
 h1.notTooLarge {
     font-size: 2.8rem;
 }
-h1.landingpageText {
-    font-size: 0.65rem;
+.landingpageText {
+    font-size: 1.1rem;
+    line-height: 36px;
+    margin: 24px 0;
 }
 .nftLogos {
     display: flex;
@@ -997,44 +974,29 @@ h1.landingpageText {
     padding-left: 10px;
     padding-right: 10px;
 }
-.nftLogo1 img {
-    width: 175px;
-    height: 200px;
-}
-.nftLogo2 img {
-    width: 175px;
-    height: 200px;
-}
-.nftLogo3 img {
-    width: 175px;
-    height: 200px;
-}
 
 .nftText {
-    font-size: 0.8rem;
-    padding-left: 5px;
 }
 .nftTextGold {
-    font-size: 0.8rem;
-    padding-left: 25px;
     color: yellow;
 }
 .nftTextSilver {
-    font-size: 0.8rem;
-    padding-left: 25px;
     color: silver;
 }
 .nftTextBronze {
-    font-size: 0.8rem;
-    padding-left: 25px;
     color: #b08d57;
 }
 .nftLogos img {
-    width: 175px;
+    width: 18rem;
 }
+.topRow {
+    font-size: 90%;
+    margin: 8px 0;
+}
+
 .boldNFT {
-    font-size: 0.76rem;
-    padding-left: 25px;
+    font-size: 100%;
+    margin-top: 8px;
 }
 .nftTextFlex {
     display: flex;
@@ -1045,16 +1007,17 @@ h1.landingpageText {
 }
 
 .topsynnersLogo img {
-    width: 350px;
+    width: 360px;
     align-content: center;
 }
 
 .yellowLogo {
     text-align: center;
+    margin-bottom: 32px;
 }
 
 .yellowLogo img {
-    width: 250px;
+    width: 220px;
 }
 
 .progressBar {
@@ -1076,9 +1039,6 @@ h1.landingpageText {
     height: 30;
     width: 90;
     font-weight: bold;
-    text-align: center;
-    font-size: 0.8rem;
-    border-width: 0;
 }
 
 .progressBarComplete {
@@ -1108,7 +1068,6 @@ table td {
 table h1 {
     margin-right: auto;
     margin-left: auto;
-    padding-left: 80px;
     color: gold;
     font-size: 20px;
     font-weight: bold;
@@ -1134,4 +1093,31 @@ table h1 {
 
 .data:nth-child(2) {
     padding-left: 35px;
+}
+
+.width100pc {
+    width: 100%;
+}
+
+.maxLength {
+    margin: auto;
+    max-width: 999px;
+}
+
+@media (min-width: 1200px) {
+    .navbar-collapse a,
+    .navbar-light .navbar-text a,
+    .navbar-collapse .span2 {
+        padding: 0.5rem 0.5rem !important;
+        font-size: 0.9rem;
+    }
+}
+
+.overMenu {
+    z-index: 5;
+}
+
+.inside {
+    margin: auto;
+    max-width: 1024px;
 }

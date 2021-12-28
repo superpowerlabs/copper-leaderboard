@@ -2,12 +2,11 @@ const express = require("express");
 const fs = require("fs-extra");
 const path = require("path");
 const cookieParser = require("cookie-parser");
-const metaApi = require("./routes/metaApi");
-const authApi = require("./routes/authApi");
 const Logger = require("./lib/Logger");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const rateLimit = require("express-rate-limit");
+const apiV1 = require("./routes/apiV1");
 
 process.on("uncaughtException", function (error) {
   Logger.error(error.message);
@@ -43,23 +42,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ limit: "10mb", extended: false }));
 
-app.use("/auth", authApi);
-
-app.use(async (req, res, next) => {
-  if (req.hostname === "arg.syn.city") {
-    res.redirect("https://nft.syn.city");
-  } else {
-    next();
-  }
-});
-
-app.use("/meta/:symbol/:id", async (req, res) => {
-  res.json(metaApi.getMetadata(res, req));
-});
-
-app.use("/meta/:symbol", async (req, res) => {
-  res.json(metaApi.getContractMetadata(res, req));
-});
+app.use("/api/v1", apiV1);
 
 app.use("/index.html", function (req, res) {
   res.redirect("/");
@@ -73,9 +56,9 @@ app.use("/:anything", function (req, res, next) {
   let v = req.params.anything;
   switch (v) {
     case "favicon.png":
+    case "favicon.ico":
     case "styles":
     case "images":
-    case "nft":
     case "bundle":
       next();
       break;
@@ -119,14 +102,5 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.json({ error: "Error" });
 });
-
-// app.closeDb = () => {
-//   // if (db.isOpen()) {
-//   //   db.close()
-//   // }
-// }
-
-//   return app
-// }
 
 module.exports = app;

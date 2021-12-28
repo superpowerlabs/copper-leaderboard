@@ -75,17 +75,21 @@
     "css-loader": "^3.6.0",
     "eslint": "^6.8.0",
     "eslint-plugin-react": "^6.10.3",
+    "husky": "^7.0.4",
     "mocha": "^8.2.1",
+    "prettier": "2.5.1",
     "webpack": "^2.7.0"
   },
   "scripts": {
     "start": "node .",
     "start:dev": "NODE_ENV=development node .",
     "build": "webpack",
+    "format": "npx prettier --write .",
     "lint": "npm run lint:client && npm run lint:server",
     "lint:client": "eslint client/**/*.js",
     "lint:server": "eslint server/**/*.js",
-    "dev": "npm run build && npm run start:dev"
+    "dev": "npm run build && npm run start:dev",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": "react-app"

@@ -1,14 +1,13 @@
 // eslint-disable-next-line no-undef
-import Loading from "./lib/Loading";
 import NFTs from "./NFTs";
 import Leaderboard from "./Leaderboard";
-import Progressbar from "./ProgressBar";
+import MyProgressbar from "./MyProgressBar";
 import Button from "./BuySynbtn";
 
-const { Container } = ReactBootstrap;
 // eslint-disable-next-line no-undef
-const { Redirect } = ReactRouterDOM;
+const { Container } = ReactBootstrap;
 const progress_now = 25;
+
 // eslint-disable-next-line no-undef
 export default class LandingPage extends React.Component {
   componentDidMount() {
@@ -16,7 +15,8 @@ export default class LandingPage extends React.Component {
   }
 
   links() {
-    const baseUri = `https://syn-city-nfts.s3.us-east-2.amazonaws.com/arg2-images/`;
+    const baseUri =
+      "https://syn-city-nfts.s3.us-east-2.amazonaws.com/arg2-images/";
     const images =
       "step1-hqimage.png,step2-royimage.png,step3-devanshimage.png,step4-zhiminimage.png,step5-sullofimage.png".split(
         ","
@@ -39,35 +39,51 @@ export default class LandingPage extends React.Component {
   render() {
     return (
       <div>
-        <Container className={"topContainer"}>
-          <div className={"yellowLogo"}>
-            <img src={"/images/yellowLogo.png"} alt={"logo"} />
-          </div>
-          {
-            //<div className={'centered imgLogo'}><img src={'/images/syn-city-large.png'} alt={'Syn City logo'}/></div>
-          }
-          <NFTs />
-          <div className="App">
-            <p>
-              <div classname="progressBarComplete">
-                <h4 className="progressBarAddress">You:address placeholder</h4>
-                <div className="progressBar">
-                  <div className="progressBar2">
-                    <Progressbar
-                      bgcolor="yellow"
-                      progress={progress_now}
-                      height={40}
-                    />
-                  </div>
-                  <div className="buySYNbtn2">
-                    <Button classname="buySYNbtn" text="BUY $SYN" />
-                  </div>
+        <Container>
+          <div className={"centered"}>
+            <div className={"inside"}>
+              <div className={"yellowLogo"}>
+                <img src={"/images/yellowLogo.png"} />
+              </div>
+              <div className={"topsynnersLogo"}>
+                <img src={"/images/topSinners.png"} />
+              </div>
+              <div className={"home-section centered"}>
+                <div className={"landingpageText"}>
+                  We believe in rewarding our community, especially the early
+                  supporters, which is why we have decided to reward our early
+                  supporters with exclusive "Original SYNNER" NFTs to the top
+                  contributors during our launch auction!
                 </div>
               </div>
-            </p>
-          </div>
 
-          <br style={{ clear: "both" }} />
+              <NFTs />
+              <div className="App">
+                <p>
+                  <div className="progressBarComplete">
+                    <h4 className="progressBarAddress">
+                      You:address placeholder
+                    </h4>
+                    <div className="progressBar">
+                      <MyProgressbar
+                        bgcolor="yellow"
+                        progress={progress_now}
+                        height={40}
+                      />
+                      <Button classname="buySYNbtn" text="BUY $SYN" />
+                    </div>
+                  </div>
+                </p>
+              </div>
+
+              <br style={{ clear: "both" }} />
+              <div className={"haveFun"}>
+                <h1 className={"centered"}>Have fun!</h1>
+              </div>
+
+              <Leaderboard />
+            </div>
+          </div>
         </Container>
         <Leaderboard />
       </div>
