@@ -58,7 +58,7 @@ export default class Leaderboard extends Base {
   async getInvestments() {
     const res = await this.request("investments");
 
-    console.log(res);
+    console.log(JSON.stringify(res));
 
     if (res.success) {
       this.setStore({
