@@ -24,3 +24,5 @@ localdb
 leveldb
 tmp
 pgdata
+data
+
