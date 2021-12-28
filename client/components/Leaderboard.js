@@ -14,10 +14,8 @@ export default class Leaderboard extends Base {
     super(props);
 
     this.bindMany([
-      "sortUsersByScore",
-      "sortUsersByName",
       "filterRank",
-      "getInvestments",
+      "getInvestments"
     ]);
 
     this.state = {
@@ -60,7 +58,7 @@ export default class Leaderboard extends Base {
   async getInvestments() {
     const res = await this.request("investments");
 
-    // console.log(res);
+    console.log(res);
 
     if (res.success) {
       this.setStore({
@@ -97,68 +95,6 @@ export default class Leaderboard extends Base {
     return 0;
   }
 
-  /**
-   * @function compareName
-   * @desc Compares the name property of each user object alphabetically
-   * @param {Object, Object} user
-   */
-  compareName(a, b) {
-    if (a.name < b.name) return -1;
-    if (a.name > b.name) return 1;
-    return 0;
-  }
-
-  /**
-   * @function sortUsersByScore
-   * @desc Sorts the ranking by score either ascending or descending
-   */
-  sortUsersByScore() {
-    const ranking = this.state.ranking;
-    const paginate = this.state.paginate;
-    if (this.state.asc === true) {
-      ranking.sort(this.compareScore).reverse();
-      ranking.map(
-        (user, index) => (user.page = Math.ceil((index + 1) / paginate))
-      );
-      this.setState({ ranking: ranking });
-      this.setState({ asc: false });
-      this.setState({ alph: false });
-    } else {
-      ranking.sort(this.compareScore);
-      ranking.map(
-        (user, index) => (user.page = Math.ceil((index + 1) / paginate))
-      );
-      this.setState({ ranking: ranking });
-      this.setState({ asc: true });
-      this.setState({ alph: false });
-    }
-  }
-
-  /**
-   * @function sortUsersByName
-   * @desc Sorts the ranking by name alphabetically either ascending or descending
-   */
-  sortUsersByName() {
-    const ranking = this.state.ranking;
-    const paginate = this.state.paginate;
-    if (this.state.alph === true) {
-      ranking.sort(this.compareName).reverse();
-      ranking.map(
-        (user, index) => (user.page = Math.ceil((index + 1) / paginate))
-      );
-      this.setState({ ranking: ranking });
-      this.setState({ alph: false });
-      this.setState({ asc: true });
-    } else {
-      ranking.sort(this.compareName);
-      ranking.map(
-        (user, index) => (user.page = Math.ceil((index + 1) / paginate))
-      );
-      this.setState({ ranking: ranking });
-      this.setState({ alph: true });
-      this.setState({ asc: true });
-    }
-  }
 
   /**
    * @function filterRank
@@ -196,27 +132,27 @@ export default class Leaderboard extends Base {
           <tbody className="ranking">
             <tr>
               <td colSpan="10000">
-                <h1>Leaderboard</h1>
+                <h1>Auction</h1>
               </td>
             </tr>
             <tr>
               <td
                 className="rank-header sortScore"
-                onClick={this.sortUsersByScore}
+              
               >
                 {" "}
                 Rank{" "}
               </td>
               <td
                 className="rank-header sortAlpha"
-                onClick={this.sortUsersByName}
+                
               >
                 {" "}
-                Name{" "}
+                Address{" "}
               </td>
-              <td className="rank-header" onClick={this.sortUsersByScore}>
+              <td className="rank-header">
                 {" "}
-                Score{" "}
+                Amount{" "}
               </td>
             </tr>
             {this.state.ranking.map((user, index) => (
