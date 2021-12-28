@@ -10,7 +10,7 @@ source .env && docker run -d \
     --name leaderboard-postgres \
     --restart unless-stopped \
     -p 5432:5432 \
-    -v `pwd`/data:/var/lib/postgresql/data/pgdata \
+    -v $PGDATA:/var/lib/postgresql/data/pgdata \
     -e PGDATA=/var/lib/postgresql/data/pgdata \
     -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
     -e POSTGRES_USER=$POSTGRES_USER \
