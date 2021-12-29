@@ -2,6 +2,7 @@
 // const { ProgressBar } = ReactBootstrap;
 
 import Base from "./Base";
+import { StrictMode, useState } from "react";
 
 /**
  * @class Leaderboard
@@ -14,8 +15,9 @@ export default class Leaderboard extends Base {
     super(props);
 
     this.bindMany([
+      "getInvestments",
       "filterRank",
-      "getInvestments"
+      "rankingsorter"
     ]);
 
     this.state = {
@@ -24,40 +26,31 @@ export default class Leaderboard extends Base {
       alph: false,
       page: 1,
       pageMax: 1,
-      users: [
-        { name: "Tj", score: 1 },
-        { name: "Chris", score: 69 },
-        { name: "Dave", score: 17 },
-        { name: "Ben", score: 11 },
-        { name: "Caty", score: 21 },
-        { name: "Miller", score: 33 },
-        { name: "Zack", score: 88 },
-        { name: "Sam", score: 42 },
-        { name: "Nicky", score: 22 },
-        { name: "Cheyenne", score: 55 },
-        { name: "Adela", score: 72 },
-        { name: "Wongo", score: 35 },
-        { name: "Brett", score: 98 },
-        { name: "Gina", score: 4 },
-        { name: "Allen", score: 7 },
-        { name: "Matt", score: 46 },
-        { name: "Amanda", score: 31 },
-        { name: "Jamie", score: 100 },
-        { name: "Sarah", score: 56 },
-        { name: "Owen", score: 45 },
-      ],
+      users: [],
       paginate: 100,
     };
   }
 
   componentDidMount() {
-    this.rankingsorter();
     this.getInvestments();
   }
 
   async getInvestments() {
+    const state_user = [];
+    let dict = {};
     const res = await this.request("investments");
-    console.log(res);
+    const wallets = res.investments.map(({ wallet }) => wallet);
+    const amounts = res.investments.map(({ amount }) => amount);
+
+    for (var i = 0; i < res.investments.length; i++) {
+      dict = {name: wallets[i], score: amounts[i]};
+      state_user.push(dict);
+    }
+
+    this.setState({ users: state_user});
+    this.rankingsorter();
+
+
     if (res.success) {
       this.setStore({
         investments: res.investments,
@@ -117,7 +110,7 @@ export default class Leaderboard extends Base {
     this.setState({ ranking: newRanking });
     this.setState({ page: 1 });
     this.setState({ pageMax: newRanking[newRanking.length - 1].page });
-  }
+    }
 
   /**
    * @function render
