@@ -8,7 +8,7 @@ class CreateInitialTables extends require("../Migration") {
     if (!(await sql.schema.hasTable("investments"))) {
       await sql.schema.createTable("investments", (table) => {
         table.increments("id").primary();
-        table.bigInteger("amount").notNullable();
+        table.float("amount").notNullable();
         table.string("wallet").notNullable();
         table.timestamp("created_at").defaultTo(sql.fn.now());
 
