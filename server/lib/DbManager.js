@@ -11,14 +11,14 @@ class DbManager extends Sql {
 
   async newInvestment(amount, wallet, tx_hash) {
     const sql = await this.sql();
-    const exist = (
-      await sql.select("*").from("investments").where({
-        tx_hash,
-      })
-    ).rows[0];
-    if (exist) {
-      throw new Error("Investment already inserted in the db");
-    }
+    // const exist = (
+    //   await sql.select("*").from("investments").where({
+    //     tx_hash,
+    //   })
+    // ).rows[0];
+    // if (exist) {
+    //   throw new Error("Investment already inserted in the db");
+    // }
     await sql
       .insert({
         amount,
