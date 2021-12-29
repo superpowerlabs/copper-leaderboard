@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-docker exec -it ape-postgres psql -h localhost -U postgres
+docker exec -it leaderboard-postgres psql -h localhost -U postgres
 
