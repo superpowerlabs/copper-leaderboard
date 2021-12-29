@@ -5,9 +5,14 @@ const web3 = new Web3(
 );
 const ERC20abi = require("./ERC20abi.json");
 const CONTRACT_ADDRESS = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";
+const fetch =require("node-fetch");
+
 
 const queryService = {
     getOldEvents() {
+    
+        
+
         const contract = new web3.eth.Contract(ERC20abi, CONTRACT_ADDRESS);
         const START_BLOCK = 7700000;
         const END_BLOCK = 7700100;
@@ -18,7 +23,8 @@ const queryService = {
             })
             .then((events) => console.log(events))
             .catch((err) => console.error(err));
-    },
+    }
+    ,
     getNewEvents() {
         const contract = new web3.eth.Contract(ERC20abi, CONTRACT_ADDRESS);
         contract.events
@@ -28,5 +34,14 @@ const queryService = {
             })
             .on("error", console.error);
     },
+
+    async  getInvestments() {
+        fetch('http://localhost:6660/investments')
+        .then(response => {
+            console.log(response)
+        })
+        .catch(error => 
+            {console.log(error)});
+    }
 };
 module.exports = queryService;

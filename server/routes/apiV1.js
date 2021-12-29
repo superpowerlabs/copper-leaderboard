@@ -10,4 +10,12 @@ router.get("/investments", async (req, res) => {
   });
 });
 
+router.post("/investment", async (req, res) => {
+  const newinvestment = await dbManager.newInvestment(req.body, "wallet", "tx_hash");
+  res.json({
+    success: true,
+    newinvestment,
+  });
+});
+
 module.exports = router;
