@@ -14,11 +14,7 @@ export default class Leaderboard extends Base {
   constructor(props) {
     super(props);
 
-    this.bindMany([
-      "getInvestments",
-      "filterRank",
-      "rankingsorter"
-    ]);
+    this.bindMany(["getInvestments", "filterRank", "rankingsorter"]);
 
     this.state = {
       ranking: [],
@@ -43,13 +39,12 @@ export default class Leaderboard extends Base {
     const amounts = res.investments.map(({ amount }) => amount);
 
     for (var i = 0; i < res.investments.length; i++) {
-      dict = {name: wallets[i], score: amounts[i]};
+      dict = { name: wallets[i], score: amounts[i] };
       state_user.push(dict);
     }
 
-    this.setState({ users: state_user});
+    this.setState({ users: state_user });
     this.rankingsorter();
-
 
     if (res.success) {
       this.setStore({
@@ -86,7 +81,6 @@ export default class Leaderboard extends Base {
     return 0;
   }
 
-
   /**
    * @function filterRank
    * @desc Filters through the ranking to find matches and sorts all matches by score
@@ -110,7 +104,7 @@ export default class Leaderboard extends Base {
     this.setState({ ranking: newRanking });
     this.setState({ page: 1 });
     this.setState({ pageMax: newRanking[newRanking.length - 1].page });
-    }
+  }
 
   /**
    * @function render
@@ -127,24 +121,9 @@ export default class Leaderboard extends Base {
               </td>
             </tr>
             <tr>
-              <td
-                className="rank-header sortScore"
-              
-              >
-                {" "}
-                Rank{" "}
-              </td>
-              <td
-                className="rank-header sortAlpha"
-                
-              >
-                {" "}
-                Address{" "}
-              </td>
-              <td className="rank-header">
-                {" "}
-                Amount{" "}
-              </td>
+              <td className="rank-header sortScore"> Rank </td>
+              <td className="rank-header sortAlpha"> Address </td>
+              <td className="rank-header"> Amount </td>
             </tr>
             {this.state.ranking.map((user, index) => (
               <tr className="ranking" key={index}>

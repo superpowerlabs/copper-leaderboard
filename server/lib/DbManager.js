@@ -5,7 +5,7 @@ class DbManager extends Sql {
   // https://knexjs.org
 
   async getInvestments() {
-    const investments = (await this.sql()).select("*").from("investments")
+    const investments = (await this.sql()).select("*").from("investments");
     return investments;
   }
 

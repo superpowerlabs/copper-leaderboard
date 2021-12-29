@@ -21,5 +21,4 @@ router.post("/investment", async (req, res) => {
   });
 });
 
-
 module.exports = router;
