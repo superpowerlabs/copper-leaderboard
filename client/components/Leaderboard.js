@@ -2,7 +2,6 @@
 // const { ProgressBar } = ReactBootstrap;
 
 import Base from "./Base";
-import { StrictMode, useState } from "react";
 
 /**
  * @class Leaderboard
