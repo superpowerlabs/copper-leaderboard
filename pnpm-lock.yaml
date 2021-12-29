@@ -33,6 +33,7 @@ specifiers:
   mocha: ^8.2.1
   pg: ^8.7.1
   prettier: 2.5.1
+  prop-types: ^15.8.0
   simple-json-db: ^1.2.3
   superagent: ^4.1.0
   webpack: ^2.7.0
@@ -55,6 +56,7 @@ dependencies:
   local-storage: 1.4.2
   lodash: 4.17.21
   pg: 8.7.1
+  prop-types: 15.8.0
   simple-json-db: 1.2.3
   superagent: 4.1.0
 
@@ -3401,7 +3403,6 @@ packages:
 
   /js-tokens/4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
-    dev: true
 
   /js-yaml/3.14.1:
     resolution: {integrity: sha512-okMH7OXXJ7YrN9Ok3/SXrnu4iX9yOk+25nqX4imS2npuvTYDmo/QEZoqwZkYaIDk3jVvBOTOIEgEhaLOynBS9g==}
@@ -3648,7 +3649,6 @@ packages:
     hasBin: true
     dependencies:
       js-tokens: 4.0.0
-    dev: true
 
   /make-dir/1.3.0:
     resolution: {integrity: sha512-2w31R7SJtieJJnQtGc7RVL2StM2vGYVfqUOvUDxH6bC6aJTxPxTF0GnIgCyu7tjockiUWAYQRbxa7vKn34s5sQ==}
@@ -4423,6 +4423,14 @@ packages:
     engines: {node: '>=0.4.0'}
     dev: true
 
+  /prop-types/15.8.0:
+    resolution: {integrity: sha512-fDGekdaHh65eI3lMi5OnErU6a8Ighg2KjcjQxO7m8VHyWjcPyj5kiOgV1LQDOOOgVy3+5FgjXvdSSX7B8/5/4g==}
+    dependencies:
+      loose-envify: 1.4.0
+      object-assign: 4.1.1
+      react-is: 16.13.1
+    dev: false
+
   /proxy-addr/2.0.6:
     resolution: {integrity: sha512-dh/frvCBVmSsDYzw6n926jv974gddhkFPfiN8hPOi30Wax25QZyZEGveluCgliBnqmuM+UJmBErbAUFIoDbjOw==}
     engines: {node: '>= 0.10'}
@@ -4502,6 +4510,10 @@ packages:
       http-errors: 1.7.2
       iconv-lite: 0.4.24
       unpipe: 1.0.0
+    dev: false
+
+  /react-is/16.13.1:
+    resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
     dev: false
 
   /read-pkg-up/1.0.1:
