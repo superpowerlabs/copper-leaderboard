@@ -2,7 +2,6 @@
 // const { ProgressBar } = ReactBootstrap;
 
 import Base from "./Base";
-import { StrictMode, useState } from "react";
 
 /**
  * @class Leaderboard
@@ -23,7 +22,7 @@ export default class Leaderboard extends Base {
       page: 1,
       pageMax: 1,
       users: [],
-      paginate: 100,
+      paginate: 200,
     };
   }
 

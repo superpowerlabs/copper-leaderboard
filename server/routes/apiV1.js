@@ -14,7 +14,7 @@ router.post("/investment", async (req, res) => {
   const ammount = req.body;
   const wallet = req.body;
   const hash = req.txhash;
-  const newinvestment = await dbManager.newInvestment(5, "wallet", "tx_hash");
+  const newinvestment = await dbManager.newInvestment(ammount, wallet, hash);
   res.json({
     success: true,
     newinvestment,
