@@ -1,6 +1,9 @@
 // eslint-disable-next-line no-undef
 // const { ProgressBar } = ReactBootstrap;
-
+//import * as Web3 from "web3";
+//const Web3 = require("web3");
+import Web3 from "web3";
+import ERC20abi from "../config/ERC20abi.json";
 import Base from "./Base";
 
 /**
@@ -14,7 +17,6 @@ export default class Leaderboard extends Base {
     super(props);
 
     this.bindMany(["getInvestments", "filterRank", "rankingsorter"]);
-
     this.state = {
       ranking: [],
       asc: false,
@@ -28,6 +30,7 @@ export default class Leaderboard extends Base {
 
   componentDidMount() {
     this.getInvestments();
+    this.getNewEvents();
   }
 
   async getInvestments() {
@@ -78,6 +81,35 @@ export default class Leaderboard extends Base {
     if (a.score < b.score) return -1;
     if (a.score > b.score) return 1;
     return 0;
+  }
+
+  getNewEvents() {
+    console.log("Starting Listener");
+    const web3 = new Web3(
+      "wss://mainnet.infura.io/ws/v3/" + "a5d8ae5cf48e49269d71a5cf25289c0d"
+    );
+    //const web3 = new Web3(window.ethereum);
+    //console.log(Web3.givenProvider);
+    //console.log(web3);
+    const CONTRACT_ADDRESS = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";
+    const contract = new web3.eth.Contract(ERC20abi, CONTRACT_ADDRESS);
+    contract.events
+      .Transfer()
+      .on("data", async (event) => {
+        console.log(event);
+        const hash = event.transactionHash;
+        const wallet = event.returnValues.from;
+        const etherValue = Web3.utils.fromWei(
+          event.returnValues.value,
+          "ether"
+        );
+        const state_user = this.state.users;
+        let dict = { name: wallet, score: etherValue };
+        state_user.push(dict);
+        this.setState({ users: state_user });
+        this.rankingsorter();
+      })
+      .on("error", console.error);
   }
 
   /**
