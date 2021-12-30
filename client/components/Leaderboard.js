@@ -24,7 +24,7 @@ export default class Leaderboard extends Base {
       page: 1,
       pageMax: 1,
       users: [],
-      paginate: 100,
+      paginate: 200,
     };
   }
 
@@ -143,7 +143,7 @@ export default class Leaderboard extends Base {
    */
   render() {
     return (
-      <div>
+      <div className="parent">
         <table id="lBoard">
           <tbody className="ranking">
             <tr>
