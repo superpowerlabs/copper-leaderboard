@@ -65,21 +65,22 @@ export default class LandingPage extends React.Component {
                       You:address placeholder
                     </h4>
                     <div className="progressBar">
-                      <MyProgressbar
-                        bgcolor="yellow"
-                        progress={progress_now}
-                        height={40}
-                      />
-                      <Button classname="buySYNbtn" text="BUY $SYN" />
+                      <div className="progressBar2">
+                        <MyProgressbar
+                          bgcolor="yellow"
+                          progress={progress_now}
+                          height={55}
+                        />
+                      </div>
+                      <div className="buySYNbtn2">
+                        <Button classname="buySYNbtn" text="BUY $SYN" />
+                      </div>
                     </div>
                   </div>
                 </p>
               </div>
 
               <br style={{ clear: "both" }} />
-              <div className={"haveFun"}>
-                <h1 className={"centered"}>Have fun!</h1>
-              </div>
 
               <Leaderboard />
             </div>

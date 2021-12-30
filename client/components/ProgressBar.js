@@ -1,6 +1,7 @@
-import PropTypes from "prop-types";
+import { solidityKeccak256 } from "ethers/lib/utils";
+import React from "react";
 
-export default function MyProgressBar({ bgcolor, progress, height }) {
+const Progress_bar = ({ bgcolor, progress, height }) => {
   const Parentdiv = {
     height: height,
     width: "100%",
@@ -29,10 +30,6 @@ export default function MyProgressBar({ bgcolor, progress, height }) {
       </div>
     </div>
   );
-}
-
-MyProgressBar.propTypes = {
-  bgcolor: PropTypes.string,
-  progress: PropTypes.number,
-  height: PropTypes.number,
 };
+
+export default Progress_bar;

@@ -1,7 +1,11 @@
 // eslint-disable-next-line no-undef
 // const { ProgressBar } = ReactBootstrap;
-
+//import * as Web3 from "web3";
+//const Web3 = require("web3");
+import Web3 from "web3";
+import ERC20abi from "../config/ERC20abi.json";
 import Base from "./Base";
+import { StrictMode, useState } from "react";
 
 /**
  * @class Leaderboard
@@ -13,54 +17,37 @@ export default class Leaderboard extends Base {
   constructor(props) {
     super(props);
 
-    this.bindMany([
-      "sortUsersByScore",
-      "sortUsersByName",
-      "filterRank",
-      "getInvestments",
-    ]);
-
+    this.bindMany(["getInvestments", "filterRank", "rankingsorter"]);
     this.state = {
       ranking: [],
       asc: false,
       alph: false,
       page: 1,
       pageMax: 1,
-      users: [
-        { name: "Tj", score: 1 },
-        { name: "Chris", score: 69 },
-        { name: "Dave", score: 17 },
-        { name: "Ben", score: 11 },
-        { name: "Caty", score: 21 },
-        { name: "Miller", score: 33 },
-        { name: "Zack", score: 88 },
-        { name: "Sam", score: 42 },
-        { name: "Nicky", score: 22 },
-        { name: "Cheyenne", score: 55 },
-        { name: "Adela", score: 72 },
-        { name: "Wongo", score: 35 },
-        { name: "Brett", score: 98 },
-        { name: "Gina", score: 4 },
-        { name: "Allen", score: 7 },
-        { name: "Matt", score: 46 },
-        { name: "Amanda", score: 31 },
-        { name: "Jamie", score: 100 },
-        { name: "Sarah", score: 56 },
-        { name: "Owen", score: 45 },
-      ],
+      users: [],
       paginate: 100,
     };
   }
 
   componentDidMount() {
-    this.rankingsorter();
     this.getInvestments();
+    this.getNewEvents();
   }
 
   async getInvestments() {
+    const state_user = [];
+    let dict = {};
     const res = await this.request("investments");
+    const wallets = res.investments.map(({ wallet }) => wallet);
+    const amounts = res.investments.map(({ amount }) => amount);
 
-    // console.log(res);
+    for (var i = 0; i < res.investments.length; i++) {
+      dict = { name: wallets[i], score: amounts[i] };
+      state_user.push(dict);
+    }
+
+    this.setState({ users: state_user });
+    this.rankingsorter();
 
     if (res.success) {
       this.setStore({
@@ -97,67 +84,33 @@ export default class Leaderboard extends Base {
     return 0;
   }
 
-  /**
-   * @function compareName
-   * @desc Compares the name property of each user object alphabetically
-   * @param {Object, Object} user
-   */
-  compareName(a, b) {
-    if (a.name < b.name) return -1;
-    if (a.name > b.name) return 1;
-    return 0;
-  }
-
-  /**
-   * @function sortUsersByScore
-   * @desc Sorts the ranking by score either ascending or descending
-   */
-  sortUsersByScore() {
-    const ranking = this.state.ranking;
-    const paginate = this.state.paginate;
-    if (this.state.asc === true) {
-      ranking.sort(this.compareScore).reverse();
-      ranking.map(
-        (user, index) => (user.page = Math.ceil((index + 1) / paginate))
-      );
-      this.setState({ ranking: ranking });
-      this.setState({ asc: false });
-      this.setState({ alph: false });
-    } else {
-      ranking.sort(this.compareScore);
-      ranking.map(
-        (user, index) => (user.page = Math.ceil((index + 1) / paginate))
-      );
-      this.setState({ ranking: ranking });
-      this.setState({ asc: true });
-      this.setState({ alph: false });
-    }
-  }
-
-  /**
-   * @function sortUsersByName
-   * @desc Sorts the ranking by name alphabetically either ascending or descending
-   */
-  sortUsersByName() {
-    const ranking = this.state.ranking;
-    const paginate = this.state.paginate;
-    if (this.state.alph === true) {
-      ranking.sort(this.compareName).reverse();
-      ranking.map(
-        (user, index) => (user.page = Math.ceil((index + 1) / paginate))
-      );
-      this.setState({ ranking: ranking });
-      this.setState({ alph: false });
-      this.setState({ asc: true });
-    } else {
-      ranking.sort(this.compareName);
-      ranking.map(
-        (user, index) => (user.page = Math.ceil((index + 1) / paginate))
-      );
-      this.setState({ ranking: ranking });
-      this.setState({ alph: true });
-      this.setState({ asc: true });
-    }
+  getNewEvents() {
+    console.log("Starting Listener");
+    const web3 = new Web3(
+      "wss://mainnet.infura.io/ws/v3/" + "a5d8ae5cf48e49269d71a5cf25289c0d"
+    );
+    //const web3 = new Web3(window.ethereum);
+    //console.log(Web3.givenProvider);
+    //console.log(web3);
+    const CONTRACT_ADDRESS = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";
+    const contract = new web3.eth.Contract(ERC20abi, CONTRACT_ADDRESS);
+    contract.events
+      .Transfer()
+      .on("data", async (event) => {
+        console.log(event);
+        const hash = event.transactionHash;
+        const wallet = event.returnValues.from;
+        const etherValue = Web3.utils.fromWei(
+          event.returnValues.value,
+          "ether"
+        );
+        const state_user = this.state.users;
+        let dict = { name: wallet, score: etherValue };
+        state_user.push(dict);
+        this.setState({ users: state_user });
+        this.rankingsorter();
+      })
+      .on("error", console.error);
   }
 
   /**
@@ -196,28 +149,13 @@ export default class Leaderboard extends Base {
           <tbody className="ranking">
             <tr>
               <td colSpan="10000">
-                <h1>Leaderboard</h1>
+                <h1>Auction</h1>
               </td>
             </tr>
             <tr>
-              <td
-                className="rank-header sortScore"
-                onClick={this.sortUsersByScore}
-              >
-                {" "}
-                Rank{" "}
-              </td>
-              <td
-                className="rank-header sortAlpha"
-                onClick={this.sortUsersByName}
-              >
-                {" "}
-                Name{" "}
-              </td>
-              <td className="rank-header" onClick={this.sortUsersByScore}>
-                {" "}
-                Score{" "}
-              </td>
+              <td className="rank-header sortScore"> Rank </td>
+              <td className="rank-header sortAlpha"> Address </td>
+              <td className="rank-header"> Amount </td>
             </tr>
             {this.state.ranking.map((user, index) => (
               <tr className="ranking" key={index}>

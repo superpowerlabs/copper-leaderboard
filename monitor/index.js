@@ -1,13 +1,11 @@
 require("dotenv").config();
 const monitor = require("./Monitor");
+const queryService = require("./blockchainQueryService");
 
-async function main() {
-  await monitor.start();
+function main() {
+  console.log("starting monitor");
+  queryService.getOldEvents();
+  queryService.getNewEvents();
 }
 
-main()
-  .then(() => process.exit(0))
-  .catch((error) => {
-    console.error(error);
-    process.exit(1);
-  });
+main();
