@@ -112,7 +112,7 @@ export default class Leaderboard extends Base {
    */
   render() {
     return (
-      <div>
+      <div className="parent">
         <table id="lBoard">
           <tbody className="ranking">
             <tr>
