@@ -5,7 +5,6 @@
 import Web3 from "web3";
 import ERC20abi from "../config/ERC20abi.json";
 import Base from "./Base";
-import { StrictMode, useState } from "react";
 
 /**
  * @class Leaderboard

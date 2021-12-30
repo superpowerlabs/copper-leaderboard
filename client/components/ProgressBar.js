@@ -1,4 +1,4 @@
-import { solidityKeccak256 } from "ethers/lib/utils";
+import PropTypes from "prop-types";
 import React from "react";
 
 const Progress_bar = ({ bgcolor, progress, height }) => {
@@ -30,6 +30,12 @@ const Progress_bar = ({ bgcolor, progress, height }) => {
       </div>
     </div>
   );
+};
+
+Progress_bar.propTypes = {
+  bgcolor: PropTypes.string,
+  progress: PropTypes.number,
+  height: PropTypes.number,
 };
 
 export default Progress_bar;
