@@ -38,7 +38,7 @@ export default class Leaderboard extends Base {
   async getposition() {
     const position = this.state.users.map(({ name }) => name);
     for (var j = 0; j < position.length; j++) {
-      if (position[j] === '0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45') {
+      if (position[j] === this.state.users[j].rank) {
         if (this.state.users[j].rank === 1) {
           this.setState({ progress_now: 100 });
           {
@@ -66,17 +66,36 @@ export default class Leaderboard extends Base {
   async getInvestments() {
     const state_user = [];
     let dict = {};
+    let z = 0;
+    let total = 0
     const res = await this.request("investments");
     const wallets = res.investments.map(({ wallet }) => wallet);
     const amounts = res.investments.map(({ amount }) => amount);
 
-    for (var i = 0; i < res.investments.length; i++) {
-      dict = { name: wallets[i], score: amounts[i] };
-      state_user.push(dict);
-    }
+    wallets.sort();
+    console.log(wallets);
 
-    this.setState({ users: state_user });
+    for (var x = 0; x < res.investments.length; x++) {
+      z = x;
+      while (wallets[z] === wallets[z + 1]) {
+        total += amounts[z] + amounts[z + 1];
+        z++;
+      }
+      dict = {name: wallets[x], score: total };
+      state_user.push(dict);
+      total = 0;
+      x = z + 1;
+    }
+    this.setState({users: state_user});
     this.rankingsorter();
+
+    // for (var i = 0; i < res.investments.length; i++) {
+    //   dict = { name: wallets[i], score: amounts[i] };
+    //   state_user.push(dict);
+    // }
+
+    // this.setState({ users: state_user });
+    // this.rankingsorter();
 
     if (res.success) {
       this.setStore({
