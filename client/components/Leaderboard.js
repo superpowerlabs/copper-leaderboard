@@ -85,22 +85,15 @@ export default class Leaderboard extends Base {
   getNewEvents() {
     console.log("Starting Listener");
     const CONTRACT_ADDRESS = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";
-    // const web3 = new Web3(
-    //   "wss://mainnet.infura.io/ws/v3/" + "a5d8ae5cf48e49269d71a5cf25289c0d"
-    // );
+
     const provider = new ethers.providers.Web3Provider(window.ethereum);
-    //await provider.send("eth_requestAccounts", []);
 
     const signer = provider.getSigner();
-    // const provider = new ethers.providers.Web3Provider(window.ethereum);
-    console.log(provider);
-    console.log(signer);
-    const contract = new ethers.Contract(CONTRACT_ADDRESS, ERC20abi, signer);
+    const contract = new ethers.Contract(CONTRACT_ADDRESS, ERC20abi, provider);
 
-    //const contract = new web3.eth.Contract(ERC20abi, CONTRACT_ADDRESS);
     contract.on("Transfer", async (from, to, value, event) => {
       console.log(event);
-      const etherValue = Ethers.utils.formatEther(event.args.value);
+      const etherValue = ethers.utils.formatEther(event.args.value);
       const hash = event.transactionHash;
       const wallet = event.args.from;
       const state_user = this.state.users;
@@ -110,24 +103,6 @@ export default class Leaderboard extends Base {
       this.setState({ users: state_user });
       this.rankingsorter();
     });
-
-    // contract.events
-    //   .Transfer()
-    //   .on("data", async (event) => {
-    //     console.log(event);
-    //     const hash = event.transactionHash;
-    //     const wallet = event.returnValues.from;
-    //     const etherValue = Web3.utils.fromWei(
-    //       event.returnValues.value,
-    //       "ether"
-    //     );
-    //     const state_user = this.state.users;
-    //     let dict = { name: wallet, score: etherValue };
-    //     state_user.push(dict);
-    //     this.setState({ users: state_user });
-    //     this.rankingsorter();
-    //   })
-    //   .on("error", console.error);
   }
 
   /**
