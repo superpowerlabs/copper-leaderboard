@@ -83,6 +83,9 @@ export default class LandingPage extends React.Component {
               <br style={{ clear: "both" }} />
 
               <Leaderboard />
+              <div className="foot">
+                <img src={"/images/yellowLogo.png"} alt={"footer"} />
+              </div>
             </div>
           </div>
         </Container>
