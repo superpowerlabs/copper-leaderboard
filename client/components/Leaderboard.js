@@ -38,8 +38,8 @@ export default class Leaderboard extends Base {
   async getposition() {
     const position = this.state.users.map(({ name }) => name);
     for (var j = 0; j < position.length; j++) {
-      if (position[j] == this.state.users[j].rank) {
-        if (this.state.users[j].rank == 1) {
+      if (position[j] === this.state.users[j].rank) {
+        if (this.state.users[j].rank === 1) {
           this.setState({ progress_now: 100 });
           {
             break;

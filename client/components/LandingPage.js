@@ -6,7 +6,7 @@ import Leaderboard from "./Leaderboard";
 
 // eslint-disable-next-line no-undef
 const { Container } = ReactBootstrap;
-const progress_now = 25;
+// const progress_now = 25;
 
 // eslint-disable-next-line no-undef
 export default class LandingPage extends React.Component {
@@ -20,13 +20,13 @@ export default class LandingPage extends React.Component {
 
   componentDidMount() {
     // window.location = 'https://syn.city'
-    this.getwallet();
+    // this.getwallet();
   }
 
-  async getwallet() {
-    const wallet = await ethereum.request({ method: "eth_requestAccounts" });
-    this.setState({ address: wallet[0] });
-  }
+  // async getwallet() {
+  //   const wallet = await ethereum.request({ method: "eth_requestAccounts" });
+  //   this.setState({ address: wallet[0] });
+  // }
 
   links() {
     const baseUri =
