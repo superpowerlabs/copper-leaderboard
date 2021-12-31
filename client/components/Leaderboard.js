@@ -57,6 +57,7 @@ export default class Leaderboard extends Base {
   }
 
   async getwallet() {
+    /* eslint-disable */
     const wallet = await ethereum.request({ method: "eth_requestAccounts" });
     this.setState({ address: wallet[0] });
     this.getposition();
