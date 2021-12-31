@@ -2,6 +2,8 @@
 // const { ProgressBar } = ReactBootstrap;
 
 import Base from "./Base";
+import MyProgressbar from "./MyProgressBar";
+import Button from "./BuySynbtn";
 
 /**
  * @class Leaderboard
@@ -22,12 +24,42 @@ export default class Leaderboard extends Base {
       page: 1,
       pageMax: 1,
       users: [],
+      address: "",
+      progress_now: 0,
       paginate: 200,
     };
   }
 
   componentDidMount() {
     this.getInvestments();
+    this.getwallet();
+  }
+
+  async getposition() {
+    const position = this.state.users.map(({ name }) => name);
+    for (var j = 0; j < position.length; j++) {
+      if (position[j] == this.state.users[j].rank) {
+        if (this.state.users[j].rank == 1) {
+          this.setState({ progress_now: 100 });
+          {
+            break;
+          }
+        } else {
+          const ranking = this.state.users[j].rank;
+          let progress = Math.abs(ranking / 2 - 100);
+          this.setState({ progress_now: progress });
+          {
+            break;
+          }
+        }
+      }
+    }
+  }
+
+  async getwallet() {
+    const wallet = await ethereum.request({ method: "eth_requestAccounts" });
+    this.setState({ address: wallet[0] });
+    this.getposition();
   }
 
   async getInvestments() {
@@ -50,6 +82,7 @@ export default class Leaderboard extends Base {
         investments: res.investments,
       });
     }
+    return wallets;
   }
 
   /**
@@ -111,34 +144,55 @@ export default class Leaderboard extends Base {
    */
   render() {
     return (
-      <div className="parent">
-        <table id="lBoard">
-          <tbody className="ranking">
-            <tr>
-              <td colSpan="10000">
-                <h1>Auction</h1>
-              </td>
-            </tr>
-            <tr>
-              <td className="rank-header sortScore"> Rank </td>
-              <td className="rank-header sortAlpha"> Address </td>
-              <td className="rank-header"> Amount </td>
-            </tr>
-            {this.state.ranking.map((user, index) => (
-              <tr className="ranking" key={index}>
-                {user.page === this.state.page ? (
-                  <td className="data">{user.rank}</td>
-                ) : null}
-                {user.page === this.state.page ? (
-                  <td className="data">{user.name}</td>
-                ) : null}
-                {user.page === this.state.page ? (
-                  <td className="data">{user.score}</td>
-                ) : null}
+      <div>
+        <div className="App">
+          <p>
+            <div className="progressBarComplete">
+              <h4 className="progressBarAddress">You: {this.state.address}</h4>
+              <div className="progressBar">
+                <div className="progressBar2">
+                  <MyProgressbar
+                    bgcolor="yellow"
+                    progress={this.state.progress_now}
+                    height={55}
+                  />
+                </div>
+                <div className="buySYNbtn2">
+                  <Button classname="buySYNbtn" text="BUY $SYN" />
+                </div>
+              </div>
+            </div>
+          </p>
+        </div>
+        <div className="parent">
+          <table id="lBoard">
+            <tbody className="ranking">
+              <tr>
+                <td colSpan="10000">
+                  <h1>Auction</h1>
+                </td>
               </tr>
-            ))}
-          </tbody>
-        </table>
+              <tr>
+                <td className="rank-header sortScore"> Rank </td>
+                <td className="rank-header sortAlpha"> Address </td>
+                <td className="rank-header"> Amount </td>
+              </tr>
+              {this.state.ranking.map((user, index) => (
+                <tr className="ranking" key={index}>
+                  {user.page === this.state.page ? (
+                    <td className="data">{user.rank}</td>
+                  ) : null}
+                  {user.page === this.state.page ? (
+                    <td className="data">{user.name}</td>
+                  ) : null}
+                  {user.page === this.state.page ? (
+                    <td className="data">{user.score}</td>
+                  ) : null}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     );
   }
