@@ -67,7 +67,7 @@ export default class Leaderboard extends Base {
     const state_user = [];
     let dict = {};
     let z = 0;
-    let total = 0
+    let total = 0;
     const res = await this.request("investments");
     const wallets = res.investments.map(({ wallet }) => wallet);
     const amounts = res.investments.map(({ amount }) => amount);
@@ -81,12 +81,12 @@ export default class Leaderboard extends Base {
         total += amounts[z] + amounts[z + 1];
         z++;
       }
-      dict = {name: wallets[x], score: total };
+      dict = { name: wallets[x], score: total };
       state_user.push(dict);
       total = 0;
       x = z + 1;
     }
-    this.setState({users: state_user});
+    this.setState({ users: state_user });
     this.rankingsorter();
 
     // for (var i = 0; i < res.investments.length; i++) {
