@@ -77,8 +77,9 @@ export default class Leaderboard extends Base {
 
     for (var x = 0; x < res.investments.length; x++) {
       z = x;
+      total += amounts[x];
       while (wallets[z] === wallets[z + 1]) {
-        total += amounts[z] + amounts[z + 1];
+        total += amounts[z + 1];
         z++;
       }
       dict = { name: wallets[x], score: total };
@@ -86,6 +87,7 @@ export default class Leaderboard extends Base {
       total = 0;
       x = z + 1;
     }
+    console.log(state_user)
     this.setState({ users: state_user });
     this.rankingsorter();
 
