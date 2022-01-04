@@ -52,15 +52,17 @@ const queryService = {
     const decimal = await contract.decimals();
     console.log(decimal)
     const oldevents = await contract.queryFilter(
-      "Swap"
-      ,0,
-      "latest"
+      [contract.filters.Swap()],0,"latest"
     );
     console.log(oldevents)
-
-    //contract.on("Swap", async (poolId, tokenIn, tokenOut,amountIn,amountOut, event) => {
-      contract.on("Swap", async (...params) => {
-      console.log(...params);
+    console.log(old)
+console.log("starting listener")
+    contract.on([contract.filters.Swap()], async (poolId, tokenIn, tokenOut,amountIn,amountOut, event) => {
+      console.log(event)
+      console.log(tokenIn)
+      console.log(tokenOut)
+      console.log(amountIn)
+      console.log(amountOut)
       // const etherValue = Ethers.utils.formatEther(event.args.value);
       // const hash = event.transactionHash;
       // const wallet = event.args.from;
