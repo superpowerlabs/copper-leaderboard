@@ -1,18 +1,32 @@
 // eslint-disable-next-line no-undef
 import NFTs from "./NFTs";
 import Leaderboard from "./Leaderboard";
-import MyProgressbar from "./MyProgressBar";
-import Button from "./BuySynbtn";
+// import MyProgressbar from "./MyProgressBar";
+// import Button from "./BuySynbtn";
 
 // eslint-disable-next-line no-undef
 const { Container } = ReactBootstrap;
-const progress_now = 25;
+// const progress_now = 25;
 
 // eslint-disable-next-line no-undef
 export default class LandingPage extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      address: "",
+    };
+  }
+
   componentDidMount() {
     // window.location = 'https://syn.city'
+    // this.getwallet();
   }
+
+  // async getwallet() {
+  //   const wallet = await ethereum.request({ method: "eth_requestAccounts" });
+  //   this.setState({ address: wallet[0] });
+  // }
 
   links() {
     const baseUri =
@@ -58,11 +72,11 @@ export default class LandingPage extends React.Component {
               </div>
 
               <NFTs />
-              <div className="App">
+              {/* <div className="App">
                 <p>
                   <div className="progressBarComplete">
                     <h4 className="progressBarAddress">
-                      You:address placeholder
+                      You: {this.state.address}
                     </h4>
                     <div className="progressBar">
                       <div className="progressBar2">
@@ -78,7 +92,7 @@ export default class LandingPage extends React.Component {
                     </div>
                   </div>
                 </p>
-              </div>
+              </div> */}
 
               <br style={{ clear: "both" }} />
 

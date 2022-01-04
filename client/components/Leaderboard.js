@@ -5,6 +5,8 @@
 import Web3 from "web3";
 import ERC20abi from "../config/ERC20abi.json";
 import Base from "./Base";
+import MyProgressbar from "./MyProgressBar";
+import Button from "./BuySynbtn";
 
 /**
  * @class Leaderboard
@@ -24,35 +26,86 @@ export default class Leaderboard extends Base {
       page: 1,
       pageMax: 1,
       users: [],
+      address: "",
+      progress_now: 0,
       paginate: 200,
     };
   }
 
   componentDidMount() {
     this.getInvestments();
-    this.getNewEvents();
+    this.getwallet();
+  }
+
+  async getposition() {
+    const position = this.state.users.map(({ name }) => name);
+    for (var j = 0; j < position.length; j++) {
+      if (position[j] === this.state.users[j].rank) {
+        if (this.state.users[j].rank === 1) {
+          this.setState({ progress_now: 100 });
+          {
+            break;
+          }
+        } else {
+          const ranking = this.state.users[j].rank;
+          let progress = Math.abs(ranking / 2 - 100);
+          this.setState({ progress_now: progress });
+          {
+            break;
+          }
+        }
+      }
+    }
+  }
+
+  async getwallet() {
+    /* eslint-disable */
+    const wallet = await ethereum.request({ method: "eth_requestAccounts" });
+    this.setState({ address: wallet[0] });
+    this.getposition();
   }
 
   async getInvestments() {
     const state_user = [];
     let dict = {};
+    let z = 0;
+    let total = 0;
     const res = await this.request("investments");
     const wallets = res.investments.map(({ wallet }) => wallet);
     const amounts = res.investments.map(({ amount }) => amount);
 
-    for (var i = 0; i < res.investments.length; i++) {
-      dict = { name: wallets[i], score: amounts[i] };
-      state_user.push(dict);
-    }
+    wallets.sort();
+    console.log(wallets);
 
+    for (var x = 0; x < res.investments.length; x++) {
+      z = x;
+      total += amounts[x];
+      while (wallets[z] === wallets[z + 1]) {
+        total += amounts[z + 1];
+        z++;
+      }
+      dict = { name: wallets[x], score: total };
+      state_user.push(dict);
+      total = 0;
+      x = z + 1;
+    }
     this.setState({ users: state_user });
     this.rankingsorter();
+
+    // for (var i = 0; i < res.investments.length; i++) {
+    //   dict = { name: wallets[i], score: amounts[i] };
+    //   state_user.push(dict);
+    // }
+
+    // this.setState({ users: state_user });
+    // this.rankingsorter();
 
     if (res.success) {
       this.setStore({
         investments: res.investments,
       });
     }
+    return wallets;
   }
 
   /**
@@ -143,34 +196,55 @@ export default class Leaderboard extends Base {
    */
   render() {
     return (
-      <div className="parent">
-        <table id="lBoard">
-          <tbody className="ranking">
-            <tr>
-              <td colSpan="10000">
-                <h1>Auction</h1>
-              </td>
-            </tr>
-            <tr>
-              <td className="rank-header sortScore"> Rank </td>
-              <td className="rank-header sortAlpha"> Address </td>
-              <td className="rank-header"> Amount </td>
-            </tr>
-            {this.state.ranking.map((user, index) => (
-              <tr className="ranking" key={index}>
-                {user.page === this.state.page ? (
-                  <td className="data">{user.rank}</td>
-                ) : null}
-                {user.page === this.state.page ? (
-                  <td className="data">{user.name}</td>
-                ) : null}
-                {user.page === this.state.page ? (
-                  <td className="data">{user.score}</td>
-                ) : null}
+      <div>
+        <div className="App">
+          <p>
+            <div className="progressBarComplete">
+              <h4 className="progressBarAddress">You: {this.state.address}</h4>
+              <div className="progressBar">
+                <div className="progressBar2">
+                  <MyProgressbar
+                    bgcolor="yellow"
+                    progress={this.state.progress_now}
+                    height={55}
+                  />
+                </div>
+                <div className="buySYNbtn2">
+                  <Button classname="buySYNbtn" text="BUY $SYN" />
+                </div>
+              </div>
+            </div>
+          </p>
+        </div>
+        <div className="parent">
+          <table id="lBoard">
+            <tbody className="ranking">
+              <tr>
+                <td colSpan="10000">
+                  <h1>Auction</h1>
+                </td>
               </tr>
-            ))}
-          </tbody>
-        </table>
+              <tr>
+                <td className="rank-header sortScore"> Rank </td>
+                <td className="rank-header sortAlpha"> Address </td>
+                <td className="rank-header"> Amount </td>
+              </tr>
+              {this.state.ranking.map((user, index) => (
+                <tr className="ranking" key={index}>
+                  {user.page === this.state.page ? (
+                    <td className="data">{user.rank}</td>
+                  ) : null}
+                  {user.page === this.state.page ? (
+                    <td className="data">{user.name}</td>
+                  ) : null}
+                  {user.page === this.state.page ? (
+                    <td className="data">{user.score}</td>
+                  ) : null}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     );
   }
