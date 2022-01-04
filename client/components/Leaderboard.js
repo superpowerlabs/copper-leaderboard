@@ -14,7 +14,12 @@ export default class Leaderboard extends Base {
   constructor(props) {
     super(props);
 
-    this.bindMany(["getInvestments", "filterRank", "rankingsorter"]);
+    this.bindMany([
+      "getInvestments",
+      "filterRank",
+      "rankingsorter",
+      "getNewEvents",
+    ]);
     this.state = {
       ranking: [],
       asc: false,
@@ -81,25 +86,28 @@ export default class Leaderboard extends Base {
     return 0;
   }
 
-  getNewEvents() {
-    console.log("Starting Listener");
+  async getNewEvents() {
+    // We wait for the connection before executing the function
+    await this.waitForWeb3();
+
+    console.debug("Starting Listener");
     const CONTRACT_ADDRESS = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";
 
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-
-    const signer = provider.getSigner();
-    const contract = new ethers.Contract(CONTRACT_ADDRESS, ERC20abi, provider);
+    const contract = new ethers.Contract(
+      CONTRACT_ADDRESS,
+      ERC20abi,
+      this.Store.provider
+    );
 
     contract.on("Transfer", async (from, to, value, event) => {
-      console.log(event);
+      console.debug(event);
       const etherValue = ethers.utils.formatEther(event.args.value);
-      const hash = event.transactionHash;
       const wallet = event.args.from;
-      const state_user = this.state.users;
+      const stateUser = this.state.users;
 
       let dict = { name: wallet, score: etherValue };
-      state_user.push(dict);
-      this.setState({ users: state_user });
+      stateUser.push(dict);
+      this.setState({ users: stateUser });
       this.rankingsorter();
     });
   }

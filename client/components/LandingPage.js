@@ -3,13 +3,14 @@ import NFTs from "./NFTs";
 import Leaderboard from "./Leaderboard";
 import MyProgressbar from "./MyProgressBar";
 import Button from "./BuySynbtn";
+import Base from "./Base";
 
 // eslint-disable-next-line no-undef
 const { Container } = ReactBootstrap;
 const progress_now = 25;
 
 // eslint-disable-next-line no-undef
-export default class LandingPage extends React.Component {
+export default class LandingPage extends Base {
   componentDidMount() {
     // window.location = 'https://syn.city'
   }
@@ -59,30 +60,28 @@ export default class LandingPage extends React.Component {
 
               <NFTs />
               <div className="App">
-                <p>
-                  <div className="progressBarComplete">
-                    <h4 className="progressBarAddress">
-                      You:address placeholder
-                    </h4>
-                    <div className="progressBar">
-                      <div className="progressBar2">
-                        <MyProgressbar
-                          bgcolor="yellow"
-                          progress={progress_now}
-                          height={55}
-                        />
-                      </div>
-                      <div className="buySYNbtn2">
-                        <Button classname="buySYNbtn" text="BUY $SYN" />
-                      </div>
+                <div className="progressBarComplete">
+                  <div className="progressBarAddress">
+                    You:address placeholder
+                  </div>
+                  <div className="progressBar">
+                    <div className="progressBar2">
+                      <MyProgressbar
+                        bgcolor="yellow"
+                        progress={progress_now}
+                        height={55}
+                      />
+                    </div>
+                    <div className="buySYNbtn2">
+                      <Button classname="buySYNbtn" text="BUY $SYN" />
                     </div>
                   </div>
-                </p>
+                </div>
               </div>
 
               <br style={{ clear: "both" }} />
 
-              <Leaderboard />
+              <Leaderboard Store={this.Store} setStore={this.setStore} />
               <div className="foot">
                 <img src={"/images/yellowLogo.png"} alt={"footer"} />
               </div>

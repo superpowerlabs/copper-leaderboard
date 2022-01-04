@@ -247,7 +247,7 @@ class App extends Common {
         <main>
           <Switch>
             <Route exact path="/">
-              <LandingPage />
+              <LandingPage Store={Store} setStore={this.setStore} />
             </Route>
             <Route exact path="*">
               <Error404 Store={Store} setStore={this.setStore} />
