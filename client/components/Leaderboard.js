@@ -87,7 +87,6 @@ export default class Leaderboard extends Base {
       total = 0;
       x = z + 1;
     }
-    console.log(state_user)
     this.setState({ users: state_user });
     this.rankingsorter();
 

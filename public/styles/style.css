@@ -1060,7 +1060,6 @@ h1.notTooLarge {
     width: auto;
 }
 
-
 table {
     border: 0.5px solid white;
     border-collapse: collapse;
@@ -1094,7 +1093,6 @@ table h1 {
     top: 0px;
     background-color: black;
 }
-
 
 .rank-header.sortScore {
     padding-left: 50px;
