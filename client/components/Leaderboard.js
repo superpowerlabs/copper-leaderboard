@@ -201,16 +201,32 @@ export default class Leaderboard extends Base {
           <p>
             <div className="progressBarComplete">
               <h4 className="progressBarAddress">You: {this.state.address}</h4>
-              <div className="progressBar">
-                <div className="progressBar2">
-                  <MyProgressbar
-                    bgcolor="yellow"
-                    progress={this.state.progress_now}
-                    height={55}
-                  />
+              <div>
+                <div className="progressBar">
+                  <div className="progressBar2">
+                    <MyProgressbar
+                      bgcolor="yellow"
+                      progress={this.state.progress_now}
+                      height={55}
+                    />
+                  </div>
+                  <div className="buySYNbtn2">
+                    <Button classname="buySYNbtn" text="BUY $SYN" />
+                  </div>
                 </div>
-                <div className="buySYNbtn2">
-                  <Button classname="buySYNbtn" text="BUY $SYN" />
+                <div className="bars1">
+                  <div className="Top200">
+                    <div className="Top200bar"></div>
+                    Top 200
+                  </div>
+                  <div className="Top100">
+                    <div className="Top100bar"></div>
+                    Top 100
+                  </div>
+                  <div className="Top50">
+                    <div className="Top50bar"></div>
+                    Top 50
+                  </div>
                 </div>
               </div>
             </div>
