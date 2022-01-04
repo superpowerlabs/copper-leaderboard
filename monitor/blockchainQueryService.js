@@ -1,67 +1,78 @@
-const Web3 = require("web3");
+const Ethers = require("ethers");
 require("dotenv").config();
-//const web3 = new Web3( "wss://mainnet.infura.io/ws/v3/" + process.env.INFURA_KEY );
-const web3 = new Web3(
-  "wss://mainnet.infura.io/ws/v3/" + "a5d8ae5cf48e49269d71a5cf25289c0d"
-);
 const ERC20abi = require("./ERC20abi.json");
-const CONTRACT_ADDRESS = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";
+//const CONTRACT_ADDRESS = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";
+const CONTRACT_ADDRESS = "0x0f65a9629ae856a6fe3e8292fba577f478b944e0";
 const dbManager = require("../server/lib/DbManager");
+const START_BLOCK = 7700000;
+const END_BLOCK = 7700100;
 
 const queryService = {
-  getOldEvents() {
-    const contract = new web3.eth.Contract(ERC20abi, CONTRACT_ADDRESS);
-    const START_BLOCK = 7700000;
-    const END_BLOCK = 7700100;
-    contract
-      .getPastEvents("Transfer", {
-        fromBlock: START_BLOCK,
-        toBlock: END_BLOCK, // You can also specify 'latest'
-      })
-      .then(async (events) => {
-        //console.log(events)
-        for (let i = 0; i < events.length; i++) {
-          console.log(events[i].transactionHash);
-          console.log(events[i].returnValues.from);
-          console.log(events[i].returnValues.value);
-          const etherValue = Web3.utils.fromWei(
-            events[i].returnValues.value,
-            "ether"
-          );
-          const hash = events[i].transactionHash;
-          const wallet = events[i].returnValues.from;
+  async getEvents() {
+    const provider = new Ethers.providers.InfuraProvider("mainnet");
+    const contract = new Ethers.Contract(CONTRACT_ADDRESS, ERC20abi, provider);
+    const oldevents = await contract.queryFilter(
+      "Transfer",
+      START_BLOCK,
+      END_BLOCK
+    );
+    for (let i = 0; i < oldevents.length; i++) {
+      console.log(oldevents[i]);
+      console.log(oldevents[i].transactionHash);
+      console.log(oldevents[i].args.from);
+      console.log(Ethers.utils.formatEther(oldevents[i].args.value));
+      const etherValue = Ethers.utils.formatEther(oldevents[i].args.value);
+      const hash = oldevents[i].transactionHash;
+      const wallet = oldevents[i].args.from;
+      const newinvestment = await dbManager.newInvestment(
+        etherValue,
+        wallet,
+        hash
+      );
+      console.log(newinvestment);
+    }
 
-          const newinvestment = await dbManager.newInvestment(
-            etherValue,
-            wallet,
-            hash
-          );
-          console.log(newinvestment);
-        }
-      })
-      .catch((err) => console.error(err));
+    contract.on("Transfer", async (from, to, value, event) => {
+      console.log(event);
+      const etherValue = Ethers.utils.formatEther(event.args.value);
+      const hash = event.transactionHash;
+      const wallet = event.args.from;
+      const newinvestment = await dbManager.newInvestment(
+        etherValue,
+        wallet,
+        hash
+      );
+      console.log(newinvestment);
+    });
   },
-  getNewEvents() {
-    const contract = new web3.eth.Contract(ERC20abi, CONTRACT_ADDRESS);
-    contract.events
-      .Transfer()
-      .on("data", async (event) => {
-        console.log(event);
-        const hash = event.transactionHash;
-        const wallet = event.returnValues.from;
-        const etherValue = Web3.utils.fromWei(
-          event.returnValues.value,
-          "ether"
-        );
 
-        const newinvestment = await dbManager.newInvestment(
-          etherValue,
-          wallet,
-          hash
-        );
-        console.log(newinvestment);
-      })
-      .on("error", console.error);
+  async getactualEvents() {
+    const provider = new Ethers.providers.InfuraProvider("kovan");
+    const contract = new Ethers.Contract(CONTRACT_ADDRESS, ERC20abi, provider);
+    const decimal = await contract.decimals();
+    console.log(decimal)
+    const oldevents = await contract.queryFilter(
+      "Swap"
+      ,0,
+      "latest"
+    );
+    console.log(oldevents)
+
+    //contract.on("Swap", async (poolId, tokenIn, tokenOut,amountIn,amountOut, event) => {
+      contract.on("Swap", async (...params) => {
+      console.log(...params);
+      // const etherValue = Ethers.utils.formatEther(event.args.value);
+      // const hash = event.transactionHash;
+      // const wallet = event.args.from;
+      // const newinvestment = await dbManager.newInvestment(
+      //   etherValue,
+      //   wallet,
+      //   hash
+      // );
+      // console.log(newinvestment);
+    });
   },
+  
 };
+
 module.exports = queryService;

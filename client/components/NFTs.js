@@ -9,7 +9,7 @@ export default class NFTs extends React.Component {
               <img src={"/images/NFTleft.png"} alt={"logo"} />
               <div className={"topRow centered"}>
                 <span className={"nftTextGold"}>Top 50 </span>
-                <spam className={"nftText"}>reward:</spam>
+                <span className={"nftText"}>reward:</span>
               </div>
               <b className={"boldNFT centered"}>ORIGINAL SYNNER CEO</b>
             </div>
