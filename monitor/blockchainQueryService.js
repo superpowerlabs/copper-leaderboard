@@ -12,16 +12,17 @@ const queryService = {
     const provider = new Ethers.providers.InfuraProvider("kovan");
     const contract = new Ethers.Contract(CONTRACT_ADDRESS, ERC20abi, provider);
     const oldevents = await contract.queryFilter(
-      [contract.filters.Swap()],0,"latest"
+      [contract.filters.Swap()],
+      0,
+      "latest"
     );
     for (let i = 0; i < oldevents.length; i++) {
-      if(oldevents[i].event == 'Transfer')
-      { 
+      if (oldevents[i].event == "Transfer") {
         //console.log(oldevents[i])
         const etherValue = Ethers.utils.formatEther(oldevents[i].args.value);
         const hash = oldevents[i].transactionHash;
         const wallet = oldevents[i].args.to;
-        console.log(etherValue)
+        console.log(etherValue);
         const newinvestment = await dbManager.newInvestment(
           etherValue,
           wallet,
@@ -30,15 +31,14 @@ const queryService = {
         console.log(newinvestment);
       }
     }
-console.log("starting listener")
+    console.log("starting listener");
     contract.on([contract.filters.Swap()], async (event) => {
-      if(event.event == 'Transfer')
-      { 
-      console.log(event)
+      if (event.event == "Transfer") {
+        console.log(event);
         const etherValue = Ethers.utils.formatEther(event.args.value);
         const hash = event.transactionHash;
         const wallet = event.args.to;
-        console.log(etherValue,hash,wallet)
+        console.log(etherValue, hash, wallet);
         const newinvestment = await dbManager.newInvestment(
           etherValue,
           wallet,
@@ -48,7 +48,6 @@ console.log("starting listener")
       }
     });
   },
-  
 };
 
 module.exports = queryService;

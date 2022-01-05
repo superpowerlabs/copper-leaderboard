@@ -1030,36 +1030,35 @@ h1.notTooLarge {
     border-style: solid;
     width: 100%;
 }
-.bars1{ 
+.bars1 {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
 }
-.bars{
-    border-left: 6px solid  white;
+.bars {
+    border-left: 6px solid white;
     height: 25px;
-  
 }
-.Top50{
+.Top50 {
     padding-right: 20%;
 }
-.Top50bar{
-    border-left: 6px solid  white;
+.Top50bar {
+    border-left: 6px solid white;
     height: 25px;
     padding-left: 00px;
 }
-.Top100{
+.Top100 {
     padding-right: 15%;
 }
-.Top100bar{
-    border-left: 6px solid  white;
+.Top100bar {
+    border-left: 6px solid white;
     height: 25px;
 }
-.Top200{
+.Top200 {
     padding-right: 20%;
 }
-.Top200bar{
-    border-left: 6px solid  white;
+.Top200bar {
+    border-left: 6px solid white;
     height: 25px;
 }
 
@@ -1141,7 +1140,7 @@ table h1 {
 }
 
 .rank-header.sortAlpha {
-    padding-left: 100px;
+    padding-left: 65px;
 }
 
 .data:nth-child(2) {
