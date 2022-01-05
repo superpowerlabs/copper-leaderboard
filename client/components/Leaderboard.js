@@ -44,7 +44,7 @@ export default class Leaderboard extends Base {
   async getposition() {
     const position = this.state.users.map(({ name }) => name);
     for (var j = 0; j < position.length; j++) {
-      if (position[j] === this.state.users[j].rank) {
+      if (position[j].toLowerCase() === this.state.address.toLowerCase()) {
         if (this.state.users[j].rank === 1) {
           this.setState({ progress_now: 100 });
           {
@@ -79,7 +79,6 @@ export default class Leaderboard extends Base {
     const amounts = res.investments.map(({ amount }) => amount);
 
     wallets.sort();
-    console.log(wallets);
 
     for (var x = 0; x < res.investments.length; x++) {
       z = x;
