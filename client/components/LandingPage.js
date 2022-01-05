@@ -1,8 +1,8 @@
 // eslint-disable-next-line no-undef
 import NFTs from "./NFTs";
 import Leaderboard from "./Leaderboard";
-import MyProgressbar from "./MyProgressBar";
-import Button from "./BuySynbtn";
+// import MyProgressbar from "./MyProgressBar";
+// import Button from "./BuySynbtn";
 import Base from "./Base";
 
 // eslint-disable-next-line no-undef

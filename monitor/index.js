@@ -4,7 +4,6 @@ const queryService = require("./blockchainQueryService");
 
 function main() {
   console.log("starting monitor");
-  //queryService.getEvents();
   queryService.getactualEvents();
 }
 
