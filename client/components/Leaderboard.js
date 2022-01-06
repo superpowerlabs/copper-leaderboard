@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-undef
 // const { ProgressBar } = ReactBootstrap;
-import { Ethers } from "ethers";
+import { ethers } from "ethers";
 import ERC20abi from "../config/ERC20abi.json";
 import Base from "./Base";
 import MyProgressbar from "./MyProgressBar";
@@ -140,23 +140,35 @@ export default class Leaderboard extends Base {
   }
 
   async getNewEvents() {
-    console.debug("Starting Listener");
+    await this.waitForWeb3();
+
+    console.log("Starting Listener");
     const CONTRACT_ADDRESS = "0x0f65a9629ae856a6fe3e8292fba577f478b944e0";
 
-    const contract = new Ethers.Contract(
+    const contract = new ethers.Contract(
       CONTRACT_ADDRESS,
       ERC20abi,
       this.Store.provider
     );
 
+    console.log(this.Store);
+
+    console.log(contract);
+
     contract.on([contract.filters.Swap()], async (event) => {
-      if (event.event === "Transfer") {
-        console.log(event);
-        const etherValue = Ethers.utils.formatEther(event.args.value);
+      if (event.topics.length === 4) {
+        const wallet = ethers.utils.defaultAbiCoder.decode(
+          ["address"],
+          event.topics[event.topics.length - 1]
+        )[0];
+        const syn = ethers.utils.formatEther(event.data);
         const hash = event.transactionHash;
-        const wallet = event.args.to;
-        console.log(etherValue, hash, wallet);
-        let dict = { name: wallet, score: etherValue };
+        console.log(syn);
+        console.log(hash);
+        console.log(wallet);
+        //console.log(event)
+        const stateUser = this.state.users;
+        let dict = { name: wallet, score: syn };
         stateUser.push(dict);
         this.setState({ users: stateUser });
         this.rankingsorter();
@@ -197,39 +209,37 @@ export default class Leaderboard extends Base {
     return (
       <div>
         <div className="App">
-          <p>
-            <div className="progressBarComplete">
-              <h4 className="progressBarAddress">You: {this.state.address}</h4>
-              <div>
-                <div className="progressBar">
-                  <div className="progressBar2">
-                    <MyProgressbar
-                      bgcolor="yellow"
-                      progress={this.state.progress_now}
-                      height={55}
-                    />
-                  </div>
-                  <div className="buySYNbtn2">
-                    <Button classname="buySYNbtn" text="BUY $SYN" />
-                  </div>
+          <div className="progressBarComplete">
+            <h4 className="progressBarAddress">You: {this.state.address}</h4>
+            <div>
+              <div className="progressBar">
+                <div className="progressBar2">
+                  <MyProgressbar
+                    bgcolor="yellow"
+                    progress={this.state.progress_now}
+                    height={55}
+                  />
                 </div>
-                <div className="bars1">
-                  <div className="Top200">
-                    <div className="Top200bar"></div>
-                    Top 200
-                  </div>
-                  <div className="Top100">
-                    <div className="Top100bar"></div>
-                    Top 100
-                  </div>
-                  <div className="Top50">
-                    <div className="Top50bar"></div>
-                    Top 50
-                  </div>
+                <div className="buySYNbtn2">
+                  <Button classname="buySYNbtn" text="BUY $SYN" />
+                </div>
+              </div>
+              <div className="bars1">
+                <div className="Top200">
+                  <div className="Top200bar"></div>
+                  Top 200
+                </div>
+                <div className="Top100">
+                  <div className="Top100bar"></div>
+                  Top 100
+                </div>
+                <div className="Top50">
+                  <div className="Top50bar"></div>
+                  Top 50
                 </div>
               </div>
             </div>
-          </p>
+          </div>
         </div>
         <div className="parent">
           <table id="lBoard">
