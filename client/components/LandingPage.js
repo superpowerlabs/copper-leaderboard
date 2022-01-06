@@ -66,13 +66,6 @@ export default class LandingPage extends Base {
               </div>
 
               <NFTs />
-              <div className="App">
-                <div className="progressBarComplete">
-                  <div className="progressBarAddress">
-                    You:address placeholder
-                  </div>
-                </div>
-              </div>
 
               <br style={{ clear: "both" }} />
 

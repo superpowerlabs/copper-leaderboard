@@ -1072,6 +1072,7 @@ h1.notTooLarge {
 }
 
 .buySYNbtn {
+    white-space: nowrap;
     padding-right: 10%;
     height: 30;
     width: 90;
@@ -1093,33 +1094,22 @@ h1.notTooLarge {
 
 .parent {
     max-height: 500px;
-    overflow-y: auto;
-    width: auto;
+    width: 1000px;
+    border: 0.5px solid white;
+    overflow: hidden;
 }
 
 table {
-    border: 0.5px solid white;
     border-collapse: collapse;
     margin-right: auto;
     margin-left: auto;
     float: left;
     width: 1000px;
-    background-color: black;
-    opacity: 0.5;
+    max-width: 100%;
 }
 
 table td {
     padding: 5px;
-}
-
-table h1 {
-    margin-right: auto;
-    margin-left: auto;
-    color: gold;
-    font-size: 20px;
-    font-weight: bold;
-    padding-right: 35px;
-    overflow-y: hidden;
 }
 
 .rank-header {
@@ -1128,12 +1118,9 @@ table h1 {
     font-weight: bold;
     position: sticky;
     top: 0px;
-    background-color: black;
 }
 
-.rank-header.sortScore {
-    padding-left: 50px;
-}
+
 .data:first-child {
     font-size: 18px;
     font-weight: bold;
@@ -1142,14 +1129,36 @@ table h1 {
 
 .data {
     padding-left: 20px;
+    font-family: monospace;
+}
+
+.stats {
+    max-height: 500px;
+    width: 1000px;
+    overflow-y: auto;
+}
+
+.rank-header.sortScore {
+    padding-right: 30px;
+    width: 185px;
+}
+
+.rank-header.sortTotal {
+    margin-left: auto;
+    padding-left: 10px;
 }
 
 .rank-header.sortAlpha {
-    padding-left: 65px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 510px;
+    padding-left: 30px;
 }
 
 .data:nth-child(2) {
-    padding-left: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 70px;
 }
 
 .data:nth-child(3) {

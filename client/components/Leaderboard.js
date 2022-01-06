@@ -258,15 +258,14 @@ export default class Leaderboard extends Base {
             <table id="lBoard">
               <tbody className="ranking">
                 <tr>
-                  <td colSpan="10000">
-                    <h1>Auction</h1>
-                  </td>
-                </tr>
-                <tr>
                   <td className="rank-header sortScore"> Rank </td>
                   <td className="rank-header sortAlpha"> Address </td>
-                  <td className="rank-header"> Amount </td>
+                  <td className="rank-header sortTotal"> Amount </td>
                 </tr>
+                <tr>
+                <td colspan="4">
+                  <div className="stats">
+                    <table>
                 {this.state.ranking.map((user, index) => (
                   <tr className="ranking" key={index}>
                     {user.page === this.state.page ? (
@@ -280,6 +279,10 @@ export default class Leaderboard extends Base {
                     ) : null}
                   </tr>
                 ))}
+                </table>
+                </div>
+                </td>
+                </tr>
               </tbody>
             </table>
           </div>
