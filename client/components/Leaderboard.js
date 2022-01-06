@@ -140,15 +140,16 @@ export default class Leaderboard extends Base {
   }
 
   async getNewEvents() {
-    await this.waitForWeb3();
-
+    //await this.waitForWeb3();
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
     console.log("Starting Listener");
     const CONTRACT_ADDRESS = "0x0f65a9629ae856a6fe3e8292fba577f478b944e0";
 
     const contract = new ethers.Contract(
       CONTRACT_ADDRESS,
       ERC20abi,
-      this.Store.provider
+      //this.Store.provider
+      provider
     );
 
     console.log(this.Store);
