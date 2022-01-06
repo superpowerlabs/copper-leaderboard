@@ -1061,6 +1061,11 @@ h1.notTooLarge {
     border-left: 6px solid white;
     height: 25px;
 }
+.notConnectedTxt {
+    color: gold;
+    font-size: 50px;
+    font-weight: bold;
+}
 
 .buySYNbtn2 {
     padding-left: 10px;

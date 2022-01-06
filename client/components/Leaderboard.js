@@ -32,6 +32,7 @@ export default class Leaderboard extends Base {
       address: "",
       progress_now: 0,
       paginate: 200,
+      metamask: true,
     };
   }
 
@@ -141,40 +142,48 @@ export default class Leaderboard extends Base {
 
   async getNewEvents() {
     //await this.waitForWeb3();
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    console.log("Starting Listener");
-    const CONTRACT_ADDRESS = "0x0f65a9629ae856a6fe3e8292fba577f478b944e0";
+    if (typeof window.ethereum !== "undefined") {
+      this.setState({ metamask: true });
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      console.log("Starting Listener");
+      const CONTRACT_ADDRESS = "0x0f65a9629ae856a6fe3e8292fba577f478b944e0";
 
-    const contract = new ethers.Contract(
-      CONTRACT_ADDRESS,
-      ERC20abi,
-      //this.Store.provider
-      provider
-    );
+      const contract = new ethers.Contract(
+        CONTRACT_ADDRESS,
+        ERC20abi,
+        //this.Store.provider
+        provider
+      );
 
-    console.log(this.Store);
+      console.log(this.Store);
 
-    console.log(contract);
+      console.log(contract);
 
-    contract.on([contract.filters.Swap()], async (event) => {
-      if (event.topics.length === 4) {
-        const wallet = ethers.utils.defaultAbiCoder.decode(
-          ["address"],
-          event.topics[event.topics.length - 1]
-        )[0];
-        const syn = ethers.utils.formatEther(event.data);
-        const hash = event.transactionHash;
-        console.log(syn);
-        console.log(hash);
-        console.log(wallet);
-        //console.log(event)
-        const stateUser = this.state.users;
-        let dict = { name: wallet, score: syn };
-        stateUser.push(dict);
-        this.setState({ users: stateUser });
-        this.rankingsorter();
-      }
-    });
+      contract.on([contract.filters.Swap()], async (event) => {
+        if (event.topics.length === 4) {
+          const wallet = ethers.utils.defaultAbiCoder.decode(
+            ["address"],
+            event.topics[event.topics.length - 1]
+          )[0];
+          const syn = ethers.utils.formatEther(event.data);
+          const hash = event.transactionHash;
+          console.log(syn);
+          console.log(hash);
+          console.log(wallet);
+          //console.log(event)
+          const stateUser = this.state.users;
+          let dict = { name: wallet, score: syn };
+          stateUser.push(dict);
+          this.setState({ users: stateUser });
+          this.rankingsorter();
+        }
+      });
+    } else {
+      console.log(this.state.metamask);
+      console.log("please Connect to meta mask");
+      this.setState({ metamask: false });
+      console.log(this.state.metamask);
+    }
   }
 
   /**
@@ -207,71 +216,75 @@ export default class Leaderboard extends Base {
    * @desc renders jsx
    */
   render() {
-    return (
-      <div>
-        <div className="App">
-          <div className="progressBarComplete">
-            <h4 className="progressBarAddress">You: {this.state.address}</h4>
-            <div>
-              <div className="progressBar">
-                <div className="progressBar2">
-                  <MyProgressbar
-                    bgcolor="yellow"
-                    progress={this.state.progress_now}
-                    height={55}
-                  />
+    if (!this.state.metamask) {
+      return <div className="notConnectedTxt">Please Connect to Metamask</div>;
+    } else {
+      return (
+        <div>
+          <div className="App">
+            <div className="progressBarComplete">
+              <h4 className="progressBarAddress">You: {this.state.address}</h4>
+              <div>
+                <div className="progressBar">
+                  <div className="progressBar2">
+                    <MyProgressbar
+                      bgcolor="yellow"
+                      progress={this.state.progress_now}
+                      height={55}
+                    />
+                  </div>
+                  <div className="buySYNbtn2">
+                    <Button classname="buySYNbtn" text="BUY $SYN" />
+                  </div>
                 </div>
-                <div className="buySYNbtn2">
-                  <Button classname="buySYNbtn" text="BUY $SYN" />
-                </div>
-              </div>
-              <div className="bars1">
-                <div className="Top200">
-                  <div className="Top200bar"></div>
-                  Top 200
-                </div>
-                <div className="Top100">
-                  <div className="Top100bar"></div>
-                  Top 100
-                </div>
-                <div className="Top50">
-                  <div className="Top50bar"></div>
-                  Top 50
+                <div className="bars1">
+                  <div className="Top200">
+                    <div className="Top200bar"></div>
+                    Top 200
+                  </div>
+                  <div className="Top100">
+                    <div className="Top100bar"></div>
+                    Top 100
+                  </div>
+                  <div className="Top50">
+                    <div className="Top50bar"></div>
+                    Top 50
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="parent">
-          <table id="lBoard">
-            <tbody className="ranking">
-              <tr>
-                <td colSpan="10000">
-                  <h1>Auction</h1>
-                </td>
-              </tr>
-              <tr>
-                <td className="rank-header sortScore"> Rank </td>
-                <td className="rank-header sortAlpha"> Address </td>
-                <td className="rank-header"> Amount </td>
-              </tr>
-              {this.state.ranking.map((user, index) => (
-                <tr className="ranking" key={index}>
-                  {user.page === this.state.page ? (
-                    <td className="data">{user.rank}</td>
-                  ) : null}
-                  {user.page === this.state.page ? (
-                    <td className="data">{user.name}</td>
-                  ) : null}
-                  {user.page === this.state.page ? (
-                    <td className="data">{user.score}</td>
-                  ) : null}
+          <div className="parent">
+            <table id="lBoard">
+              <tbody className="ranking">
+                <tr>
+                  <td colSpan="10000">
+                    <h1>Auction</h1>
+                  </td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+                <tr>
+                  <td className="rank-header sortScore"> Rank </td>
+                  <td className="rank-header sortAlpha"> Address </td>
+                  <td className="rank-header"> Amount </td>
+                </tr>
+                {this.state.ranking.map((user, index) => (
+                  <tr className="ranking" key={index}>
+                    {user.page === this.state.page ? (
+                      <td className="data">{user.rank}</td>
+                    ) : null}
+                    {user.page === this.state.page ? (
+                      <td className="data">{user.name}</td>
+                    ) : null}
+                    {user.page === this.state.page ? (
+                      <td className="data">{user.score}</td>
+                    ) : null}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 }
