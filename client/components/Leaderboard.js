@@ -7,7 +7,9 @@ import MyProgressbar from "./MyProgressBar";
 import Button from "./BuySynbtn";
 
 function copperlaunch() {
-  window.open("https://kovan.copperlaunch.com/auctions/0xfCD2895e8702CCa5bd69b2df300D78ab5717514E");
+  window.open(
+    "https://kovan.copperlaunch.com/auctions/0xfCD2895e8702CCa5bd69b2df300D78ab5717514E"
+  );
 }
 
 const addSomeDecimals = (s, c = 2) => {
@@ -118,9 +120,7 @@ export default class Leaderboard extends Base {
     }
     this.setState({ users: state_user });
     for (var u = 0; u < state_user.length; u++) {
-      this.state.users[u].score = addSomeDecimals(
-        this.state.users[u].score
-      );
+      this.state.users[u].score = addSomeDecimals(this.state.users[u].score);
     }
     this.rankingsorter();
 
@@ -141,19 +141,16 @@ export default class Leaderboard extends Base {
   rankingsorter() {
     const ranking = this.state.users;
     const paginate = this.state.paginate;
-    // console.log(ranking)
     for (var x = 0; x < ranking.length; x++) {
       for (var y = 0; y < ranking.length; y++) {
-        if (ranking[x].score < ranking[y].score) {
-          console.log(ranking[x])
+        if (Number(ranking[x].score) > Number(ranking[y].score)) {
           let a = ranking[x];
-          ranking[x] = ranking[y]
+          ranking[x] = ranking[y];
           ranking[y] = a;
-          console.log(ranking[x])
         }
       }
     }
-    // console.log(ranking)
+    console.log(ranking)
     ranking.map((user, index) => (user.rank = index + 1));
     ranking.map(
       (user, index) => (user.page = Math.ceil((index + 1) / paginate))
@@ -180,7 +177,6 @@ export default class Leaderboard extends Base {
   //   }
   // }
 
-
   /**
    * @function compareScore
    * @desc Compares the score property of each user object
@@ -191,7 +187,7 @@ export default class Leaderboard extends Base {
     if (a.score > b.score) return 1;
     return 0;
   }
-3
+  3;
 
   async getNewEvents() {
     //await this.waitForWeb3();
@@ -238,15 +234,14 @@ export default class Leaderboard extends Base {
 
   newleaderboard(u) {
     let state_user = this.state.users;
-      for (var j = 0; j < state_user.length; j++) {
-        if (u["name"] === state_user[j].name) {
-        state_user[j].score = Number(u["score"]) + Number(state_user[j].score)
-        }
+    for (var j = 0; j < state_user.length; j++) {
+      if (u["name"] === state_user[j].name) {
+        state_user[j].score = Number(u["score"]) + Number(state_user[j].score);
       }
-    this.setState({ users: state_user})
-    this.getInvestments();
+    }
+    this.setState({ users: state_user });
+    this.rankingsorter();
   }
-
 
   /**
    * @function render
