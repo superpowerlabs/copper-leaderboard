@@ -5,7 +5,6 @@ const { BrowserRouter, Route, Switch } = ReactRouterDOM;
 const { Modal, Button } = ReactBootstrap;
 
 const ethers = require("ethers");
-import { Contract } from "@ethersproject/contracts";
 import clientApi from "../utils/ClientApi";
 import config from "../config";
 import ls from "local-storage";
@@ -43,7 +42,6 @@ class App extends Common {
       "handleClose",
       "handleShow",
       "setStore",
-      "getContracts",
       "updateDimensions",
       "showModal",
       "setWallet",
@@ -81,14 +79,6 @@ class App extends Common {
   }
 
   async connect() {
-    // if (typeof window.clover !== 'undefined') {
-    //   let clover = window.clover
-    //   const accounts = await clover.request({method: 'eth_requestAccounts'})
-    //   if (accounts) {
-    //     clover.on('accountsChanged', window.location.reload)
-    //     this.setWallet(clover, 'clover')
-    //   }
-    // } else
     if (typeof window.ethereum !== "undefined") {
       let eth = window.ethereum;
       if (await eth.request({ method: "eth_requestAccounts" })) {
@@ -140,14 +130,18 @@ class App extends Common {
       const signer = provider.getSigner();
       const chainId = (await provider.getNetwork()).chainId;
       const connectedWallet = await signer.getAddress();
-      const { contracts, connectedNetwork, networkNotSupported } =
-        this.getContracts(config, chainId, provider);
+      let networkNotSupported = false;
+      let connectedNetwork = null;
+      if (config.supportedId[chainId]) {
+        connectedNetwork = config.supportedId[chainId];
+      } else {
+        networkNotSupported = true;
+      }
       this.setStore({
         provider,
         signer,
         connectedWallet,
         chainId,
-        contracts,
         connectedNetwork,
         networkNotSupported,
       });
@@ -157,48 +151,11 @@ class App extends Common {
         },
         true
       );
-      if (chainId !== 4) {
-        this.switchTo(
-          "0x4",
-          "Rinkeby",
-          "RIETH",
-          "https://rinkeby.infura.io/v3/" + config.key
-        );
-      }
       clientApi.setConnectedWallet(connectedWallet, chainId);
     } catch (e) {
+      console.error(e);
       // window.location.reload()
     }
-  }
-
-  /*
-    let eth = window.ethereum
-    let keys = Object.keys(eth)
-    for (let key in eth) { if (typeof eth[key] === 'object' && !Array.isArray(eth[key])) console.log(key, Object.keys(eth[key])) }
-  */
-  getContracts(config, chainId, web3Provider) {
-    let contracts = {};
-    let networkNotSupported = false;
-    let connectedNetwork = null;
-    let addresses = config.address[chainId];
-    if (addresses) {
-      connectedNetwork = config.supportedId[chainId];
-      // console.log(connectedNetwork)
-      for (let contractName in addresses) {
-        contracts[contractName] = new Contract(
-          addresses[contractName],
-          config.abi[contractName],
-          web3Provider
-        );
-      }
-    } else {
-      networkNotSupported = true;
-    }
-    return {
-      contracts,
-      connectedNetwork,
-      networkNotSupported,
-    };
   }
 
   showModal(modalTitle, modalBody, modalClose, secondButton, modalAction) {

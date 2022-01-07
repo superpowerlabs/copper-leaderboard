@@ -19,40 +19,37 @@ const queryService = {
     );
     //console.log(contract)
     for (let i = 0; i < event.length; i++) {
-      if(event[i].topics.length === 4){
-        const wallet = ethers.utils.defaultAbiCoder.decode(['address'] ,event[i].topics[event[i].topics.length-1])[0];
+      if (event[i].topics.length === 4) {
+        const wallet = ethers.utils.defaultAbiCoder.decode(
+          ["address"],
+          event[i].topics[event[i].topics.length - 1]
+        )[0];
         const syn = ethers.utils.formatEther(event[i].data);
         const hash = event[i].transactionHash;
         console.log(syn);
         console.log(hash);
         console.log(wallet);
         //console.log(oldevents[i])
-        const newinvestment = await dbManager.newInvestment(
-          syn,
-          wallet,
-          hash
-        );
+        const newinvestment = await dbManager.newInvestment(syn, wallet, hash);
         console.log(newinvestment);
-        }
+      }
     }
     console.log("starting listener");
     contract.on([contract.filters.Swap()], async (event) => {
-      if(event.topics.length === 4){
-        const wallet = ethers.utils.defaultAbiCoder.decode(['address'] ,event.topics[event.topics.length-1])[0];
+      if (event.topics.length === 4) {
+        const wallet = ethers.utils.defaultAbiCoder.decode(
+          ["address"],
+          event.topics[event.topics.length - 1]
+        )[0];
         const syn = ethers.utils.formatEther(event.data);
         const hash = event.transactionHash;
         console.log(syn);
         console.log(hash);
         console.log(wallet);
         //console.log(event)
-        const newinvestment = await dbManager.newInvestment(
-          syn,
-          wallet,
-          hash
-        );
+        const newinvestment = await dbManager.newInvestment(syn, wallet, hash);
         console.log(newinvestment);
-        }
-      
+      }
     });
   },
 };
