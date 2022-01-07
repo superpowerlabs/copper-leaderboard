@@ -1146,14 +1146,14 @@ table td {
 
 .rank-header.sortTotal {
     margin-left: auto;
-    padding-left: 10px;
+    padding-left: 90px;
 }
 
 .rank-header.sortAlpha {
     margin-left: auto;
     margin-right: auto;
     width: 510px;
-    padding-left: 30px;
+    padding-left: 90px;
 }
 
 .data:nth-child(2) {
