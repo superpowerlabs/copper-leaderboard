@@ -128,7 +128,9 @@ export default class Leaderboard extends Base {
     this.setState({ pageMax: ranking[ranking.length - 1].page });
     this.setState({ ranking: ranking });
     for (var u = 0; u < ranking.length; u++) {
-      this.state.ranking[u].score = addSomeDecimals(this.state.ranking[u].score)
+      this.state.ranking[u].score = addSomeDecimals(
+        this.state.ranking[u].score
+      );
     }
   }
 
@@ -266,25 +268,25 @@ export default class Leaderboard extends Base {
                   <td className="rank-header sortTotal"> Amount </td>
                 </tr>
                 <tr>
-                <td colspan="4">
-                  <div className="stats">
-                    <table>
-                {this.state.ranking.map((user, index) => (
-                  <tr className="ranking" key={index}>
-                    {user.page === this.state.page ? (
-                      <td className="data">{user.rank}</td>
-                    ) : null}
-                    {user.page === this.state.page ? (
-                      <td className="data">{user.name}</td>
-                    ) : null}
-                    {user.page === this.state.page ? (
-                      <td className="data">{user.score}</td>
-                    ) : null}
-                  </tr>
-                ))}
-                </table>
-                </div>
-                </td>
+                  <td colspan="4">
+                    <div className="stats">
+                      <table>
+                        {this.state.ranking.map((user, index) => (
+                          <tr className="ranking" key={index}>
+                            {user.page === this.state.page ? (
+                              <td className="data">{user.rank}</td>
+                            ) : null}
+                            {user.page === this.state.page ? (
+                              <td className="data">{user.name}</td>
+                            ) : null}
+                            {user.page === this.state.page ? (
+                              <td className="data">{user.score}</td>
+                            ) : null}
+                          </tr>
+                        ))}
+                      </table>
+                    </div>
+                  </td>
                 </tr>
               </tbody>
             </table>
