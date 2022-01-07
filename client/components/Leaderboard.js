@@ -94,7 +94,6 @@ export default class Leaderboard extends Base {
     let total = 0;
     const res = await this.request("investments");
     const wallets = res.investments.map(({ wallet }) => wallet);
-    // const amounts = res.investments.map(({ amount }) => amount);
 
     const address = wallets.filter(onlyUnique);
     for (var z = 0; z <= address.length; z++) {
@@ -150,44 +149,15 @@ export default class Leaderboard extends Base {
         }
       }
     }
-    console.log(ranking)
+    console.log(ranking);
     ranking.map((user, index) => (user.rank = index + 1));
     ranking.map(
       (user, index) => (user.page = Math.ceil((index + 1) / paginate))
     );
     this.setState({ pageMax: ranking[ranking.length - 1].page });
     this.setState({ ranking: ranking });
-    // for (var u = 0; u < ranking.length; u++) {
-    //   this.state.ranking[u].score = addSomeDecimals(
-    //     this.state.ranking[u].score
-    //   );
-    // }
   }
 
-  // newsorter() {
-  //   const ranking = this.state.users;
-  //   ranking.sort(this.compareScore).reverse();
-  //   ranking.sort(this.compareRank);
-  //   console.log(ranking);
-  //   this.setState({ranking: ranking})
-  //   for (var u = 0; u < ranking.length; u++) {
-  //     this.state.ranking[u].score = addSomeDecimals(
-  //       this.state.ranking[u].score
-  //     );
-  //   }
-  // }
-
-  /**
-   * @function compareScore
-   * @desc Compares the score property of each user object
-   * @param {Object, Object} user
-   */
-  compareScore(a, b) {
-    if (a.score < b.score) return -1;
-    if (a.score > b.score) return 1;
-    return 0;
-  }
-  3;
 
   async getNewEvents() {
     //await this.waitForWeb3();
