@@ -158,7 +158,6 @@ export default class Leaderboard extends Base {
     this.setState({ ranking: ranking });
   }
 
-
   async getNewEvents() {
     //await this.waitForWeb3();
     if (typeof window.ethereum !== "undefined") {
