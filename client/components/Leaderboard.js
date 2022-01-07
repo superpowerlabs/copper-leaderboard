@@ -230,7 +230,7 @@ export default class Leaderboard extends Base {
                     <MyProgressbar
                       bgcolor="yellow"
                       progress={this.state.progress_now}
-                      height={55}
+                      height={30}
                     />
                   </div>
                   <div className="buySYNbtn2">

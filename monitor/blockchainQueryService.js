@@ -10,6 +10,7 @@ const END_BLOCK = 7700100;
 
 const queryService = {
   async getactualEvents() {
+    //let mymoni = 0;
     const provider = new ethers.providers.InfuraProvider("kovan");
     const contract = new ethers.Contract(CONTRACT_ADDRESS, ERC20abi, provider);
     const event = await contract.queryFilter(
@@ -40,8 +41,13 @@ const queryService = {
         console.log(event[i].topics);
         const newinvestment = await dbManager.newInvestment(syn, wallet, hash);
         console.log(newinvestment);
+        // if (wallet === "0xAA31dd1bCc1075764790b1E2eD9670FEF34DCBFB") {
+        //   mymoni = mymoni + Number(syn);
+        // }
       }
     }
+
+    //console.log(mymoni);
     console.log("starting listener");
     contract.on([contract.filters.Swap()], async (event) => {
       if (event.topics.length === 4) {
