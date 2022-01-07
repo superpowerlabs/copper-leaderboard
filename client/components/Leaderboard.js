@@ -6,6 +6,13 @@ import Base from "./Base";
 import MyProgressbar from "./MyProgressBar";
 import Button from "./BuySynbtn";
 
+const addSomeDecimals = (s, c = 2) => {
+  s = s.toString().split(".");
+  s[1] = (s[1] || "").substring(0, c);
+  s[1] = s[1] + "0".repeat(c - s[1].length);
+  return s.join(".");
+};
+
 /**
  * @class Leaderboard
  * @desc Compares the score property of each user object
@@ -103,13 +110,6 @@ export default class Leaderboard extends Base {
 
     // this.setState({ users: state_user });
     // this.rankingsorter();
-
-    if (res.success) {
-      this.setStore({
-        investments: res.investments,
-      });
-    }
-    return wallets;
   }
 
   /**
@@ -127,6 +127,9 @@ export default class Leaderboard extends Base {
     );
     this.setState({ pageMax: ranking[ranking.length - 1].page });
     this.setState({ ranking: ranking });
+    for (var u = 0; u < ranking.length; u++) {
+      this.state.ranking[u].score = addSomeDecimals(this.state.ranking[u].score)
+    }
   }
 
   /**
