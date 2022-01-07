@@ -6,6 +6,10 @@ import Base from "./Base";
 import MyProgressbar from "./MyProgressBar";
 import Button from "./BuySynbtn";
 
+function copperlaunch() {
+  window.open("https://copperlaunch.com/")
+}
+
 const addSomeDecimals = (s, c = 2) => {
   s = s.toString().split(".");
   s[1] = (s[1] || "").substring(0, c);
@@ -239,7 +243,7 @@ export default class Leaderboard extends Base {
                     />
                   </div>
                   <div className="buySYNbtn2">
-                    <Button classname="buySYNbtn" text="BUY $SYN" />
+                    <Button classname="buySYNbtn" text="BUY $SYN" onClick={copperlaunch} />
                   </div>
                 </div>
                 <div className="bars1">
