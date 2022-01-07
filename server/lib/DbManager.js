@@ -29,7 +29,7 @@ class DbManager extends Sql {
         .into("investments");
       return true;
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
   }
 

@@ -17,6 +17,10 @@ const addSomeDecimals = (s, c = 2) => {
   return s.join(".");
 };
 
+function onlyUnique(value, index, self) {
+  return self.indexOf(value) === index;
+}
+
 /**
  * @class Leaderboard
  * @desc Compares the score property of each user object
@@ -84,25 +88,33 @@ export default class Leaderboard extends Base {
   async getInvestments() {
     const state_user = [];
     let dict = {};
-    let z = 0;
     let total = 0;
     const res = await this.request("investments");
     const wallets = res.investments.map(({ wallet }) => wallet);
-    const amounts = res.investments.map(({ amount }) => amount);
+    // const amounts = res.investments.map(({ amount }) => amount);
 
-    wallets.sort();
-
-    for (var x = 0; x < res.investments.length; x++) {
-      z = x;
-      total += amounts[x];
-      while (wallets[z] === wallets[z + 1]) {
-        total += amounts[z + 1];
-        z++;
+    const address = wallets.filter(onlyUnique);
+    console.log(address);
+    for (var z = 0; z <= address.length; z++) {
+      for (var x = 0; x < res.investments.length; x++) {
+        if (address[z] === res.investments[x].wallet) {
+          total += res.investments[x].amount;
+        }
+        if (x + 1 === res.investments.length) {
+          if (total <= 0) {
+            total = 0;
+            {
+              break;
+            }
+          }
+          dict = { name: address[z], score: total };
+          state_user.push(dict);
+          total = 0;
+          {
+            break;
+          }
+        }
       }
-      dict = { name: wallets[x], score: total };
-      state_user.push(dict);
-      total = 0;
-      x = z + 1;
     }
     this.setState({ users: state_user });
     this.rankingsorter();
@@ -164,10 +176,6 @@ export default class Leaderboard extends Base {
         provider
       );
 
-      console.log(this.Store);
-
-      console.log(contract);
-
       contract.on([contract.filters.Swap()], async (event) => {
         if (event.topics.length === 4) {
           let syn = ethers.utils.formatEther(event.data);
@@ -184,10 +192,6 @@ export default class Leaderboard extends Base {
             syn = -syn;
           }
           const hash = event.transactionHash;
-          console.log(syn);
-          console.log(hash);
-          console.log(wallet);
-          console.log(event.topics);
           //console.log(event)
           const stateUser = this.state.users;
           let dict = { name: wallet, score: syn };
@@ -197,10 +201,8 @@ export default class Leaderboard extends Base {
         }
       });
     } else {
-      console.log(this.state.metamask);
       console.log("please Connect to meta mask");
       this.setState({ metamask: false });
-      console.log(this.state.metamask);
     }
   }
 
@@ -241,7 +243,6 @@ export default class Leaderboard extends Base {
         <div>
           <div className="App">
             <div className="progressBarComplete">
-              <h4 className="progressBarAddress">You: {this.state.address}</h4>
               <div>
                 <div className="progressBar">
                   <div className="progressBar2">
@@ -285,7 +286,7 @@ export default class Leaderboard extends Base {
                   <td className="rank-header sortTotal"> Amount </td>
                 </tr>
                 <tr>
-                  <td colspan="4">
+                  <td colSpan="4">
                     <div className="stats">
                       <table>
                         {this.state.ranking.map((user, index) => (
