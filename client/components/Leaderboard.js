@@ -7,7 +7,7 @@ import MyProgressbar from "./MyProgressBar";
 import Button from "./BuySynbtn";
 
 function copperlaunch() {
-  window.open("https://copperlaunch.com/");
+  window.open("https://kovan.copperlaunch.com/auctions/0xfCD2895e8702CCa5bd69b2df300D78ab5717514E");
 }
 
 const addSomeDecimals = (s, c = 2) => {
@@ -33,8 +33,9 @@ export default class Leaderboard extends Base {
 
     this.bindMany([
       "getInvestments",
-      "filterRank",
       "rankingsorter",
+      // "newsorter",
+      "newleaderboard",
       "getNewEvents",
     ]);
     this.state = {
@@ -94,7 +95,6 @@ export default class Leaderboard extends Base {
     // const amounts = res.investments.map(({ amount }) => amount);
 
     const address = wallets.filter(onlyUnique);
-    console.log(address);
     for (var z = 0; z <= address.length; z++) {
       for (var x = 0; x < res.investments.length; x++) {
         if (address[z] === res.investments[x].wallet) {
@@ -117,6 +117,11 @@ export default class Leaderboard extends Base {
       }
     }
     this.setState({ users: state_user });
+    for (var u = 0; u < state_user.length; u++) {
+      this.state.users[u].score = addSomeDecimals(
+        this.state.users[u].score
+      );
+    }
     this.rankingsorter();
 
     // for (var i = 0; i < res.investments.length; i++) {
@@ -136,19 +141,45 @@ export default class Leaderboard extends Base {
   rankingsorter() {
     const ranking = this.state.users;
     const paginate = this.state.paginate;
-    ranking.sort(this.compareScore).reverse();
+    // console.log(ranking)
+    for (var x = 0; x < ranking.length; x++) {
+      for (var y = 0; y < ranking.length; y++) {
+        if (ranking[x].score < ranking[y].score) {
+          console.log(ranking[x])
+          let a = ranking[x];
+          ranking[x] = ranking[y]
+          ranking[y] = a;
+          console.log(ranking[x])
+        }
+      }
+    }
+    // console.log(ranking)
     ranking.map((user, index) => (user.rank = index + 1));
     ranking.map(
       (user, index) => (user.page = Math.ceil((index + 1) / paginate))
     );
     this.setState({ pageMax: ranking[ranking.length - 1].page });
     this.setState({ ranking: ranking });
-    for (var u = 0; u < ranking.length; u++) {
-      this.state.ranking[u].score = addSomeDecimals(
-        this.state.ranking[u].score
-      );
-    }
+    // for (var u = 0; u < ranking.length; u++) {
+    //   this.state.ranking[u].score = addSomeDecimals(
+    //     this.state.ranking[u].score
+    //   );
+    // }
   }
+
+  // newsorter() {
+  //   const ranking = this.state.users;
+  //   ranking.sort(this.compareScore).reverse();
+  //   ranking.sort(this.compareRank);
+  //   console.log(ranking);
+  //   this.setState({ranking: ranking})
+  //   for (var u = 0; u < ranking.length; u++) {
+  //     this.state.ranking[u].score = addSomeDecimals(
+  //       this.state.ranking[u].score
+  //     );
+  //   }
+  // }
+
 
   /**
    * @function compareScore
@@ -160,6 +191,7 @@ export default class Leaderboard extends Base {
     if (a.score > b.score) return 1;
     return 0;
   }
+3
 
   async getNewEvents() {
     //await this.waitForWeb3();
@@ -195,9 +227,7 @@ export default class Leaderboard extends Base {
           //console.log(event)
           const stateUser = this.state.users;
           let dict = { name: wallet, score: syn };
-          stateUser.push(dict);
-          this.setState({ users: stateUser });
-          this.rankingsorter();
+          this.newleaderboard(dict);
         }
       });
     } else {
@@ -206,30 +236,17 @@ export default class Leaderboard extends Base {
     }
   }
 
-  /**
-   * @function filterRank
-   * @desc Filters through the ranking to find matches and sorts all matches by score
-   * @param {String} search input
-   */
-  filterRank(e) {
-    const ranking = this.state.users;
-    const paginate = this.state.paginate;
-    const newRanking = [];
-    const inputLength = e.target.value.length;
-    for (var i = 0; i < ranking.length; i++) {
-      const str = ranking[i].name.slice(0, inputLength).toLowerCase();
-      if (str === e.target.value.toLowerCase()) {
-        newRanking.push(ranking[i]);
+  newleaderboard(u) {
+    let state_user = this.state.users;
+      for (var j = 0; j < state_user.length; j++) {
+        if (u["name"] === state_user[j].name) {
+        state_user[j].score = Number(u["score"]) + Number(state_user[j].score)
+        }
       }
-    }
-    newRanking.sort(this.compareScore).reverse();
-    newRanking.map(
-      (user, index) => (user.page = Math.ceil((index + 1) / paginate))
-    );
-    this.setState({ ranking: newRanking });
-    this.setState({ page: 1 });
-    this.setState({ pageMax: newRanking[newRanking.length - 1].page });
+    this.setState({ users: state_user})
+    this.getInvestments();
   }
+
 
   /**
    * @function render
