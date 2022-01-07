@@ -150,7 +150,7 @@ export default class Leaderboard extends Base {
         }
       }
     }
-    console.log(ranking)
+    console.log(ranking);
     ranking.map((user, index) => (user.rank = index + 1));
     ranking.map(
       (user, index) => (user.page = Math.ceil((index + 1) / paginate))
@@ -261,7 +261,7 @@ export default class Leaderboard extends Base {
                     <MyProgressbar
                       bgcolor="yellow"
                       progress={this.state.progress_now}
-                      height={55}
+                      height={30}
                     />
                   </div>
                   <div className="buySYNbtn2">
