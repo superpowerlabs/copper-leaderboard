@@ -7,7 +7,7 @@ import MyProgressbar from "./MyProgressBar";
 import Button from "./BuySynbtn";
 
 function copperlaunch() {
-  window.open("https://copperlaunch.com/")
+  window.open("https://copperlaunch.com/");
 }
 
 const addSomeDecimals = (s, c = 2) => {
@@ -170,15 +170,24 @@ export default class Leaderboard extends Base {
 
       contract.on([contract.filters.Swap()], async (event) => {
         if (event.topics.length === 4) {
-          const wallet = ethers.utils.defaultAbiCoder.decode(
+          let syn = ethers.utils.formatEther(event.data);
+          let wallet = ethers.utils.defaultAbiCoder.decode(
             ["address"],
             event.topics[event.topics.length - 1]
           )[0];
-          const syn = ethers.utils.formatEther(event.data);
+          if (event.topics[1] === event.topics[3]) {
+            console.log("sell");
+            wallet = ethers.utils.defaultAbiCoder.decode(
+              ["address"],
+              event.topics[event.topics.length - 2]
+            )[0];
+            syn = -syn;
+          }
           const hash = event.transactionHash;
           console.log(syn);
           console.log(hash);
           console.log(wallet);
+          console.log(event.topics);
           //console.log(event)
           const stateUser = this.state.users;
           let dict = { name: wallet, score: syn };
@@ -243,7 +252,11 @@ export default class Leaderboard extends Base {
                     />
                   </div>
                   <div className="buySYNbtn2">
-                    <Button classname="buySYNbtn" text="BUY $SYN" onClick={copperlaunch} />
+                    <Button
+                      classname="buySYNbtn"
+                      text="BUY $SYN"
+                      onClick={copperlaunch}
+                    />
                   </div>
                 </div>
                 <div className="bars1">

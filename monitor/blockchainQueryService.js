@@ -20,16 +20,24 @@ const queryService = {
     //console.log(contract)
     for (let i = 0; i < event.length; i++) {
       if (event[i].topics.length === 4) {
-        const wallet = ethers.utils.defaultAbiCoder.decode(
+        let syn = ethers.utils.formatEther(event[i].data);
+        let wallet = ethers.utils.defaultAbiCoder.decode(
           ["address"],
           event[i].topics[event[i].topics.length - 1]
         )[0];
-        const syn = ethers.utils.formatEther(event[i].data);
+        if (event[i].topics[1] === event[i].topics[3]) {
+          console.log("sell");
+          wallet = ethers.utils.defaultAbiCoder.decode(
+            ["address"],
+            event[i].topics[event[i].topics.length - 2]
+          )[0];
+          syn = -syn;
+        }
         const hash = event[i].transactionHash;
         console.log(syn);
         console.log(hash);
         console.log(wallet);
-        //console.log(oldevents[i])
+        console.log(event[i].topics);
         const newinvestment = await dbManager.newInvestment(syn, wallet, hash);
         console.log(newinvestment);
       }
@@ -37,16 +45,24 @@ const queryService = {
     console.log("starting listener");
     contract.on([contract.filters.Swap()], async (event) => {
       if (event.topics.length === 4) {
-        const wallet = ethers.utils.defaultAbiCoder.decode(
+        let syn = ethers.utils.formatEther(event.data);
+        let wallet = ethers.utils.defaultAbiCoder.decode(
           ["address"],
           event.topics[event.topics.length - 1]
         )[0];
-        const syn = ethers.utils.formatEther(event.data);
+        if (event.topics[1] === event.topics[3]) {
+          console.log("sell");
+          wallet = ethers.utils.defaultAbiCoder.decode(
+            ["address"],
+            event.topics[event.topics.length - 2]
+          )[0];
+          syn = -syn;
+        }
         const hash = event.transactionHash;
         console.log(syn);
         console.log(hash);
         console.log(wallet);
-        //console.log(event)
+        console.log(event.topics);
         const newinvestment = await dbManager.newInvestment(syn, wallet, hash);
         console.log(newinvestment);
       }

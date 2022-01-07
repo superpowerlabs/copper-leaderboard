@@ -19,13 +19,13 @@ class CreateInitialTables extends require("../Migration") {
       console.info('Table "investments" created.');
     }
 
-    // if (!(await sql.schema.hasColumn('investments', 'user_discord_id'))) {
-    //   await sql.schema.alterTable('investments', t => {
-    //     t.string('user_discord_id')
-    //   })
-    //   done = true
-    //   console.info('Add "user_discord_id" to "investments".')
-    // }
+    if (await sql.schema.hasColumn("investments", "tx_hash")) {
+      await sql.schema.alterTable("investments", (t) => {
+        t.unique("tx_hash");
+      });
+      done = true;
+      console.info('Add unique to column "tx_hash" in table "investments".');
+    }
 
     if (!done) {
       console.info("No change required for this migration");
