@@ -1,5 +1,5 @@
 require("dotenv").config();
-const monitor = require("./Monitor");
+const monitor = require("./monitor");
 const queryService = require("./blockchainQueryService");
 
 function main() {
