@@ -1081,6 +1081,7 @@ h1.notTooLarge {
 
 .progressBarComplete {
     justify-content: flex-start;
+    padding: 32px 0;
 }
 
 .progressBarAddress {
@@ -1198,4 +1199,8 @@ table td {
     height: auto;
     margin-right: auto;
     margin-left: auto;
+}
+
+.lastData {
+    text-align: right;
 }

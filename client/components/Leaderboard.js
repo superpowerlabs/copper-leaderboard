@@ -48,7 +48,7 @@ export default class Leaderboard extends Base {
       pageMax: 1,
       users: [],
       address: "",
-      progress_now: 0,
+      progress_now: 27,
       paginate: 200,
       metamask: true,
     };
@@ -279,7 +279,7 @@ export default class Leaderboard extends Base {
                               <td className="data">{user.name}</td>
                             ) : null}
                             {user.page === this.state.page ? (
-                              <td className="data">{user.score}</td>
+                              <td className="data lastData">{user.score}</td>
                             ) : null}
                           </tr>
                         ))}
