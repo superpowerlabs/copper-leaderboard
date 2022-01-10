@@ -48,8 +48,8 @@ export default class Leaderboard extends Base {
       pageMax: 1,
       users: [],
       address: "",
-      progress_now: 27,
-      paginate: 200,
+      progress_now: 0,
+      paginate: 300,
       metamask: true,
     };
   }
@@ -71,7 +71,7 @@ export default class Leaderboard extends Base {
           }
         } else {
           const ranking = this.state.users[j].rank;
-          let progress = Math.abs(ranking / 2 - 100);
+          let progress = Math.abs(ranking / 3 - 100);
           this.setState({ progress_now: progress });
           {
             break;
