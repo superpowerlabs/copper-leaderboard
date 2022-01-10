@@ -19,14 +19,18 @@ class DbManager extends Sql {
     // if (exist) {
     //   throw new Error("Investment already inserted in the db");
     // }
-    await sql
-      .insert({
-        amount,
-        wallet,
-        tx_hash,
-      })
-      .into("investments");
-    return true;
+    try {
+      await sql
+        .insert({
+          amount,
+          wallet,
+          tx_hash,
+        })
+        .into("investments");
+      return true;
+    } catch (e) {
+      // console.log(e);
+    }
   }
 
   // EXAMPLE:
