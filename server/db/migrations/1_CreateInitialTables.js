@@ -1,3 +1,5 @@
+const helpers = require("./helpers");
+
 class CreateInitialTables extends require("../Migration") {
   async body(index, database) {
     let done = false;
@@ -19,9 +21,9 @@ class CreateInitialTables extends require("../Migration") {
       console.info('Table "investments" created.');
     }
 
-    if (await sql.schema.hasColumn("investments", "tx_hash")) {
-      await sql.schema.alterTable("investments", (t) => {
-        t.unique("tx_hash");
+    if (!(await helpers.indexExists("investments", "tx_hash_index"))) {
+      await sql.schema.alterTable("investments", (table) => {
+        table.unique("tx_hash", "tx_hash_index");
       });
       done = true;
       console.info('Add unique to column "tx_hash" in table "investments".');

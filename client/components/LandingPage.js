@@ -14,10 +14,10 @@ const { Container } = ReactBootstrap;
 export default class LandingPage extends Base {
   componentDidMount() {
     // window.location = 'https://syn.city'
-    // this.getwallet();
+    // this.getWallet();
   }
 
-  // async getwallet() {
+  // async getWallet() {
   //   const wallet = await ethereum.request({ method: "eth_requestAccounts" });
   //   this.setState({ address: wallet[0] });
   // }
