@@ -5,6 +5,7 @@ import ERC20abi from "../config/ERC20abi.json";
 import Base from "./Base";
 import MyProgressbar from "./MyProgressBar";
 import Button from "./BuySynbtn";
+import Address from "../utils/Address";
 
 function copperlaunch() {
   window.open(
@@ -33,13 +34,6 @@ export default class Leaderboard extends Base {
   constructor(props) {
     super(props);
 
-    this.bindMany([
-      "getInvestments",
-      "rankingsorter",
-      // "newsorter",
-      "newleaderboard",
-      "getNewEvents",
-    ]);
     this.state = {
       ranking: [],
       asc: false,
@@ -52,41 +46,50 @@ export default class Leaderboard extends Base {
       paginate: 200,
       metamask: true,
     };
+
+    this.bindMany([
+      "getInvestments",
+      "rankingSorter",
+      // "newsorter",
+      "newleaderboard",
+      "getNewEvents",
+      "getPosition",
+    ]);
   }
 
   componentDidMount() {
     this.getInvestments();
-    this.getwallet();
-    this.getNewEvents();
+    this.setTimeout(this.getPosition, 3000);
   }
 
-  async getposition() {
-    const position = this.state.users.map(({ name }) => name);
-    for (var j = 0; j < position.length; j++) {
-      if (position[j].toLowerCase() === this.state.address.toLowerCase()) {
-        if (this.state.users[j].rank === 1) {
-          this.setState({ progress_now: 100 });
-          {
-            break;
+  async getPosition() {
+    if (this.state.previousConnectedAddress !== this.Store.connectedWallet) {
+      const position = this.state.users.map(({ name }) => name);
+      for (let j = 0; j < position.length; j++) {
+        if (Address.equal(position[j], this.Store.connectedWallet)) {
+          if (this.state.users[j].rank === 1) {
+            this.setState({ progress_now: 100 });
+          } else {
+            const ranking = this.state.users[j].rank;
+            let progress = Math.abs(ranking / 2 - 100);
+            this.setState({ progress_now: progress });
           }
-        } else {
-          const ranking = this.state.users[j].rank;
-          let progress = Math.abs(ranking / 2 - 100);
-          this.setState({ progress_now: progress });
-          {
-            break;
-          }
+          break;
         }
       }
     }
+    this.setState({
+      previousConnectedAddress: this.Store.connectedWallet,
+    });
   }
 
-  async getwallet() {
-    /* eslint-disable */
-    const wallet = await ethereum.request({ method: "eth_requestAccounts" });
-    this.setState({ address: wallet[0] });
-    this.getposition();
-  }
+  //
+  // async getWallet() {
+  //   /* eslint-disable */
+  //   // const wallet = await ethereum.request({ method: "eth_requestAccounts" });
+  //   // this.setState({ address: wallet[0] });
+  //   this.getPosition();
+  // }
 
   async getInvestments() {
     const state_user = [];
@@ -121,7 +124,9 @@ export default class Leaderboard extends Base {
     for (var u = 0; u < state_user.length; u++) {
       this.state.users[u].score = addSomeDecimals(this.state.users[u].score);
     }
-    this.rankingsorter();
+    this.rankingSorter();
+    this.getPosition();
+    this.getNewEvents();
 
     // for (var i = 0; i < res.investments.length; i++) {
     //   dict = { name: wallets[i], score: amounts[i] };
@@ -129,7 +134,7 @@ export default class Leaderboard extends Base {
     // }
 
     // this.setState({ users: state_user });
-    // this.rankingsorter();
+    // this.rankingSorter();
   }
 
   /**
@@ -137,7 +142,7 @@ export default class Leaderboard extends Base {
    * @desc Sorts users by score then adds a ranking key to each user object when the component loads. Then sets the ranking state
    */
 
-  rankingsorter() {
+  rankingSorter() {
     const ranking = this.state.users;
     const paginate = this.state.paginate;
     for (var x = 0; x < ranking.length; x++) {
@@ -149,7 +154,7 @@ export default class Leaderboard extends Base {
         }
       }
     }
-    console.log(ranking);
+    // console.log(ranking);
     ranking.map((user, index) => (user.rank = index + 1));
     ranking.map(
       (user, index) => (user.page = Math.ceil((index + 1) / paginate))
@@ -159,46 +164,41 @@ export default class Leaderboard extends Base {
   }
 
   async getNewEvents() {
-    //await this.waitForWeb3();
-    if (typeof window.ethereum !== "undefined") {
-      this.setState({ metamask: true });
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      console.log("Starting Listener");
-      const CONTRACT_ADDRESS = "0x0f65a9629ae856a6fe3e8292fba577f478b944e0";
+    await this.waitForWeb3();
+    this.setState({ metamask: true });
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    // console.log("Starting Listener");
+    const CONTRACT_ADDRESS = "0x0f65a9629ae856a6fe3e8292fba577f478b944e0";
 
-      const contract = new ethers.Contract(
-        CONTRACT_ADDRESS,
-        ERC20abi,
-        //this.Store.provider
-        provider
-      );
+    const contract = new ethers.Contract(
+      CONTRACT_ADDRESS,
+      ERC20abi,
+      //this.Store.provider
+      provider
+    );
 
-      contract.on([contract.filters.Swap()], async (event) => {
-        if (event.topics.length === 4) {
-          let syn = ethers.utils.formatEther(event.data);
-          let wallet = ethers.utils.defaultAbiCoder.decode(
+    contract.on([contract.filters.Swap()], async (event) => {
+      if (event.topics.length === 4) {
+        let syn = ethers.utils.formatEther(event.data);
+        let wallet = ethers.utils.defaultAbiCoder.decode(
+          ["address"],
+          event.topics[event.topics.length - 1]
+        )[0];
+        if (event.topics[1] === event.topics[3]) {
+          // console.log("sell");
+          wallet = ethers.utils.defaultAbiCoder.decode(
             ["address"],
-            event.topics[event.topics.length - 1]
+            event.topics[event.topics.length - 2]
           )[0];
-          if (event.topics[1] === event.topics[3]) {
-            console.log("sell");
-            wallet = ethers.utils.defaultAbiCoder.decode(
-              ["address"],
-              event.topics[event.topics.length - 2]
-            )[0];
-            syn = -syn;
-          }
-          const hash = event.transactionHash;
-          //console.log(event)
-          const stateUser = this.state.users;
-          let dict = { name: wallet, score: syn };
-          this.newleaderboard(dict);
+          syn = -syn;
         }
-      });
-    } else {
-      console.log("please Connect to meta mask");
-      this.setState({ metamask: false });
-    }
+        // const hash = event.transactionHash;
+        //console.log(event)
+        // const stateUser = this.state.users;
+        let dict = { name: wallet, score: syn };
+        this.newleaderboard(dict);
+      }
+    });
   }
 
   newleaderboard(u) {
@@ -209,7 +209,7 @@ export default class Leaderboard extends Base {
       }
     }
     this.setState({ users: state_user });
-    this.rankingsorter();
+    this.rankingSorter();
   }
 
   /**
@@ -262,9 +262,9 @@ export default class Leaderboard extends Base {
             <table id="lBoard">
               <tbody className="ranking">
                 <tr>
-                  <td className="rank-header sortScore"> Rank </td>
-                  <td className="rank-header sortAlpha"> Address </td>
-                  <td className="rank-header sortTotal"> Amount </td>
+                  <td className="rank-header sortScore"> Rank</td>
+                  <td className="rank-header sortAlpha"> Address</td>
+                  <td className="rank-header sortTotal"> Amount</td>
                 </tr>
                 <tr>
                   <td colSpan="4">
