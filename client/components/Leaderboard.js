@@ -267,21 +267,22 @@ export default class Leaderboard extends Base {
                 <tr>
                   <td colSpan="4">
                     <div className="stats">
-                      <table><tbody>
-                        {this.state.ranking.map((user, index) => (
-                          <tr className="ranking" key={index}>
-                            {user.page === this.state.page ? (
-                              <td className="data">{user.rank}</td>
-                            ) : null}
-                            {user.page === this.state.page ? (
-                              <td className="data">{user.name}</td>
-                            ) : null}
-                            {user.page === this.state.page ? (
-                              <td className="data lastData">{user.score}</td>
-                            ) : null}
-                          </tr>
-                        ))}
-                      </tbody>
+                      <table>
+                        <tbody>
+                          {this.state.ranking.map((user, index) => (
+                            <tr className="ranking" key={index}>
+                              {user.page === this.state.page ? (
+                                <td className="data">{user.rank}</td>
+                              ) : null}
+                              {user.page === this.state.page ? (
+                                <td className="data">{user.name}</td>
+                              ) : null}
+                              {user.page === this.state.page ? (
+                                <td className="data lastData">{user.score}</td>
+                              ) : null}
+                            </tr>
+                          ))}
+                        </tbody>
                       </table>
                     </div>
                   </td>
