@@ -42,8 +42,8 @@ export default class Leaderboard extends Base {
       pageMax: 1,
       users: [],
       address: "",
-      progress_now: 27,
-      paginate: 200,
+      progress_now: 0,
+      paginate: 300,
       metamask: true,
     };
 
@@ -63,19 +63,17 @@ export default class Leaderboard extends Base {
   }
 
   async getPosition() {
-    if (this.state.previousConnectedAddress !== this.Store.connectedWallet) {
-      const position = this.state.users.map(({ name }) => name);
-      for (let j = 0; j < position.length; j++) {
-        if (Address.equal(position[j], this.Store.connectedWallet)) {
-          if (this.state.users[j].rank === 1) {
-            this.setState({ progress_now: 100 });
-          } else {
-            const ranking = this.state.users[j].rank;
-            let progress = Math.abs(ranking / 2 - 100);
-            this.setState({ progress_now: progress });
-          }
-          break;
+    const position = this.state.users.map(({ name }) => name);
+    for (let j = 0; j < position.length; j++) {
+      if (Address.equal(position[j], this.Store.connectedWallet)) {
+        if (this.state.users[j].rank === 1) {
+          this.setState({ progress_now: 100 });
+        } else {
+          const ranking = this.state.users[j].rank;
+          let progress = Math.abs(ranking / 3 - 100);
+          this.setState({ progress_now: progress });
         }
+        break;
       }
     }
     this.setState({
@@ -269,7 +267,7 @@ export default class Leaderboard extends Base {
                 <tr>
                   <td colSpan="4">
                     <div className="stats">
-                      <table>
+                      <table><tbody>
                         {this.state.ranking.map((user, index) => (
                           <tr className="ranking" key={index}>
                             {user.page === this.state.page ? (
@@ -283,6 +281,7 @@ export default class Leaderboard extends Base {
                             ) : null}
                           </tr>
                         ))}
+                      </tbody>
                       </table>
                     </div>
                   </td>
