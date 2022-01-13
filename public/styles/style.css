@@ -1073,10 +1073,12 @@ h1.notTooLarge {
 
 .buySYNbtn {
     white-space: nowrap;
-    padding-right: 10%;
+    padding: 6px 16px;
     height: 30;
     width: 90;
     font-weight: bold;
+    border: 1px solid #880;
+    border-radius: 4px;
 }
 
 .progressBarComplete {
@@ -1116,7 +1118,7 @@ table td {
 }
 
 .rank-header {
-    color: gold;
+    color: yellow;
     font-size: 20px;
     font-weight: bold;
     position: sticky;
