@@ -2,7 +2,7 @@ const ethers = require("ethers");
 require("dotenv").config();
 const ERC20abi = require("./ERC20abi.json");
 //const CONTRACT_ADDRESS = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";
-const CONTRACT_ADDRESS = "0x0f65a9629ae856a6fe3e8292fba577f478b944e0";
+const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
 const dbManager = require("../server/lib/DbManager");
 const { Address } = require("ethereumjs-util");
 const network = process.env.NETWORK;
