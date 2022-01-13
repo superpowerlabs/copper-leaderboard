@@ -5,13 +5,13 @@ const ERC20abi = require("./ERC20abi.json");
 const CONTRACT_ADDRESS = "0x0f65a9629ae856a6fe3e8292fba577f478b944e0";
 const dbManager = require("../server/lib/DbManager");
 const { Address } = require("ethereumjs-util");
-const START_BLOCK = 7700000;
-const END_BLOCK = 7700100;
+const network = process.env.NETWORK;
 
 const queryService = {
   async getactualEvents() {
+    console.log(network);
     //let mymoni = 0;
-    const provider = new ethers.providers.InfuraProvider("kovan");
+    const provider = new ethers.providers.InfuraProvider(network);
     const contract = new ethers.Contract(CONTRACT_ADDRESS, ERC20abi, provider);
     const event = await contract.queryFilter(
       [contract.filters.Swap()],
@@ -39,7 +39,12 @@ const queryService = {
         console.log(hash);
         console.log(wallet);
         console.log(event[i].topics);
-        const newinvestment = await dbManager.newInvestment(syn, wallet, hash);
+        const newinvestment = await dbManager.newInvestment(
+          syn,
+          wallet,
+          hash,
+          network
+        );
         console.log(newinvestment);
         // if (wallet === "0xAA31dd1bCc1075764790b1E2eD9670FEF34DCBFB") {
         //   mymoni = mymoni + Number(syn);
@@ -69,7 +74,12 @@ const queryService = {
         console.log(hash);
         console.log(wallet);
         console.log(event.topics);
-        const newinvestment = await dbManager.newInvestment(syn, wallet, hash);
+        const newinvestment = await dbManager.newInvestment(
+          syn,
+          wallet,
+          hash,
+          network
+        );
         console.log(newinvestment);
       }
     });
