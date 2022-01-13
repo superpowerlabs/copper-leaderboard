@@ -9,7 +9,7 @@ class DbManager extends Sql {
     return investments;
   }
 
-  async newInvestment(amount, wallet, tx_hash) {
+  async newInvestment(amount, wallet, tx_hash, network) {
     const sql = await this.sql();
     // const exist = (
     //   await sql.select("*").from("investments").where({
@@ -19,6 +19,7 @@ class DbManager extends Sql {
     // if (exist) {
     //   throw new Error("Investment already inserted in the db");
     // }
+    if (network === "kovan") {
     try {
       await sql
         .insert({
@@ -32,6 +33,22 @@ class DbManager extends Sql {
       // console.log(e);
     }
   }
+  if (network === "mainnet") {
+    try {
+      await sql
+        .insert({
+          amount,
+          wallet,
+          tx_hash,
+        })
+        .into("investments_production");
+      return true;
+    } catch (e) {
+      // console.log(e);
+    }
+  }
+}
+
 
   // EXAMPLE:
   // async updatePlayer(user_discord_id) {
