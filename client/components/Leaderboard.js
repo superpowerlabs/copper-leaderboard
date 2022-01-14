@@ -90,10 +90,18 @@ export default class Leaderboard extends Base {
   // }
 
   async getInvestments() {
+    await this.waitForWeb3();
     const state_user = [];
     let dict = {};
     let total = 0;
-    const res = await this.request("investments");
+    let table = "";
+    if (this.Store.chainId === 42) {
+      table = "investments";
+    }
+    if (this.Store.chainId === 1) {
+      table = "invesments_provider";
+    }
+    const res = await this.request(table);
     const wallets = res.investments.map(({ wallet }) => wallet);
 
     const address = wallets.filter(onlyUnique);
@@ -122,6 +130,7 @@ export default class Leaderboard extends Base {
     for (var u = 0; u < state_user.length; u++) {
       this.state.users[u].score = addSomeDecimals(this.state.users[u].score);
     }
+    console.log(this.Store.chainId);
     this.rankingSorter();
     this.getPosition();
     this.getNewEvents();
