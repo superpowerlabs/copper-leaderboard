@@ -5,7 +5,7 @@ class CreateInitialTables extends require("../Migration") {
     let done = false;
     let sql = await this.sql();
 
-    await sql.schema.dropTableIfExists("investments");
+    // await sql.schema.dropTableIfExists("investments");
 
     if (!(await sql.schema.hasTable("investments_kovan"))) {
       await sql.schema.createTable("investments_kovan", (table) => {

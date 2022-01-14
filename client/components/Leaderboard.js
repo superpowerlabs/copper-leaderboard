@@ -131,7 +131,7 @@ export default class Leaderboard extends Base {
       for (var u = 0; u < state_user.length; u++) {
         this.state.users[u].score = addSomeDecimals(this.state.users[u].score);
       }
-      console.log(this.Store.chainId);
+      // console.log(this.Store.chainId);
       this.rankingSorter();
       this.getPosition();
       this.getNewEvents();
