@@ -6,7 +6,7 @@ if (typeof window !== "undefined") {
 }
 
 const supportedId = {
-  1: "Ethereum",
+  1: "Ethereum Mainnet",
 };
 
 if (isDev) {
@@ -14,17 +14,15 @@ if (isDev) {
   supportedId[42] = "Kovan";
 }
 
-const address = Object.assign(
-  require("./deployed.json"),
-  require("./deployedProduction.json")
-);
-
 const config = {
   supportedId,
-  address,
-  abi: require("./ABIs.json").contracts,
+  abi: require("./ABI.json"),
   // key: 'dcfb1f21611543539204b8757bf24809',
   season: 2,
+  contracts: {
+    42: "0x0f65a9629ae856a6fe3e8292fba577f478b944e0",
+    // 1: ""
+  },
 };
 
 module.exports = config;

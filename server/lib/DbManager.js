@@ -4,21 +4,26 @@ class DbManager extends Sql {
   // for reference
   // https://knexjs.org
 
-  async getInvestments() {
-    const investments = (await this.sql()).select("*").from("investments");
+  async getInvestments(network) {
+    const investments = (await this.sql())
+      .select("*")
+      .from("investments_" + network);
     return investments;
   }
 
-  async newInvestment(amount, wallet, tx_hash) {
+  async newInvestment(amount, wallet, tx_hash, network) {
     const sql = await this.sql();
-    // const exist = (
-    //   await sql.select("*").from("investments").where({
-    //     tx_hash,
-    //   })
-    // ).rows[0];
-    // if (exist) {
-    //   throw new Error("Investment already inserted in the db");
-    // }
+    const exist = (
+      await sql
+        .select("*")
+        .from("investments_" + network)
+        .where({
+          tx_hash,
+        })
+    )[0];
+    if (exist) {
+      return false;
+    }
     try {
       await sql
         .insert({
@@ -26,7 +31,7 @@ class DbManager extends Sql {
           wallet,
           tx_hash,
         })
-        .into("investments");
+        .into("investments_" + network);
       return true;
     } catch (e) {
       // console.log(e);
