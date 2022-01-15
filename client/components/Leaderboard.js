@@ -1,11 +1,11 @@
 // eslint-disable-next-line no-undef
 // const { ProgressBar } = ReactBootstrap;
 import { ethers } from "ethers";
-import ERC20abi from "../config/ERC20abi.json";
 import Base from "./Base";
 import MyProgressbar from "./MyProgressBar";
 import Button from "./BuySynbtn";
 import Address from "../utils/Address";
+import { contracts, abi } from "../config";
 
 function copperlaunch() {
   window.open(
@@ -94,54 +94,56 @@ export default class Leaderboard extends Base {
     const state_user = [];
     let dict = {};
     let total = 0;
-    let table = "";
-    if (this.Store.chainId === 42) {
-      table = "investments";
-    }
-    if (this.Store.chainId === 1) {
-      table = "invesments_provider";
-    }
-    const res = await this.request(table);
-    const wallets = res.investments.map(({ wallet }) => wallet);
+    const res = await this.request(
+      "investments",
+      "get",
+      {},
+      {
+        chainId: this.Store.chainId,
+      }
+    );
+    if (res.success) {
+      const wallets = res.investments.map(({ wallet }) => wallet);
 
-    const address = wallets.filter(onlyUnique);
-    for (var z = 0; z <= address.length; z++) {
-      for (var x = 0; x < res.investments.length; x++) {
-        if (address[z] === res.investments[x].wallet) {
-          total += res.investments[x].amount;
-        }
-        if (x + 1 === res.investments.length) {
-          if (total <= 0) {
+      const address = wallets.filter(onlyUnique);
+      for (var z = 0; z <= address.length; z++) {
+        for (var x = 0; x < res.investments.length; x++) {
+          if (address[z] === res.investments[x].wallet) {
+            total += res.investments[x].amount;
+          }
+          if (x + 1 === res.investments.length) {
+            if (total <= 0) {
+              total = 0;
+              {
+                break;
+              }
+            }
+            dict = { name: address[z], score: total };
+            state_user.push(dict);
             total = 0;
             {
               break;
             }
           }
-          dict = { name: address[z], score: total };
-          state_user.push(dict);
-          total = 0;
-          {
-            break;
-          }
         }
       }
-    }
-    this.setState({ users: state_user });
-    for (var u = 0; u < state_user.length; u++) {
-      this.state.users[u].score = addSomeDecimals(this.state.users[u].score);
-    }
-    console.log(this.Store.chainId);
-    this.rankingSorter();
-    this.getPosition();
-    this.getNewEvents();
+      this.setState({ users: state_user });
+      for (var u = 0; u < state_user.length; u++) {
+        this.state.users[u].score = addSomeDecimals(this.state.users[u].score);
+      }
+      // console.log(this.Store.chainId);
+      this.rankingSorter();
+      this.getPosition();
+      this.getNewEvents();
 
-    // for (var i = 0; i < res.investments.length; i++) {
-    //   dict = { name: wallets[i], score: amounts[i] };
-    //   state_user.push(dict);
-    // }
+      // for (var i = 0; i < res.investments.length; i++) {
+      //   dict = { name: wallets[i], score: amounts[i] };
+      //   state_user.push(dict);
+      // }
 
-    // this.setState({ users: state_user });
-    // this.rankingSorter();
+      // this.setState({ users: state_user });
+      // this.rankingSorter();
+    }
   }
 
   /**
@@ -173,17 +175,14 @@ export default class Leaderboard extends Base {
   async getNewEvents() {
     await this.waitForWeb3();
     this.setState({ metamask: true });
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    // console.log("Starting Listener");
-    const CONTRACT_ADDRESS = "0x0f65a9629ae856a6fe3e8292fba577f478b944e0";
-
+    if (!contracts[this.Store.chainId]) {
+      return false;
+    }
     const contract = new ethers.Contract(
-      CONTRACT_ADDRESS,
-      ERC20abi,
-      //this.Store.provider
-      provider
+      contracts[this.Store.chainId],
+      abi,
+      this.Store.provider
     );
-
     contract.on([contract.filters.Swap()], async (event) => {
       if (event.topics.length === 4) {
         let syn = ethers.utils.formatEther(event.data);
