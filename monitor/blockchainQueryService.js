@@ -42,16 +42,18 @@ const queryService = {
           console.log(hash);
           console.log(wallet);
           console.log(event[i].topics);
-          const newinvestment = await dbManager.newInvestment(
-            syn,
-            wallet,
-            hash,
-            network
-          );
-          console.log(newinvestment);
-          // if (wallet === "0xAA31dd1bCc1075764790b1E2eD9670FEF34DCBFB") {
-          //   mymoni = mymoni + Number(syn);
-          // }
+          
+          //Make it so initial contract founding doesnt show in db
+          if ( ! (wallet === "0x3Aa9e065d90DB8ECDc641F2AEB3268a3de33D2ca"))
+          {
+            const newinvestment = await dbManager.newInvestment(
+              syn,
+              wallet,
+              hash,
+              network
+            );
+            console.log(newinvestment);
+          }
         }
       }
 
