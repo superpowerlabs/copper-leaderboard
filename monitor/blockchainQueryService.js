@@ -1,4 +1,6 @@
 const ethers = require("ethers");
+const { header } = require("express/lib/request");
+superagent = require("superagent")
 require("dotenv").config();
 const { contracts, abi } = require("../client/config");
 const dbManager = require("../server/lib/DbManager");
@@ -41,7 +43,7 @@ const queryService = {
           console.log(syn);
           console.log(hash);
           console.log(wallet);
-          console.log(event[i].topics);
+          console.log(event[i]);
           
           //Make it so initial contract founding doesnt show in db
           if ( ! (wallet === "0x3Aa9e065d90DB8ECDc641F2AEB3268a3de33D2ca"))
@@ -90,6 +92,80 @@ const queryService = {
       });
     }
   },
+
+  async gettheGraph() {
+
+    for (let chainId in contracts) {
+      const network =
+        chainId === "42" ? "kovan" : chainId === "1" ? "homestead" : null;
+      if (!network) {
+        throw new Error("ChainId not recognized");
+      }
+
+  
+  console.log(network);
+  const url = 'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-kovan-v2'
+
+    const query = 
+    { query : ` {
+      buys: swaps( where: {tokenOutSym: "SYN"})  {
+       userAddress {
+         id
+       }
+        tokenAmountOut
+        tx
+      }
+        sells: swaps( where: {tokenInSym: "SYN"} ) {
+       userAddress {
+         id
+       }
+        tokenAmountIn
+        tx
+      }
+    }`
+    
+    }
+
+
+const res = await superagent.post(url).send(query)
+for(let i = 0 ; i < res.body.data.buys.length; i++)
+{
+  console.log(res.body.data.buys[i])
+  const hash = res.body.data.buys[i].tx;
+  const syn = res.body.data.buys[i].tokenAmountOut;
+  const wallet = res.body.data.buys[i].userAddress.id;
+  console.log(hash);
+  console.log(syn);
+  console.log(wallet);
+
+  const newinvestment = await dbManager.newInvestment(
+    syn,
+    wallet,
+    hash,
+    network
+  );
+  console.log(newinvestment);
+}
+for(let i = 0 ; i < res.body.data.sells.length; i++)
+{
+  console.log(res.body.data.sells[i])
+  const hash = res.body.data.sells[i].tx;
+  const syn = -res.body.data.sells[i].tokenAmountIn;
+  const wallet = res.body.data.sells[i].userAddress.id;
+  console.log(hash);
+  console.log(syn);
+  console.log(wallet);
+
+  const newinvestment = await dbManager.newInvestment(
+    syn,
+    wallet,
+    hash,
+    network
+  );
+  console.log(newinvestment);
+}
+
+  }}
 };
 
 module.exports = queryService;
