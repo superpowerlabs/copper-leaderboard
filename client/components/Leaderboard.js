@@ -154,7 +154,7 @@ const res = await superagent.post(url).send(query)
             if (res.body.data.swaps[y].tokenInSym === "USDC") {
             buys += Number(res.body.data.swaps[y].tokenAmountOut);
             }
-            if (res.body.data.swaps[y].tokenInSym === "SYNR") {
+           else {
             sells += Number(res.body.data.swaps[y].tokenAmountIn);
             }
           }
