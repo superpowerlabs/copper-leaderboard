@@ -126,8 +126,8 @@ export default class Leaderboard extends Base {
     const state_user = [];
     let dict = {};
     let total = 0;
-    let sum = 0;
-    let minus = 0;
+    let buys = 0;
+    let sells = 0;
     const query = 
     { query : ` {
       swaps( where: {poolId: "0x6a8c729c9db35c9c5b4ffcbc533aae265c37d8820002000000000000000005c7"}, orderBy: timestamp) {
@@ -152,18 +152,18 @@ const res = await superagent.post(url).send(query)
       for (var x = 0; x < address.length; x++) {
         for (var y = 0; y < res.body.data.swaps.length; y++) {
           if (address[x] === res.body.data.swaps[y].userAddress.id) {
-            sum += Number(res.body.data.swaps[y].tokenAmountOut);
-            minus += Number(res.body.data.swaps[y].tokenAmountIn);
+            buys += Number(res.body.data.swaps[y].tokenAmountOut);
+            sells += Number(res.body.data.swaps[y].tokenAmountIn);
           }
         }
-        total = sum - minus;
+        total = buys - sells;
         if (total > 0) {
         dict = {name: address[x], score: total}
         state_user.push(dict);
         }
         total = 0;
-        sum = 0;
-        minus = 0;
+        buys = 0;
+        sells = 0;
       }
 
       this.setState({ users: state_user });
