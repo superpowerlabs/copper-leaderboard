@@ -127,28 +127,6 @@ const queryService = {
 const res = await superagent.post(url).send(query)
 for(let i = 0 ; i < res.body.data.swaps.length; i++)
 {
-<<<<<<< HEAD
-  console.log(res.body.data.buys[i])
-  const hash = res.body.data.buys[i].tx;
-  const syn = res.body.data.buys[i].tokenAmountOut;
-  const wallet = res.body.data.buys[i].userAddress.id;
-
-  const newinvestment = await dbManager.newInvestment(
-    syn,
-    wallet,
-    hash,
-    network
-  );
-  console.log(newinvestment);
-}
-for(let i = 0 ; i < res.body.data.sells.length; i++)
-{
-  console.log(res.body.data.sells[i])
-  const hash = res.body.data.sells[i].tx;
-  const syn = -res.body.data.sells[i].tokenAmountIn;
-  const wallet = res.body.data.sells[i].userAddress.id;
-
-=======
   let syn = ""
   if(res.body.data.swaps[i].tokenInSym === "USDC")
   { syn = res.body.data.swaps[i].tokenAmountOut}
@@ -159,7 +137,6 @@ for(let i = 0 ; i < res.body.data.sells.length; i++)
   console.log(hash);
   console.log(syn);
   console.log(wallet);
->>>>>>> 2e218308b7e190f223c4f76ec0376c5801d94690
 
   const newinvestment = await dbManager.newInvestment(
     syn,

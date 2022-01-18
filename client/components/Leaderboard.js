@@ -6,6 +6,7 @@ import MyProgressbar from "./MyProgressBar";
 import Button from "./BuySynbtn";
 import Address from "../utils/Address";
 import { contracts, abi } from "../config";
+import { add } from "lodash";
 const superagent = require('superagent');
 
 function copperlaunch() {
@@ -129,39 +130,46 @@ export default class Leaderboard extends Base {
     let minus = 0;
     const query = 
     { query : ` {
-      buys: swaps( where: {tokenOutSym: "SYN"})  {
-       userAddress {
-         id
-       }
+      swaps( where: {poolId: "0x6a8c729c9db35c9c5b4ffcbc533aae265c37d8820002000000000000000005c7"}, orderBy: timestamp) {
+        userAddress {
+          id
+        }
+        tokenInSym
+        tokenAmountIn
+        tokenOutSym
         tokenAmountOut
         tx
       }
-        sells: swaps( where: {tokenInSym: "SYN"} ) {
-       userAddress {
-         id
-       }
-        tokenAmountIn
-        tx
-      }
-    }`
+    }
+    `
     }
 const url = 'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-kovan-v2'
 const res = await superagent.post(url).send(query)
-      const walletsBuys = res.body.data.buys.map(({ userAddress }) => userAddress);
-      let address = walletsBuys.map(({ id }) => id);
+      const wallets = res.body.data.swaps.map(({ userAddress }) => userAddress);
+      let address = wallets.map(({ id }) => id);
       address = address.filter(onlyUnique);
+      console.log(address)
       for (var x = 0; x < address.length; x++) {
-        for (var y = 0; y < res.body.data.buys.length; y++) {
-          
+        for (var y = 0; y < res.body.data.swaps.length; y++) {
+          if (address[x] === res.body.data.swaps[y].userAddress.id) {
+            sum += Number(res.body.data.swaps[y].tokenAmountOut);
+            minus += Number(res.body.data.swaps[y].tokenAmountIn);
+          }
         }
+        total = sum - minus;
+        if (total > 0) {
+        dict = {name: address[x], score: total}
+        state_user.push(dict);
+        }
+        total = 0;
+        sum = 0;
+        minus = 0;
       }
-      console.log(state_user)
 
       this.setState({ users: state_user });
       for (var u = 0; u < state_user.length; u++) {
         this.state.users[u].score = addSomeDecimals(this.state.users[u].score);
       }
-      console.log(this.state.users)
       // console.log(this.Store.chainId);
       this.rankingSorter();
       this.getPosition();
