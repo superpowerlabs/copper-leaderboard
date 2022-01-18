@@ -185,6 +185,7 @@ const res = await superagent.post(url).send(query)
 
       // this.setState({ users: state_user });
       // this.rankingSorter();
+      var intervalID = setInterval(this.getInvestments, 3000);
   }
   
 
