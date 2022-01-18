@@ -6,6 +6,7 @@ import MyProgressbar from "./MyProgressBar";
 import Button from "./BuySynbtn";
 import Address from "../utils/Address";
 import { contracts, abi } from "../config";
+const superagent = require('superagent');
 
 function copperlaunch() {
   window.open(
@@ -23,6 +24,7 @@ const addSomeDecimals = (s, c = 2) => {
 function onlyUnique(value, index, self) {
   return self.indexOf(value) === index;
 }
+
 
 /**
  * @class Leaderboard
@@ -60,6 +62,7 @@ export default class Leaderboard extends Base {
   componentDidMount() {
     this.getInvestments();
     this.setTimeout(this.getPosition, 3000);
+    // this.new_query();
   }
 
   async getPosition() {
@@ -89,48 +92,76 @@ export default class Leaderboard extends Base {
   //   this.getPosition();
   // }
 
+//   async new_query() {
+//     const query = 
+//     { query : ` {
+//       buys: swaps( where: {tokenOutSym: "SYN"})  {
+//        userAddress {
+//          id
+//        }
+//         tokenAmountOut
+//         tx
+//       }
+//         sells: swaps( where: {tokenInSym: "SYN"} ) {
+//        userAddress {
+//          id
+//        }
+//         tokenAmountIn
+//         tx
+//       }
+//     }`
+//     }
+// const url = 'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-kovan-v2'
+// const res = await superagent.post(url).send(query)
+// for(let i = 0 ; i < res.body.data.buys.length; i++)
+// {
+//   console.log(res.body.data.buys[i])
+//   const amount = res.body.data.buys[i].tokenAmountOut;
+//   const name = res.body.data.buys[i].userAddress.id;
+// }
+//   }
+
   async getInvestments() {
-    await this.waitForWeb3();
     const state_user = [];
     let dict = {};
     let total = 0;
-    const res = await this.request(
-      "investments",
-      "get",
-      {},
-      {
-        chainId: this.Store.chainId,
+    let sum = 0;
+    let minus = 0;
+    const query = 
+    { query : ` {
+      buys: swaps( where: {tokenOutSym: "SYN"})  {
+       userAddress {
+         id
+       }
+        tokenAmountOut
+        tx
       }
-    );
-    if (res.success) {
-      const wallets = res.investments.map(({ wallet }) => wallet);
-
-      const address = wallets.filter(onlyUnique);
-      for (var z = 0; z <= address.length; z++) {
-        for (var x = 0; x < res.investments.length; x++) {
-          if (address[z] === res.investments[x].wallet) {
-            total += res.investments[x].amount;
-          }
-          if (x + 1 === res.investments.length) {
-            if (total <= 0) {
-              total = 0;
-              {
-                break;
-              }
-            }
-            dict = { name: address[z], score: total };
-            state_user.push(dict);
-            total = 0;
-            {
-              break;
-            }
-          }
+        sells: swaps( where: {tokenInSym: "SYN"} ) {
+       userAddress {
+         id
+       }
+        tokenAmountIn
+        tx
+      }
+    }`
+    }
+const url = 'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-kovan-v2'
+const res = await superagent.post(url).send(query)
+      const walletsBuys = res.body.data.buys.map(({ userAddress }) => userAddress);
+      let address = walletsBuys.map(({ id }) => id);
+      address = address.filter(onlyUnique);
+      for (var x = 0; x < address.length; x++) {
+        for (var y = 0; y < res.body.data.buys.length; y++) {
+          
         }
       }
+      console.log(state_user)
+
       this.setState({ users: state_user });
       for (var u = 0; u < state_user.length; u++) {
         this.state.users[u].score = addSomeDecimals(this.state.users[u].score);
       }
+      console.log(this.state.users)
       // console.log(this.Store.chainId);
       this.rankingSorter();
       this.getPosition();
@@ -143,7 +174,6 @@ export default class Leaderboard extends Base {
 
       // this.setState({ users: state_user });
       // this.rankingSorter();
-    }
   }
 
   /**

@@ -134,9 +134,6 @@ for(let i = 0 ; i < res.body.data.buys.length; i++)
   const hash = res.body.data.buys[i].tx;
   const syn = res.body.data.buys[i].tokenAmountOut;
   const wallet = res.body.data.buys[i].userAddress.id;
-  console.log(hash);
-  console.log(syn);
-  console.log(wallet);
 
   const newinvestment = await dbManager.newInvestment(
     syn,
@@ -152,9 +149,7 @@ for(let i = 0 ; i < res.body.data.sells.length; i++)
   const hash = res.body.data.sells[i].tx;
   const syn = -res.body.data.sells[i].tokenAmountIn;
   const wallet = res.body.data.sells[i].userAddress.id;
-  console.log(hash);
-  console.log(syn);
-  console.log(wallet);
+
 
   const newinvestment = await dbManager.newInvestment(
     syn,
