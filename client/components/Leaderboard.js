@@ -148,12 +148,15 @@ const res = await superagent.post(url).send(query)
       const wallets = res.body.data.swaps.map(({ userAddress }) => userAddress);
       let address = wallets.map(({ id }) => id);
       address = address.filter(onlyUnique);
-      console.log(address)
       for (var x = 0; x < address.length; x++) {
         for (var y = 0; y < res.body.data.swaps.length; y++) {
           if (address[x] === res.body.data.swaps[y].userAddress.id) {
+            if (res.body.data.swaps[y].tokenInSym === "USDC") {
             buys += Number(res.body.data.swaps[y].tokenAmountOut);
+            }
+            else {
             sells += Number(res.body.data.swaps[y].tokenAmountIn);
+            }
           }
         }
         total = buys - sells;
@@ -183,6 +186,7 @@ const res = await superagent.post(url).send(query)
       // this.setState({ users: state_user });
       // this.rankingSorter();
   }
+  
 
   /**
    * @function componentDidMount
