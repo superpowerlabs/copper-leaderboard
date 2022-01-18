@@ -108,28 +108,26 @@ const queryService = {
 
     const query = 
     { query : ` {
-      buys: swaps( where: {tokenOutSym: "SYN"})  {
-       userAddress {
-         id
-       }
+      swaps( where: {poolId: "0x6a8c729c9db35c9c5b4ffcbc533aae265c37d8820002000000000000000005c7"}, orderBy: timestamp) {
+        userAddress {
+          id
+        }
+        tokenInSym
+        tokenAmountIn
+        tokenOutSym
         tokenAmountOut
         tx
       }
-        sells: swaps( where: {tokenInSym: "SYN"} ) {
-       userAddress {
-         id
-       }
-        tokenAmountIn
-        tx
-      }
-    }`
+    }
+    `
     
     }
 
 
 const res = await superagent.post(url).send(query)
-for(let i = 0 ; i < res.body.data.buys.length; i++)
+for(let i = 0 ; i < res.body.data.swaps.length; i++)
 {
+<<<<<<< HEAD
   console.log(res.body.data.buys[i])
   const hash = res.body.data.buys[i].tx;
   const syn = res.body.data.buys[i].tokenAmountOut;
@@ -150,6 +148,18 @@ for(let i = 0 ; i < res.body.data.sells.length; i++)
   const syn = -res.body.data.sells[i].tokenAmountIn;
   const wallet = res.body.data.sells[i].userAddress.id;
 
+=======
+  let syn = ""
+  if(res.body.data.swaps[i].tokenInSym === "USDC")
+  { syn = res.body.data.swaps[i].tokenAmountOut}
+  else {  syn = -res.body.data.swaps[i].tokenAmountIn}
+  const hash = res.body.data.swaps[i].tx;
+  const wallet = res.body.data.swaps[i].userAddress.id;
+
+  console.log(hash);
+  console.log(syn);
+  console.log(wallet);
+>>>>>>> 2e218308b7e190f223c4f76ec0376c5801d94690
 
   const newinvestment = await dbManager.newInvestment(
     syn,
