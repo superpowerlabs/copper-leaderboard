@@ -1,4 +1,5 @@
-# SynCity NFT Project
+# Copper leaderboard
+A simple tool to show and rank the best investors
 
 ## Installation
 
@@ -20,7 +21,7 @@ npm i -g pnpm
 
 ```
 
-then install the dependencies, build the project and run it~~~~
+then install the dependencies, build the project and run it
 
 ```
 pnpm i
@@ -30,25 +31,9 @@ pnpm run start
 
 and connect to [http://localhost:6660](http://localhost:6660).
 
-## The Discord bot
-
-Install pm2 with
-
-```
-pnpm i -g pm2
-```
-
-and launch
-
-```
-./start-bot.sh
-```
-
-It expects that in `bot/.env` there is a valid Discord token.
-
 ## Copyright
 
-(c) 2021-present ['ndujaLags'](https://ndujalabs.com) (<info@ndujalabs.com>)
+(c) 2021-present Superpower Labs Inc.
 
 ## Licence
 
