@@ -1,14 +1,18 @@
 // eslint-disable-next-line no-undef
 // const { ProgressBar } = ReactBootstrap;
 import { ethers } from "ethers";
-import ERC20abi from "../config/ERC20abi.json";
 import Base from "./Base";
 import MyProgressbar from "./MyProgressBar";
 import Button from "./BuySynbtn";
+import Address from "../utils/Address";
+import { contracts, abi } from "../config";
+import { add } from "lodash";
+const superagent = require("superagent");
+import config from "../config/index";
 
 function copperlaunch() {
   window.open(
-    "https://kovan.copperlaunch.com/auctions/0xfCD2895e8702CCa5bd69b2df300D78ab5717514E"
+    config.auctionUrl
   );
 }
 
@@ -33,13 +37,6 @@ export default class Leaderboard extends Base {
   constructor(props) {
     super(props);
 
-    this.bindMany([
-      "getInvestments",
-      "rankingsorter",
-      // "newsorter",
-      "newleaderboard",
-      "getNewEvents",
-    ]);
     this.state = {
       ranking: [],
       asc: false,
@@ -52,76 +49,135 @@ export default class Leaderboard extends Base {
       paginate: 300,
       metamask: true,
     };
+
+    this.bindMany([
+      "getInvestments",
+      "rankingSorter",
+      // "newsorter",
+      // "newleaderboard",
+      // "getNewEvents",
+      "getPosition",
+    ]);
   }
 
   componentDidMount() {
     this.getInvestments();
-    this.getwallet();
-    this.getNewEvents();
+    // this.setTimeout(this.getPosition, 3000);
+    // this.new_query();
   }
 
-  async getposition() {
+  async getPosition() {
     const position = this.state.users.map(({ name }) => name);
-    for (var j = 0; j < position.length; j++) {
-      if (position[j].toLowerCase() === this.state.address.toLowerCase()) {
+    for (let j = 0; j < position.length; j++) {
+      if (Address.equal(position[j], this.Store.connectedWallet)) {
         if (this.state.users[j].rank === 1) {
           this.setState({ progress_now: 100 });
-          {
-            break;
-          }
         } else {
           const ranking = this.state.users[j].rank;
           let progress = Math.abs(ranking / 3 - 100);
           this.setState({ progress_now: progress });
-          {
-            break;
-          }
         }
+        break;
       }
     }
+    this.setState({
+      previousConnectedAddress: this.Store.connectedWallet,
+    });
+    await this.sleep(500)
+    this.getInvestments();
   }
 
-  async getwallet() {
-    /* eslint-disable */
-    const wallet = await ethereum.request({ method: "eth_requestAccounts" });
-    this.setState({ address: wallet[0] });
-    this.getposition();
-  }
+  //
+  // async getWallet() {
+  //   /* eslint-disable */
+  //   // const wallet = await ethereum.request({ method: "eth_requestAccounts" });
+  //   // this.setState({ address: wallet[0] });
+  //   this.getPosition();
+  // }
+
+  //   async new_query() {
+  //     const query =
+  //     { query : ` {
+  //       buys: swaps( where: {tokenOutSym: "SYN"})  {
+  //        userAddress {
+  //          id
+  //        }
+  //         tokenAmountOut
+  //         tx
+  //       }
+  //         sells: swaps( where: {tokenInSym: "SYN"} ) {
+  //        userAddress {
+  //          id
+  //        }
+  //         tokenAmountIn
+  //         tx
+  //       }
+  //     }`
+  //     }
+  // const url = 'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-kovan-v2'
+  // const res = await superagent.post(url).send(query)
+  // for(let i = 0 ; i < res.body.data.buys.length; i++)
+  // {
+  //   console.log(res.body.data.buys[i])
+  //   const amount = res.body.data.buys[i].tokenAmountOut;
+  //   const name = res.body.data.buys[i].userAddress.id;
+  // }
+  //   }
 
   async getInvestments() {
     const state_user = [];
     let dict = {};
     let total = 0;
-    const res = await this.request("investments");
-    const wallets = res.investments.map(({ wallet }) => wallet);
-
-    const address = wallets.filter(onlyUnique);
-    for (var z = 0; z <= address.length; z++) {
-      for (var x = 0; x < res.investments.length; x++) {
-        if (address[z] === res.investments[x].wallet) {
-          total += res.investments[x].amount;
+    let buys = 0;
+    let sells = 0;
+    const query = {
+      query: ` {
+      swaps( where: {poolId: "0x6a8c729c9db35c9c5b4ffcbc533aae265c37d8820002000000000000000005c7"}, orderBy: timestamp) {
+        userAddress {
+          id
         }
-        if (x + 1 === res.investments.length) {
-          if (total <= 0) {
-            total = 0;
-            {
-              break;
-            }
-          }
-          dict = { name: address[z], score: total };
-          state_user.push(dict);
-          total = 0;
-          {
-            break;
+        tokenInSym
+        tokenAmountIn
+        tokenOutSym
+        tokenAmountOut
+        tx
+      }
+    }
+    `,
+    };
+    const url = config.graphUrl;
+    const res = await superagent.post(url).send(query);
+    const wallets = res.body.data.swaps.map(({ userAddress }) => userAddress);
+    let address = wallets.map(({ id }) => id);
+    address = address.filter(onlyUnique);
+    for (var x = 0; x < address.length; x++) {
+      for (var y = 0; y < res.body.data.swaps.length; y++) {
+        if (address[x] === res.body.data.swaps[y].userAddress.id) {
+          if (res.body.data.swaps[y].tokenInSym === "USDC") {
+            buys += Number(res.body.data.swaps[y].tokenAmountOut);
+          } else {
+            sells += Number(res.body.data.swaps[y].tokenAmountIn);
           }
         }
       }
+      total = buys - sells;
+      if (total > 0) {
+        dict = { name: address[x], score: total };
+        state_user.push(dict);
+      }
+      total = 0;
+      buys = 0;
+      sells = 0;
     }
+
     this.setState({ users: state_user });
     for (var u = 0; u < state_user.length; u++) {
       this.state.users[u].score = addSomeDecimals(this.state.users[u].score);
     }
-    this.rankingsorter();
+    // console.log(this.Store.chainId);
+    this.rankingSorter();
+    this.getPosition();
+
 
     // for (var i = 0; i < res.investments.length; i++) {
     //   dict = { name: wallets[i], score: amounts[i] };
@@ -129,7 +185,7 @@ export default class Leaderboard extends Base {
     // }
 
     // this.setState({ users: state_user });
-    // this.rankingsorter();
+    // this.rankingSorter();
   }
 
   /**
@@ -137,7 +193,7 @@ export default class Leaderboard extends Base {
    * @desc Sorts users by score then adds a ranking key to each user object when the component loads. Then sets the ranking state
    */
 
-  rankingsorter() {
+  rankingSorter() {
     const ranking = this.state.users;
     const paginate = this.state.paginate;
     for (var x = 0; x < ranking.length; x++) {
@@ -149,7 +205,7 @@ export default class Leaderboard extends Base {
         }
       }
     }
-    console.log(ranking);
+    // console.log(ranking);
     ranking.map((user, index) => (user.rank = index + 1));
     ranking.map(
       (user, index) => (user.page = Math.ceil((index + 1) / paginate))
@@ -158,59 +214,51 @@ export default class Leaderboard extends Base {
     this.setState({ ranking: ranking });
   }
 
-  async getNewEvents() {
-    //await this.waitForWeb3();
-    if (typeof window.ethereum !== "undefined") {
-      this.setState({ metamask: true });
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      console.log("Starting Listener");
-      const CONTRACT_ADDRESS = "0x0f65a9629ae856a6fe3e8292fba577f478b944e0";
+  // async getNewEvents() {
+  //   await this.waitForWeb3();
+  //   this.setState({ metamask: true });
+  //   if (!contracts[this.Store.chainId]) {
+  //     return false;
+  //   }
+  //   const contract = new ethers.Contract(
+  //     contracts[this.Store.chainId],
+  //     abi,
+  //     this.Store.provider
+  //   );
+  //   contract.on([contract.filters.Swap()], async (event) => {
+  //     if (event.topics.length === 4) {
+  //       let syn = ethers.utils.formatEther(event.data);
+  //       let wallet = ethers.utils.defaultAbiCoder.decode(
+  //         ["address"],
+  //         event.topics[event.topics.length - 1]
+  //       )[0];
+  //       if (event.topics[1] === event.topics[3]) {
+  //         // console.log("sell");
+  //         wallet = ethers.utils.defaultAbiCoder.decode(
+  //           ["address"],
+  //           event.topics[event.topics.length - 2]
+  //         )[0];
+  //         syn = -syn;
+  //       }
+  //       // const hash = event.transactionHash;
+  //       //console.log(event)
+  //       // const stateUser = this.state.users;
+  //       let dict = { name: wallet, score: syn };
+  //       this.newleaderboard(dict);
+  //     }
+  //   });
+  // }
 
-      const contract = new ethers.Contract(
-        CONTRACT_ADDRESS,
-        ERC20abi,
-        //this.Store.provider
-        provider
-      );
-
-      contract.on([contract.filters.Swap()], async (event) => {
-        if (event.topics.length === 4) {
-          let syn = ethers.utils.formatEther(event.data);
-          let wallet = ethers.utils.defaultAbiCoder.decode(
-            ["address"],
-            event.topics[event.topics.length - 1]
-          )[0];
-          if (event.topics[1] === event.topics[3]) {
-            console.log("sell");
-            wallet = ethers.utils.defaultAbiCoder.decode(
-              ["address"],
-              event.topics[event.topics.length - 2]
-            )[0];
-            syn = -syn;
-          }
-          const hash = event.transactionHash;
-          //console.log(event)
-          const stateUser = this.state.users;
-          let dict = { name: wallet, score: syn };
-          this.newleaderboard(dict);
-        }
-      });
-    } else {
-      console.log("please Connect to meta mask");
-      this.setState({ metamask: false });
-    }
-  }
-
-  newleaderboard(u) {
-    let state_user = this.state.users;
-    for (var j = 0; j < state_user.length; j++) {
-      if (u["name"] === state_user[j].name) {
-        state_user[j].score = Number(u["score"]) + Number(state_user[j].score);
-      }
-    }
-    this.setState({ users: state_user });
-    this.rankingsorter();
-  }
+  // newleaderboard(u) {
+  //   let state_user = this.state.users;
+  //   for (var j = 0; j < state_user.length; j++) {
+  //     if (u["name"] === state_user[j].name) {
+  //       state_user[j].score = Number(u["score"]) + Number(state_user[j].score);
+  //     }
+  //   }
+  //   this.setState({ users: state_user });
+  //   this.rankingSorter();
+  // }
 
   /**
    * @function render
@@ -262,27 +310,29 @@ export default class Leaderboard extends Base {
             <table id="lBoard">
               <tbody className="ranking">
                 <tr>
-                  <td className="rank-header sortScore"> Rank </td>
-                  <td className="rank-header sortAlpha"> Address </td>
-                  <td className="rank-header sortTotal"> Amount </td>
+                  <td className="rank-header sortScore"> Rank</td>
+                  <td className="rank-header sortAlpha"> Address</td>
+                  <td className="rank-header sortTotal"> Amount</td>
                 </tr>
                 <tr>
                   <td colSpan="4">
                     <div className="stats">
                       <table>
-                        {this.state.ranking.map((user, index) => (
-                          <tr className="ranking" key={index}>
-                            {user.page === this.state.page ? (
-                              <td className="data">{user.rank}</td>
-                            ) : null}
-                            {user.page === this.state.page ? (
-                              <td className="data">{user.name}</td>
-                            ) : null}
-                            {user.page === this.state.page ? (
-                              <td className="data lastData">{user.score}</td>
-                            ) : null}
-                          </tr>
-                        ))}
+                        <tbody>
+                          {this.state.ranking.map((user, index) => (
+                            <tr className="ranking" key={index}>
+                              {user.page === this.state.page ? (
+                                <td className="data">{user.rank}</td>
+                              ) : null}
+                              {user.page === this.state.page ? (
+                                <td className="data">{user.name}</td>
+                              ) : null}
+                              {user.page === this.state.page ? (
+                                <td className="data lastData">{user.score}</td>
+                              ) : null}
+                            </tr>
+                          ))}
+                        </tbody>
                       </table>
                     </div>
                   </td>
