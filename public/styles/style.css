@@ -1148,25 +1148,35 @@ table td {
 }
 
 .rank-header.sortTotal {
+    position: relative;
+    right: 20px;
     margin-left: auto;
-    padding-left: 90px;
+    padding-left: 10px;
+    padding-right: 80px;
 }
 
 .rank-header.sortAlpha {
     margin-left: auto;
     margin-right: auto;
     width: 510px;
-    padding-left: 90px;
+    padding-right: 70px;
+}
+
+.rank-header.sortUSDC {
+    padding-right: 80px;
 }
 
 .data:nth-child(2) {
+    position: relative;
+    right: 80px;
     margin-left: auto;
     margin-right: auto;
     padding-left: 70px;
 }
 
 .data:nth-child(3) {
-    padding-right: 20px;
+    position: relative;
+    right: 190px;
 }
 
 .width100pc {

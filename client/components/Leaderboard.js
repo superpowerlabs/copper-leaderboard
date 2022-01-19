@@ -1,19 +1,17 @@
 // eslint-disable-next-line no-undef
 // const { ProgressBar } = ReactBootstrap;
-import { ethers } from "ethers";
+// import { ethers } from "ethers";
 import Base from "./Base";
 import MyProgressbar from "./MyProgressBar";
 import Button from "./BuySynbtn";
 import Address from "../utils/Address";
-import { contracts, abi } from "../config";
-import { add } from "lodash";
+// import { contracts, abi } from "../config";
+// import { add } from "lodash";
 const superagent = require("superagent");
 import config from "../config/index";
 
 function copperlaunch() {
-  window.open(
-    config.auctionUrl
-  );
+  window.open(config.auctionUrl);
 }
 
 const addSomeDecimals = (s, c = 2) => {
@@ -83,7 +81,7 @@ export default class Leaderboard extends Base {
     this.setState({
       previousConnectedAddress: this.Store.connectedWallet,
     });
-    await this.sleep(500)
+    await this.sleep(500);
     this.getInvestments();
   }
 
@@ -130,9 +128,16 @@ export default class Leaderboard extends Base {
     let total = 0;
     let buys = 0;
     let sells = 0;
+    let poolId = "";
+    if (this.Store.chainId === 42) {
+      poolId = config.kovanPoolId;
+    }
+    if (this.Store.chainId === 1) {
+      poolId = config.mainnetPoolId;
+    }
     const query = {
       query: ` {
-      swaps( where: {poolId: "0x6a8c729c9db35c9c5b4ffcbc533aae265c37d8820002000000000000000005c7"}, orderBy: timestamp) {
+      swaps( where: {poolId: "${poolId}" }, orderBy: timestamp) {
         userAddress {
           id
         }
@@ -145,7 +150,7 @@ export default class Leaderboard extends Base {
     }
     `,
     };
-    const url = config.graphUrl;
+    const url = config.kovanUrl;
     const res = await superagent.post(url).send(query);
     const wallets = res.body.data.swaps.map(({ userAddress }) => userAddress);
     let address = wallets.map(({ id }) => id);
@@ -177,7 +182,6 @@ export default class Leaderboard extends Base {
     // console.log(this.Store.chainId);
     this.rankingSorter();
     this.getPosition();
-
 
     // for (var i = 0; i < res.investments.length; i++) {
     //   dict = { name: wallets[i], score: amounts[i] };
@@ -313,6 +317,7 @@ export default class Leaderboard extends Base {
                   <td className="rank-header sortScore"> Rank</td>
                   <td className="rank-header sortAlpha"> Address</td>
                   <td className="rank-header sortTotal"> Amount</td>
+                  <td className="rank-header sortUSDC"> USDC</td>
                 </tr>
                 <tr>
                   <td colSpan="4">
@@ -329,6 +334,9 @@ export default class Leaderboard extends Base {
                               ) : null}
                               {user.page === this.state.page ? (
                                 <td className="data lastData">{user.score}</td>
+                              ) : null}
+                              {user.page === this.state.page ? (
+                                <td className="data">{user.usdc}</td>
                               ) : null}
                             </tr>
                           ))}
