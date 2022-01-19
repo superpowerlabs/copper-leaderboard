@@ -1062,9 +1062,10 @@ h1.notTooLarge {
     height: 25px;
 }
 .notConnectedTxt {
-    color: gold;
-    font-size: 50px;
+    color: #316cf4;
+    font-size: 32px;
     font-weight: bold;
+    padding: 80px 0;
 }
 
 .buySYNbtn2 {
@@ -1079,6 +1080,7 @@ h1.notTooLarge {
     font-weight: bold;
     border: 1px solid #880;
     border-radius: 4px;
+    background-image: linear-gradient(gold, yellow);
 }
 
 .progressBarComplete {
@@ -1148,8 +1150,8 @@ table td {
 }
 
 .rank-header.sortTotal {
-    margin-left: auto;
-    padding-left: 90px;
+    text-align: right !important;
+    padding-right: 24px;
 }
 
 .rank-header.sortAlpha {
@@ -1157,6 +1159,14 @@ table td {
     margin-right: auto;
     width: 510px;
     padding-left: 90px;
+}
+
+.myPosition {
+    padding-top: 32px;
+    font-size: 2rem;
+    color: orange;
+    /*font-family: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;*/
+    font-weight: bold;
 }
 
 .data:nth-child(2) {
@@ -1167,6 +1177,10 @@ table td {
 
 .data:nth-child(3) {
     padding-right: 20px;
+}
+
+.highlight {
+    background-color: #aa0719;
 }
 
 .width100pc {
@@ -1194,6 +1208,10 @@ table td {
 .inside {
     margin: auto;
     max-width: 1024px;
+}
+
+.foot {
+    padding: 40px 0 20px;
 }
 
 .foot img {
