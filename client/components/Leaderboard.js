@@ -7,7 +7,7 @@ import Button from "./BuySynbtn";
 import Address from "../utils/Address";
 import { contracts, abi } from "../config";
 import { add } from "lodash";
-const superagent = require('superagent');
+const superagent = require("superagent");
 
 function copperlaunch() {
   window.open(
@@ -25,7 +25,6 @@ const addSomeDecimals = (s, c = 2) => {
 function onlyUnique(value, index, self) {
   return self.indexOf(value) === index;
 }
-
 
 /**
  * @class Leaderboard
@@ -93,34 +92,34 @@ export default class Leaderboard extends Base {
   //   this.getPosition();
   // }
 
-//   async new_query() {
-//     const query = 
-//     { query : ` {
-//       buys: swaps( where: {tokenOutSym: "SYN"})  {
-//        userAddress {
-//          id
-//        }
-//         tokenAmountOut
-//         tx
-//       }
-//         sells: swaps( where: {tokenInSym: "SYN"} ) {
-//        userAddress {
-//          id
-//        }
-//         tokenAmountIn
-//         tx
-//       }
-//     }`
-//     }
-// const url = 'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-kovan-v2'
-// const res = await superagent.post(url).send(query)
-// for(let i = 0 ; i < res.body.data.buys.length; i++)
-// {
-//   console.log(res.body.data.buys[i])
-//   const amount = res.body.data.buys[i].tokenAmountOut;
-//   const name = res.body.data.buys[i].userAddress.id;
-// }
-//   }
+  //   async new_query() {
+  //     const query =
+  //     { query : ` {
+  //       buys: swaps( where: {tokenOutSym: "SYN"})  {
+  //        userAddress {
+  //          id
+  //        }
+  //         tokenAmountOut
+  //         tx
+  //       }
+  //         sells: swaps( where: {tokenInSym: "SYN"} ) {
+  //        userAddress {
+  //          id
+  //        }
+  //         tokenAmountIn
+  //         tx
+  //       }
+  //     }`
+  //     }
+  // const url = 'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-kovan-v2'
+  // const res = await superagent.post(url).send(query)
+  // for(let i = 0 ; i < res.body.data.buys.length; i++)
+  // {
+  //   console.log(res.body.data.buys[i])
+  //   const amount = res.body.data.buys[i].tokenAmountOut;
+  //   const name = res.body.data.buys[i].userAddress.id;
+  // }
+  //   }
 
   async getInvestments() {
     const state_user = [];
@@ -128,8 +127,8 @@ export default class Leaderboard extends Base {
     let total = 0;
     let buys = 0;
     let sells = 0;
-    const query = 
-    { query : ` {
+    const query = {
+      query: ` {
       swaps( where: {poolId: "0x6a8c729c9db35c9c5b4ffcbc533aae265c37d8820002000000000000000005c7"}, orderBy: timestamp) {
         userAddress {
           id
@@ -141,53 +140,52 @@ export default class Leaderboard extends Base {
         tx
       }
     }
-    `
-    }
-const url = 'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-kovan-v2'
-const res = await superagent.post(url).send(query)
-      const wallets = res.body.data.swaps.map(({ userAddress }) => userAddress);
-      let address = wallets.map(({ id }) => id);
-      address = address.filter(onlyUnique);
-      for (var x = 0; x < address.length; x++) {
-        for (var y = 0; y < res.body.data.swaps.length; y++) {
-          if (address[x] === res.body.data.swaps[y].userAddress.id) {
-            if (res.body.data.swaps[y].tokenInSym === "USDC") {
+    `,
+    };
+    const url =
+      "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-kovan-v2";
+    const res = await superagent.post(url).send(query);
+    const wallets = res.body.data.swaps.map(({ userAddress }) => userAddress);
+    let address = wallets.map(({ id }) => id);
+    address = address.filter(onlyUnique);
+    for (var x = 0; x < address.length; x++) {
+      for (var y = 0; y < res.body.data.swaps.length; y++) {
+        if (address[x] === res.body.data.swaps[y].userAddress.id) {
+          if (res.body.data.swaps[y].tokenInSym === "USDC") {
             buys += Number(res.body.data.swaps[y].tokenAmountOut);
-            }
-           else {
+          } else {
             sells += Number(res.body.data.swaps[y].tokenAmountIn);
-            }
           }
         }
-        total = buys - sells;
-        if (total > 0) {
-        dict = {name: address[x], score: total}
+      }
+      total = buys - sells;
+      if (total > 0) {
+        dict = { name: address[x], score: total };
         state_user.push(dict);
-        }
-        total = 0;
-        buys = 0;
-        sells = 0;
       }
+      total = 0;
+      buys = 0;
+      sells = 0;
+    }
 
-      this.setState({ users: state_user });
-      for (var u = 0; u < state_user.length; u++) {
-        this.state.users[u].score = addSomeDecimals(this.state.users[u].score);
-      }
-      // console.log(this.Store.chainId);
-      this.rankingSorter();
-      this.getPosition();
-      this.getNewEvents();
+    this.setState({ users: state_user });
+    for (var u = 0; u < state_user.length; u++) {
+      this.state.users[u].score = addSomeDecimals(this.state.users[u].score);
+    }
+    // console.log(this.Store.chainId);
+    this.rankingSorter();
+    this.getPosition();
+    this.getNewEvents();
 
-      // for (var i = 0; i < res.investments.length; i++) {
-      //   dict = { name: wallets[i], score: amounts[i] };
-      //   state_user.push(dict);
-      // }
+    // for (var i = 0; i < res.investments.length; i++) {
+    //   dict = { name: wallets[i], score: amounts[i] };
+    //   state_user.push(dict);
+    // }
 
-      // this.setState({ users: state_user });
-      // this.rankingSorter();
-      var intervalID = setInterval(this.getInvestments, 3000);
+    // this.setState({ users: state_user });
+    // this.rankingSorter();
+    var intervalID = setInterval(this.getInvestments, 3000);
   }
-  
 
   /**
    * @function componentDidMount

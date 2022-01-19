@@ -1,6 +1,6 @@
 const ethers = require("ethers");
 const { header } = require("express/lib/request");
-superagent = require("superagent")
+superagent = require("superagent");
 require("dotenv").config();
 const { contracts, abi } = require("../client/config");
 const dbManager = require("../server/lib/DbManager");
@@ -44,10 +44,9 @@ const queryService = {
           console.log(hash);
           console.log(wallet);
           console.log(event[i]);
-          
+
           //Make it so initial contract founding doesnt show in db
-          if ( ! (wallet === "0x3Aa9e065d90DB8ECDc641F2AEB3268a3de33D2ca"))
-          {
+          if (!(wallet === "0x3Aa9e065d90DB8ECDc641F2AEB3268a3de33D2ca")) {
             const newinvestment = await dbManager.newInvestment(
               syn,
               wallet,
@@ -94,7 +93,6 @@ const queryService = {
   },
 
   async gettheGraph() {
-
     for (let chainId in contracts) {
       const network =
         chainId === "42" ? "kovan" : chainId === "1" ? "homestead" : null;
@@ -102,12 +100,12 @@ const queryService = {
         throw new Error("ChainId not recognized");
       }
 
-  
-  console.log(network);
-  const url = 'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-kovan-v2'
+      console.log(network);
+      const url =
+        "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-kovan-v2";
 
-    const query = 
-    { query : ` {
+      const query = {
+        query: ` {
       swaps( where: {poolId: "0x6a8c729c9db35c9c5b4ffcbc533aae265c37d8820002000000000000000005c7"}, orderBy: timestamp) {
         userAddress {
           id
@@ -119,35 +117,34 @@ const queryService = {
         tx
       }
     }
-    `
-    
+    `,
+      };
+
+      const res = await superagent.post(url).send(query);
+      for (let i = 0; i < res.body.data.swaps.length; i++) {
+        let syn = "";
+        if (res.body.data.swaps[i].tokenInSym === "USDC") {
+          syn = res.body.data.swaps[i].tokenAmountOut;
+        } else {
+          syn = -res.body.data.swaps[i].tokenAmountIn;
+        }
+        const hash = res.body.data.swaps[i].tx;
+        const wallet = res.body.data.swaps[i].userAddress.id;
+
+        console.log(hash);
+        console.log(syn);
+        console.log(wallet);
+
+        const newinvestment = await dbManager.newInvestment(
+          syn,
+          wallet,
+          hash,
+          network
+        );
+        console.log(newinvestment);
+      }
     }
-
-
-const res = await superagent.post(url).send(query)
-for(let i = 0 ; i < res.body.data.swaps.length; i++)
-{
-  let syn = ""
-  if(res.body.data.swaps[i].tokenInSym === "USDC")
-  { syn = res.body.data.swaps[i].tokenAmountOut}
-  else {  syn = -res.body.data.swaps[i].tokenAmountIn}
-  const hash = res.body.data.swaps[i].tx;
-  const wallet = res.body.data.swaps[i].userAddress.id;
-
-  console.log(hash);
-  console.log(syn);
-  console.log(wallet);
-
-  const newinvestment = await dbManager.newInvestment(
-    syn,
-    wallet,
-    hash,
-    network
-  );
-  console.log(newinvestment);
-}
-
-  }}
+  },
 };
 
 module.exports = queryService;
