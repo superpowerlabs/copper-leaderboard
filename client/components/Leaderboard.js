@@ -8,10 +8,11 @@ import Address from "../utils/Address";
 import { contracts, abi } from "../config";
 import { add } from "lodash";
 const superagent = require("superagent");
+import config from "../config/index";
 
 function copperlaunch() {
   window.open(
-    "https://kovan.copperlaunch.com/auctions/0xfCD2895e8702CCa5bd69b2df300D78ab5717514E"
+    config.auctionUrl
   );
 }
 
@@ -53,15 +54,15 @@ export default class Leaderboard extends Base {
       "getInvestments",
       "rankingSorter",
       // "newsorter",
-      "newleaderboard",
-      "getNewEvents",
+      // "newleaderboard",
+      // "getNewEvents",
       "getPosition",
     ]);
   }
 
   componentDidMount() {
     this.getInvestments();
-    this.setTimeout(this.getPosition, 3000);
+    // this.setTimeout(this.getPosition, 3000);
     // this.new_query();
   }
 
@@ -82,6 +83,8 @@ export default class Leaderboard extends Base {
     this.setState({
       previousConnectedAddress: this.Store.connectedWallet,
     });
+    await this.sleep(500)
+    this.getInvestments();
   }
 
   //
@@ -142,8 +145,7 @@ export default class Leaderboard extends Base {
     }
     `,
     };
-    const url =
-      "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-kovan-v2";
+    const url = config.graphUrl;
     const res = await superagent.post(url).send(query);
     const wallets = res.body.data.swaps.map(({ userAddress }) => userAddress);
     let address = wallets.map(({ id }) => id);
@@ -175,7 +177,7 @@ export default class Leaderboard extends Base {
     // console.log(this.Store.chainId);
     this.rankingSorter();
     this.getPosition();
-    this.getNewEvents();
+
 
     // for (var i = 0; i < res.investments.length; i++) {
     //   dict = { name: wallets[i], score: amounts[i] };
@@ -184,7 +186,6 @@ export default class Leaderboard extends Base {
 
     // this.setState({ users: state_user });
     // this.rankingSorter();
-    var intervalID = setInterval(this.getInvestments, 3000);
   }
 
   /**
@@ -213,51 +214,51 @@ export default class Leaderboard extends Base {
     this.setState({ ranking: ranking });
   }
 
-  async getNewEvents() {
-    await this.waitForWeb3();
-    this.setState({ metamask: true });
-    if (!contracts[this.Store.chainId]) {
-      return false;
-    }
-    const contract = new ethers.Contract(
-      contracts[this.Store.chainId],
-      abi,
-      this.Store.provider
-    );
-    contract.on([contract.filters.Swap()], async (event) => {
-      if (event.topics.length === 4) {
-        let syn = ethers.utils.formatEther(event.data);
-        let wallet = ethers.utils.defaultAbiCoder.decode(
-          ["address"],
-          event.topics[event.topics.length - 1]
-        )[0];
-        if (event.topics[1] === event.topics[3]) {
-          // console.log("sell");
-          wallet = ethers.utils.defaultAbiCoder.decode(
-            ["address"],
-            event.topics[event.topics.length - 2]
-          )[0];
-          syn = -syn;
-        }
-        // const hash = event.transactionHash;
-        //console.log(event)
-        // const stateUser = this.state.users;
-        let dict = { name: wallet, score: syn };
-        this.newleaderboard(dict);
-      }
-    });
-  }
+  // async getNewEvents() {
+  //   await this.waitForWeb3();
+  //   this.setState({ metamask: true });
+  //   if (!contracts[this.Store.chainId]) {
+  //     return false;
+  //   }
+  //   const contract = new ethers.Contract(
+  //     contracts[this.Store.chainId],
+  //     abi,
+  //     this.Store.provider
+  //   );
+  //   contract.on([contract.filters.Swap()], async (event) => {
+  //     if (event.topics.length === 4) {
+  //       let syn = ethers.utils.formatEther(event.data);
+  //       let wallet = ethers.utils.defaultAbiCoder.decode(
+  //         ["address"],
+  //         event.topics[event.topics.length - 1]
+  //       )[0];
+  //       if (event.topics[1] === event.topics[3]) {
+  //         // console.log("sell");
+  //         wallet = ethers.utils.defaultAbiCoder.decode(
+  //           ["address"],
+  //           event.topics[event.topics.length - 2]
+  //         )[0];
+  //         syn = -syn;
+  //       }
+  //       // const hash = event.transactionHash;
+  //       //console.log(event)
+  //       // const stateUser = this.state.users;
+  //       let dict = { name: wallet, score: syn };
+  //       this.newleaderboard(dict);
+  //     }
+  //   });
+  // }
 
-  newleaderboard(u) {
-    let state_user = this.state.users;
-    for (var j = 0; j < state_user.length; j++) {
-      if (u["name"] === state_user[j].name) {
-        state_user[j].score = Number(u["score"]) + Number(state_user[j].score);
-      }
-    }
-    this.setState({ users: state_user });
-    this.rankingSorter();
-  }
+  // newleaderboard(u) {
+  //   let state_user = this.state.users;
+  //   for (var j = 0; j < state_user.length; j++) {
+  //     if (u["name"] === state_user[j].name) {
+  //       state_user[j].score = Number(u["score"]) + Number(state_user[j].score);
+  //     }
+  //   }
+  //   this.setState({ users: state_user });
+  //   this.rankingSorter();
+  // }
 
   /**
    * @function render
