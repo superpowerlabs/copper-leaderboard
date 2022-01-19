@@ -1,4 +1,5 @@
 # Copper leaderboard
+
 A simple tool to show and rank the best investors
 
 ## Installation

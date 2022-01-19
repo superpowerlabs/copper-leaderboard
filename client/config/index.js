@@ -15,8 +15,10 @@ if (isDev) {
 }
 
 const config = {
-  auctionUrl: 'https://kovan.copperlaunch.com/auctions/0x6a8c729c9dB35c9c5b4fFcBc533aae265C37d882',
-  graphUrl: "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-kovan-v2",
+  auctionUrl:
+    "https://kovan.copperlaunch.com/auctions/0x6a8c729c9dB35c9c5b4fFcBc533aae265C37d882",
+  graphUrl:
+    "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-kovan-v2",
   supportedId,
   abi: require("./ABI.json"),
   // key: 'dcfb1f21611543539204b8757bf24809',
