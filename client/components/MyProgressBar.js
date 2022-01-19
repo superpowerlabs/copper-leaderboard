@@ -15,7 +15,7 @@ export default function MyProgressBar({ bgcolor, progress, height }) {
     backgroundImage: "linear-gradient(orange, gold)",
     borderRadius: 0,
     textAlign: "right",
-    margin: "1px 0 0 1px"
+    margin: "1px 0 0 1px",
   };
 
   const progresstext = {
