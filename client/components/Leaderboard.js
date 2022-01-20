@@ -4,6 +4,7 @@ import Base from "./Base";
 import MyProgressbar from "./MyProgressBar";
 import Button from "./BuySynbtn";
 import Address from "../utils/Address";
+
 const superagent = require("superagent");
 import config from "../config/index";
 
@@ -42,7 +43,7 @@ export default class Leaderboard extends Base {
       address: "",
       progress_now: 0,
       paginate: 300,
-      metamask: true,
+      myPosition: undefined,
     };
 
     this.bindMany([
@@ -65,11 +66,14 @@ export default class Leaderboard extends Base {
     const position = this.state.users.map(({ name }) => name);
     for (let j = 0; j < position.length; j++) {
       if (Address.equal(position[j], this.Store.connectedWallet)) {
-        if (this.state.users[j].rank === 1) {
+        const myPosition = this.state.users[j].rank;
+        this.setState({
+          myPosition,
+        });
+        if (myPosition === 1) {
           this.setState({ progress_now: 100 });
         } else {
-          const ranking = this.state.users[j].rank;
-          let progress = Math.abs(ranking / 3 - 100);
+          let progress = Math.abs(myPosition / 3 - 100);
           this.setState({ progress_now: progress });
         }
         break;
@@ -259,11 +263,27 @@ export default class Leaderboard extends Base {
    * @desc renders jsx
    */
   render() {
-    if (!this.state.metamask) {
-      return <div className="notConnectedTxt">Please Connect to Metamask</div>;
+    const { connectedWallet, chainId } = this.Store;
+    if (!connectedWallet) {
+      return (
+        <div className="notConnectedTxt">
+          Please Connect your Wallet to access the leaderboard
+        </div>
+      );
+    } else if (chainId !== 1 && this.Store.chainId !== 42) {
+      return (
+        <div className="notConnectedTxt">Please switch to Ethereum Mainnet</div>
+      );
     } else {
       return (
         <div>
+          {connectedWallet ? (
+            <div className={"myPosition"}>
+              {this.state.myPosition
+                ? `Your ranking is ${this.state.myPosition}. Buy more SYNR to increase your position`
+                : "You are not in the leaderboard. Buy SYNR to get your NFT rewards"}
+            </div>
+          ) : null}
           <div className="App">
             <div className="progressBarComplete">
               <div>
@@ -278,7 +298,11 @@ export default class Leaderboard extends Base {
                   <div className="buySYNbtn2">
                     <Button
                       classname="buySYNbtn"
-                      text="BUY $SYN"
+                      text={
+                        <span style={{ fontWeight: "normal" }}>
+                          BUY <span style={{ fontWeight: "bold" }}>$SYNR</span>
+                        </span>
+                      }
                       onClick={copperlaunch}
                     />
                   </div>
@@ -304,28 +328,32 @@ export default class Leaderboard extends Base {
             <table id="lBoard">
               <tbody className="ranking">
                 <tr>
-                  <td className="rank-header sortScore"> Rank</td>
-                  <td className="rank-header sortAlpha"> Address</td>
-                  <td className="rank-header sortTotal"> Amount</td>
+                  <td className="rank-header sortScore">Rank</td>
+                  <td className="rank-header sortAlpha">Address</td>
+                  <td className="rank-header sortTotal">Amount invested</td>
                 </tr>
                 <tr>
                   <td colSpan="4">
                     <div className="stats">
                       <table>
                         <tbody>
-                          {this.state.ranking.map((user, index) => (
-                            <tr className="ranking" key={index}>
-                              {user.page === this.state.page ? (
+                          {this.state.ranking.map((user, index) => {
+                            return user.page === this.state.page ? (
+                              <tr
+                                className={
+                                  "ranking " +
+                                  (index === this.state.myPosition - 1
+                                    ? "highlight"
+                                    : "")
+                                }
+                                key={index}
+                              >
                                 <td className="data">{user.rank}</td>
-                              ) : null}
-                              {user.page === this.state.page ? (
                                 <td className="data">{user.name}</td>
-                              ) : null}
-                              {user.page === this.state.page ? (
                                 <td className="data lastData">{user.score}</td>
-                              ) : null}
-                            </tr>
-                          ))}
+                              </tr>
+                            ) : null;
+                          })}
                         </tbody>
                       </table>
                     </div>

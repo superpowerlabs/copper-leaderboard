@@ -9,11 +9,13 @@ export default function MyProgressBar({ bgcolor, progress, height }) {
   };
 
   const Childdiv = {
-    height: "100%",
+    height: 34,
     width: `${progress}%`,
     backgroundColor: bgcolor,
+    backgroundImage: "linear-gradient(orange, gold)",
     borderRadius: 0,
     textAlign: "right",
+    margin: "1px 0 0 1px",
   };
 
   const progresstext = {
