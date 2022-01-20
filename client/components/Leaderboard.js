@@ -288,44 +288,52 @@ export default class Leaderboard extends Base {
               </div>
             </div>
           </div>
-          <div className="parent">
-            <table id="lBoard">
-              <tbody className="ranking">
-                <tr>
-                  <td className="rank-header sortScore">Rank</td>
-                  <td className="rank-header sortAlpha">Address</td>
-                  <td className="rank-header sortTotal">Amount invested</td>
-                </tr>
-                <tr>
-                  <td colSpan="4">
-                    <div className="stats">
-                      <table>
-                        <tbody>
-                          {this.state.ranking.map((user, index) => {
-                            return user.page === this.state.page ? (
-                              <tr
-                                className={
-                                  "ranking " +
-                                  (index === this.state.myPosition - 1
-                                    ? "highlight"
-                                    : "")
-                                }
-                                key={index}
-                              >
-                                <td className="data">{user.rank}</td>
-                                <td className="data">{user.name}</td>
-                                <td className="data lastData">{user.score}</td>
-                              </tr>
-                            ) : null;
-                          })}
-                        </tbody>
-                      </table>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          {this.state.users.length === 0 ? (
+            <div className={"myPosition"}>
+              The Copper Auction has not yet started
+            </div>
+          ) : (
+            <div className="parent">
+              <table id="lBoard">
+                <tbody className="ranking">
+                  <tr>
+                    <td className="rank-header sortScore">Rank</td>
+                    <td className="rank-header sortAlpha">Address</td>
+                    <td className="rank-header sortTotal">Amount invested</td>
+                  </tr>
+                  <tr>
+                    <td colSpan="4">
+                      <div className="stats">
+                        <table>
+                          <tbody>
+                            {this.state.ranking.map((user, index) => {
+                              return user.page === this.state.page ? (
+                                <tr
+                                  className={
+                                    "ranking " +
+                                    (index === this.state.myPosition - 1
+                                      ? "highlight"
+                                      : "")
+                                  }
+                                  key={index}
+                                >
+                                  <td className="data">{user.rank}</td>
+                                  <td className="data">{user.name}</td>
+                                  <td className="data lastData">
+                                    {user.score}
+                                  </td>
+                                </tr>
+                              ) : null;
+                            })}
+                          </tbody>
+                        </table>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       );
     }
