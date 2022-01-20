@@ -115,7 +115,13 @@ export default class Leaderboard extends Base {
     }
     `,
     };
-    const url = config.kovanUrl;
+    let url = config.kovanUrl;
+    if (this.Store.chainId === 42) {
+      url = config.kovanUrl;
+    }
+    if (this.Store.chainId === 1) {
+      url = config.mainnet;
+    }
     const res = await superagent.post(url).send(query);
     const wallets = res.body.data.swaps.map(({ userAddress }) => userAddress);
     let address = wallets.map(({ id }) => id);
