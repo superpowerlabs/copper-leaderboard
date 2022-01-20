@@ -9,6 +9,7 @@ import Address from "../utils/Address";
 // import { add } from "lodash";
 const superagent = require("superagent");
 import config from "../config/index";
+// import { Web3Provider } from "@ethersproject/providers";
 
 function copperlaunch() {
   window.open(config.auctionUrl);
@@ -51,7 +52,6 @@ export default class Leaderboard extends Base {
     this.bindMany([
       "getInvestments",
       "rankingSorter",
-      // "newsorter",
       // "newleaderboard",
       // "getNewEvents",
       "getPosition",
@@ -60,8 +60,6 @@ export default class Leaderboard extends Base {
 
   componentDidMount() {
     this.getInvestments();
-    // this.setTimeout(this.getPosition, 3000);
-    // this.new_query();
   }
 
   async getPosition() {
@@ -85,49 +83,16 @@ export default class Leaderboard extends Base {
     this.getInvestments();
   }
 
-  //
-  // async getWallet() {
-  //   /* eslint-disable */
-  //   // const wallet = await ethereum.request({ method: "eth_requestAccounts" });
-  //   // this.setState({ address: wallet[0] });
-  //   this.getPosition();
-  // }
-
-  //   async new_query() {
-  //     const query =
-  //     { query : ` {
-  //       buys: swaps( where: {tokenOutSym: "SYN"})  {
-  //        userAddress {
-  //          id
-  //        }
-  //         tokenAmountOut
-  //         tx
-  //       }
-  //         sells: swaps( where: {tokenInSym: "SYN"} ) {
-  //        userAddress {
-  //          id
-  //        }
-  //         tokenAmountIn
-  //         tx
-  //       }
-  //     }`
-  //     }
-  // const url = 'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-kovan-v2'
-  // const res = await superagent.post(url).send(query)
-  // for(let i = 0 ; i < res.body.data.buys.length; i++)
-  // {
-  //   console.log(res.body.data.buys[i])
-  //   const amount = res.body.data.buys[i].tokenAmountOut;
-  //   const name = res.body.data.buys[i].userAddress.id;
-  // }
-  //   }
-
   async getInvestments() {
+    await this.waitForWeb3();
     const state_user = [];
     let dict = {};
-    let total = 0;
-    let buys = 0;
-    let sells = 0;
+    let totalSYNR = 0;
+    let buysSYNR = 0;
+    let sellsSYNR = 0;
+    let totalUSDC = 0;
+    let buysUSDCS = 0;
+    let sellsUSDC = 0;
     let poolId = "";
     if (this.Store.chainId === 42) {
       poolId = config.kovanPoolId;
@@ -159,37 +124,35 @@ export default class Leaderboard extends Base {
       for (var y = 0; y < res.body.data.swaps.length; y++) {
         if (address[x] === res.body.data.swaps[y].userAddress.id) {
           if (res.body.data.swaps[y].tokenInSym === "USDC") {
-            buys += Number(res.body.data.swaps[y].tokenAmountOut);
+            buysSYNR += Number(res.body.data.swaps[y].tokenAmountOut);
+            sellsUSDC += Number(res.body.data.swaps[y].tokenAmountIn);
           } else {
-            sells += Number(res.body.data.swaps[y].tokenAmountIn);
+            sellsSYNR += Number(res.body.data.swaps[y].tokenAmountIn);
+            buysUSDCS += Number(res.body.data.swaps[y].tokenAmountOut);
           }
         }
       }
-      total = buys - sells;
-      if (total > 0) {
-        dict = { name: address[x], score: total };
+      totalSYNR = buysSYNR - sellsSYNR;
+      totalUSDC = -1 * (buysUSDCS - sellsUSDC);
+      if (totalSYNR > 0) {
+        dict = { name: address[x], score: totalSYNR, usdc: totalUSDC };
         state_user.push(dict);
       }
-      total = 0;
-      buys = 0;
-      sells = 0;
+      totalSYNR = 0;
+      buysSYNR = 0;
+      sellsSYNR = 0;
+      totalUSDC = 0;
+      buysUSDCS = 0;
+      sellsSYNR = 0;
     }
 
     this.setState({ users: state_user });
     for (var u = 0; u < state_user.length; u++) {
       this.state.users[u].score = addSomeDecimals(this.state.users[u].score);
+      this.state.users[u].usdc = addSomeDecimals(this.state.users[u].usdc);
     }
-    // console.log(this.Store.chainId);
     this.rankingSorter();
     this.getPosition();
-
-    // for (var i = 0; i < res.investments.length; i++) {
-    //   dict = { name: wallets[i], score: amounts[i] };
-    //   state_user.push(dict);
-    // }
-
-    // this.setState({ users: state_user });
-    // this.rankingSorter();
   }
 
   /**
@@ -209,7 +172,6 @@ export default class Leaderboard extends Base {
         }
       }
     }
-    // console.log(ranking);
     ranking.map((user, index) => (user.rank = index + 1));
     ranking.map(
       (user, index) => (user.page = Math.ceil((index + 1) / paginate))

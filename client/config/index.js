@@ -16,7 +16,7 @@ if (isDev) {
 
 const config = {
   mainnetPoolId:
-    "0x6a8c729c9db35c9c5b4ffcbc533aae265c37d8820002000000000000000005c7",
+    "0xdda942bacbe6bd0c12e3ed2db45f0349e8c43101000200000000000000000131",
   kovanPoolId:
     "0x6a8c729c9db35c9c5b4ffcbc533aae265c37d8820002000000000000000005c7",
   auctionUrl:
