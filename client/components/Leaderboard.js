@@ -49,7 +49,6 @@ export default class Leaderboard extends Base {
     this.bindMany([
       "getInvestments",
       "rankingSorter",
-      // "newsorter",
       // "newleaderboard",
       // "getNewEvents",
       "getPosition",
@@ -58,8 +57,6 @@ export default class Leaderboard extends Base {
 
   componentDidMount() {
     this.getInvestments();
-    // this.setTimeout(this.getPosition, 3000);
-    // this.new_query();
   }
 
   async getPosition() {
@@ -86,52 +83,23 @@ export default class Leaderboard extends Base {
     this.getInvestments();
   }
 
-  //
-  // async getWallet() {
-  //   /* eslint-disable */
-  //   // const wallet = await ethereum.request({ method: "eth_requestAccounts" });
-  //   // this.setState({ address: wallet[0] });
-  //   this.getPosition();
-  // }
-
-  //   async new_query() {
-  //     const query =
-  //     { query : ` {
-  //       buys: swaps( where: {tokenOutSym: "SYN"})  {
-  //        userAddress {
-  //          id
-  //        }
-  //         tokenAmountOut
-  //         tx
-  //       }
-  //         sells: swaps( where: {tokenInSym: "SYN"} ) {
-  //        userAddress {
-  //          id
-  //        }
-  //         tokenAmountIn
-  //         tx
-  //       }
-  //     }`
-  //     }
-  // const url = 'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-kovan-v2'
-  // const res = await superagent.post(url).send(query)
-  // for(let i = 0 ; i < res.body.data.buys.length; i++)
-  // {
-  //   console.log(res.body.data.buys[i])
-  //   const amount = res.body.data.buys[i].tokenAmountOut;
-  //   const name = res.body.data.buys[i].userAddress.id;
-  // }
-  //   }
-
   async getInvestments() {
+    await this.waitForWeb3();
     const state_user = [];
     let dict = {};
     let total = 0;
     let buys = 0;
     let sells = 0;
+    let poolId = "";
+    if (this.Store.chainId === 42) {
+      poolId = config.kovanPoolId;
+    }
+    if (this.Store.chainId === 1) {
+      poolId = config.mainnetPoolId;
+    }
     const query = {
       query: ` {
-      swaps( where: {poolId: "0x6a8c729c9db35c9c5b4ffcbc533aae265c37d8820002000000000000000005c7"}, orderBy: timestamp) {
+      swaps( where: {poolId: "${poolId}" }, orderBy: timestamp) {
         userAddress {
           id
         }
@@ -144,7 +112,13 @@ export default class Leaderboard extends Base {
     }
     `,
     };
-    const url = config.graphUrl;
+    let url = config.kovanUrl;
+    if (this.Store.chainId === 42) {
+      url = config.kovanUrl;
+    }
+    if (this.Store.chainId === 1) {
+      url = config.mainnet;
+    }
     const res = await superagent.post(url).send(query);
     const wallets = res.body.data.swaps.map(({ userAddress }) => userAddress);
     let address = wallets.map(({ id }) => id);
@@ -173,17 +147,8 @@ export default class Leaderboard extends Base {
     for (var u = 0; u < state_user.length; u++) {
       this.state.users[u].score = addSomeDecimals(this.state.users[u].score);
     }
-    // console.log(this.Store.chainId);
     this.rankingSorter();
     this.getPosition();
-
-    // for (var i = 0; i < res.investments.length; i++) {
-    //   dict = { name: wallets[i], score: amounts[i] };
-    //   state_user.push(dict);
-    // }
-
-    // this.setState({ users: state_user });
-    // this.rankingSorter();
   }
 
   /**
@@ -203,7 +168,6 @@ export default class Leaderboard extends Base {
         }
       }
     }
-    // console.log(ranking);
     ranking.map((user, index) => (user.rank = index + 1));
     ranking.map(
       (user, index) => (user.page = Math.ceil((index + 1) / paginate))
