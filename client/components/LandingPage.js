@@ -73,6 +73,9 @@ export default class LandingPage extends Base {
               <div className="foot">
                 <img src={"/images/yellowLogo.png"} alt={"footer"} />
               </div>
+              <div className="CopyRight">
+              Syn City @copyright: 2021, All rights reserved
+              </div>
             </div>
           </div>
         </Container>
