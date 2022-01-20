@@ -1224,3 +1224,10 @@ table td {
 .lastData {
     text-align: right;
 }
+
+.addSynr {
+    cursor: pointer;
+    color: yellow;
+    font-weight: bold;
+    font-size: 14px;
+}

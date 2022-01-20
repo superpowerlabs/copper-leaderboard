@@ -2,6 +2,7 @@
 const { Navbar, Nav, Button } = ReactBootstrap;
 
 import Base from "./Base";
+import {addToken} from "../utils/Wallet";
 
 export default class Header extends Base {
   constructor(props) {
@@ -97,6 +98,13 @@ export default class Header extends Base {
         expand="lg"
         className={"roboto"}
       >
+         <Navbar.Collapse>
+        {this.Store.chainId === 1 ? (
+          <Nav className={"addSynr"} onClick={() => addToken()}>
+            Click here to add SYNR to your wallet
+          </Nav>
+        ) : null}
+        </Navbar.Collapse>
         {/*<Navbar.Brand href="/">*/}
         {/*  <img*/}
         {/*    src={"/images/syncity-full-horizontal.png"}*/}
@@ -110,7 +118,7 @@ export default class Header extends Base {
         <Navbar.Collapse id="navbarScroll">
           <Nav className="mr-auto my-2 my-lg-0" navbarScroll></Nav>
         </Navbar.Collapse>
-
+        
         <Navbar.Collapse
           className="justify-content-end"
           style={{ display: "block" }}
