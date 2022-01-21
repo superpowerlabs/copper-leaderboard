@@ -78,7 +78,8 @@ export default class LandingPage extends Base {
                     link={"https://bit.ly/3Kujw3k"}
                   />
                   . Ranking is based on net SYNR holding in your Ethereum wallet
-                  address. A snapshot at the end of the auction will decide the winners.
+                  address. A snapshot at the end of the auction will decide the
+                  winners.
                 </div>
               </div>
 
