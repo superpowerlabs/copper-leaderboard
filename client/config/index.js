@@ -20,7 +20,7 @@ const config = {
   kovanPoolId:
     "0x6a8c729c9db35c9c5b4ffcbc533aae265c37d8820002000000000000000005c7",
   auctionUrl:
-    "https://kovan.copperlaunch.com/auctions/0x6a8c729c9dB35c9c5b4fFcBc533aae265C37d882",
+    "https://bit.ly/3Kujw3k",
   kovanUrl:
     "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-kovan-v2",
   mainnet: "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-v2",
