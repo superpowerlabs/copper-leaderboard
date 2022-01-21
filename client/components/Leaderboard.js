@@ -7,6 +7,7 @@ import Address from "../utils/Address";
 
 const superagent = require("superagent");
 import config from "../config/index";
+// import { add } from "lodash";
 
 function copperlaunch() {
   window.open(config.auctionUrl);
@@ -99,7 +100,7 @@ export default class Leaderboard extends Base {
     }
     const query = {
       query: ` {
-      swaps( where: {poolId: "${poolId}" }, orderBy: timestamp) {
+      swaps( first:1000 where: {poolId: "${poolId}" }, orderBy: timestamp) {
         userAddress {
           id
         }
