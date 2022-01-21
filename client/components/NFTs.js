@@ -60,7 +60,7 @@ export default class NFTs extends Base {
             <span className={"nftTextBronze"}>Top 101-200 </span>
             <span className={"nftText"}>reward:</span>
           </div>
-          <b className={"boldNFT centered"}>ORIGINAL SYNNER COPPER</b>
+          <b className={"boldNFT centered"}>ORIGINAL SYNNER BRONZE</b>
         </Col>
       </Row>
     );

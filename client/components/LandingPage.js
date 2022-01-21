@@ -71,7 +71,7 @@ export default class LandingPage extends Base {
               </div>
               <div className={"home-section centered"}>
                 <div className={"landingpageText dongle"}>
-                  Win exclusive "Original SYNNER" NFTs by becoming top
+                  Win exclusive "ORIGINAL SYNNER" NFTs by becoming top
                   contributors during{" "}
                   <Ab
                     label={"our launch auction"}
