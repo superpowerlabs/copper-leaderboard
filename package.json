@@ -29,8 +29,11 @@
     "lodash": "^4.17.21",
     "pg": "^8.7.1",
     "prop-types": "^15.8.0",
+    "react": "^17.0.2",
+    "react-video-looper": "^1.0.16",
     "simple-json-db": "^1.2.3",
-    "superagent": "^4.1.0"
+    "superagent": "^4.1.0",
+    "video-react": "^0.15.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",

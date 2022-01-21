@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-undef
-// const { ProgressBar } = ReactBootstrap;
+const { Row, Col, Badge } = ReactBootstrap;
 import Base from "./Base";
 import MyProgressbar from "./MyProgressBar";
 import Button from "./BuySynbtn";
@@ -26,7 +26,7 @@ function onlyUnique(value, index, self) {
 /**
  * @class Leaderboard
  * @desc Compares the score property of each user object
- * @param {Prop} users-an array of objects with name and score properties
+ * @param {Prop} users-an array of objects with address and score properties
  * @param {Prop} paginate-integer to determine how many users to display on each page
  */
 export default class Leaderboard extends Base {
@@ -60,7 +60,7 @@ export default class Leaderboard extends Base {
   }
 
   async getPosition() {
-    const position = this.state.users.map(({ name }) => name);
+    const position = this.state.users.map(({ address }) => address);
     for (let j = 0; j < position.length; j++) {
       if (Address.equal(position[j], this.Store.connectedWallet)) {
         const myPosition = this.state.users[j].rank;
@@ -135,7 +135,7 @@ export default class Leaderboard extends Base {
       }
       total = buys - sells;
       if (total > 0) {
-        dict = { name: address[x], score: total };
+        dict = { address: address[x], score: total };
         state_user.push(dict);
       }
       total = 0;
@@ -176,56 +176,39 @@ export default class Leaderboard extends Base {
     this.setState({ ranking: ranking });
   }
 
-  // async getNewEvents() {
-  //   await this.waitForWeb3();
-  //   this.setState({ metamask: true });
-  //   if (!contracts[this.Store.chainId]) {
-  //     return false;
-  //   }
-  //   const contract = new ethers.Contract(
-  //     contracts[this.Store.chainId],
-  //     abi,
-  //     this.Store.provider
-  //   );
-  //   contract.on([contract.filters.Swap()], async (event) => {
-  //     if (event.topics.length === 4) {
-  //       let syn = ethers.utils.formatEther(event.data);
-  //       let wallet = ethers.utils.defaultAbiCoder.decode(
-  //         ["address"],
-  //         event.topics[event.topics.length - 1]
-  //       )[0];
-  //       if (event.topics[1] === event.topics[3]) {
-  //         // console.log("sell");
-  //         wallet = ethers.utils.defaultAbiCoder.decode(
-  //           ["address"],
-  //           event.topics[event.topics.length - 2]
-  //         )[0];
-  //         syn = -syn;
-  //       }
-  //       // const hash = event.transactionHash;
-  //       //console.log(event)
-  //       // const stateUser = this.state.users;
-  //       let dict = { name: wallet, score: syn };
-  //       this.newleaderboard(dict);
-  //     }
-  //   });
-  // }
+  /*
+  <Col xs={2} lg={2} className="rank-header sortScore">Rank</Col>
+  <Col xs={7} lg={7} className="rank-header sortAlpha">Address</Col>
+  <Col xs={3} lg={3} className="rank-header sortTotal">Amount invested</Col>
+  */
 
-  // newleaderboard(u) {
-  //   let state_user = this.state.users;
-  //   for (var j = 0; j < state_user.length; j++) {
-  //     if (u["name"] === state_user[j].name) {
-  //       state_user[j].score = Number(u["score"]) + Number(state_user[j].score);
-  //     }
-  //   }
-  //   this.setState({ users: state_user });
-  //   this.rankingSorter();
-  // }
+  renderRows() {
+    const { ranking } = this.state;
+    return ranking.map((user, index) => {
+      return user.page === this.state.page ? (
+        <Row
+          key={"statsrow" + index}
+          className={
+            "noMargin" +
+            (index === this.state.myPosition - 1 ? " highlight" : "")
+          }
+        >
+          <Col xs={1} lg={2} className={"digit centered"} key={index}>
+            #{user.rank}
+          </Col>
+          <Col xs={8} lg={7} className={"digit centered"}>
+            {this.isMobile()
+              ? this.ellipseAddress(user.address, 14)
+              : user.address}
+          </Col>
+          <Col xs={3} lg={3} className={"digit alignRight"}>
+            {user.score}
+          </Col>
+        </Row>
+      ) : null;
+    });
+  }
 
-  /**
-   * @function render
-   * @desc renders jsx
-   */
   render() {
     const { connectedWallet, chainId } = this.Store;
     if (!connectedWallet) {
@@ -241,17 +224,30 @@ export default class Leaderboard extends Base {
     } else {
       return (
         <div>
-          {connectedWallet ? (
+          {connectedWallet && this.state.users.length > 0 ? (
             <div className={"myPosition"}>
-              {this.state.myPosition
-                ? `Your ranking is ${this.state.myPosition}. Buy more SYNR to increase your position`
-                : "You are not in the leaderboard. Buy SYNR to get your NFT rewards"}
+              {this.state.myPosition ? (
+                <div>
+                  Your ranking is{" "}
+                  <Badge bg="warning" text="dark">
+                    {this.state.myPosition}
+                  </Badge>
+                  <br />
+                  <span style={{ fontSize: "80%" }}>
+                    {this.state.myPosition === 1
+                      ? "Buy more SYNR to consolidate your position"
+                      : "Buy more SYNR to improve your position"}
+                  </span>
+                </div>
+              ) : (
+                "You are not in the leaderboard. Buy SYNR to get your NFT rewards"
+              )}
             </div>
           ) : null}
           <div className="App">
             <div className="progressBarComplete">
               <div>
-                <div className="progressBar">
+                <div className="progressBar1">
                   <div className="progressBar2">
                     <MyProgressbar
                       bgcolor="yellow"
@@ -262,28 +258,24 @@ export default class Leaderboard extends Base {
                   <div className="buySYNbtn2">
                     <Button
                       classname="buySYNbtn"
-                      text={
-                        <span style={{ fontWeight: "normal" }}>
-                          BUY <span style={{ fontWeight: "bold" }}>$SYNR</span>
-                        </span>
-                      }
+                      text="Buy $SYNR"
                       onClick={copperlaunch}
                     />
                   </div>
-                </div>
-                <div className="bars1">
-                  <div className="Top200">
-                    <div className="Top200bar"></div>
-                    Top 200
-                  </div>
-                  <div className="Top100">
-                    <div className="Top100bar"></div>
-                    Top 100
-                  </div>
-                  <div className="Top50">
-                    <div className="Top50bar"></div>
-                    Top 50
-                  </div>
+                  {/*</div>*/}
+                  {/*<div className="bars1">*/}
+                  {/*  <div className="Top200">*/}
+                  {/*    <div className="Top200bar"></div>*/}
+                  {/*    Top 200*/}
+                  {/*  </div>*/}
+                  {/*  <div className="Top100">*/}
+                  {/*    <div className="Top100bar"></div>*/}
+                  {/*    Top 100*/}
+                  {/*  </div>*/}
+                  {/*  <div className="Top50">*/}
+                  {/*    <div className="Top50bar"></div>*/}
+                  {/*    Top 50*/}
+                  {/*  </div>*/}
                 </div>
               </div>
             </div>
@@ -293,45 +285,19 @@ export default class Leaderboard extends Base {
               The Copper Auction has not yet started
             </div>
           ) : (
-            <div className="parent">
-              <table id="lBoard">
-                <tbody className="ranking">
-                  <tr>
-                    <td className="rank-header sortScore">Rank</td>
-                    <td className="rank-header sortAlpha">Address</td>
-                    <td className="rank-header sortTotal">Amount invested</td>
-                  </tr>
-                  <tr>
-                    <td colSpan="4">
-                      <div className="stats">
-                        <table>
-                          <tbody>
-                            {this.state.ranking.map((user, index) => {
-                              return user.page === this.state.page ? (
-                                <tr
-                                  className={
-                                    "ranking " +
-                                    (index === this.state.myPosition - 1
-                                      ? "highlight"
-                                      : "")
-                                  }
-                                  key={index}
-                                >
-                                  <td className="data">{user.rank}</td>
-                                  <td className="data">{user.name}</td>
-                                  <td className="data lastData">
-                                    {user.score}
-                                  </td>
-                                </tr>
-                              ) : null;
-                            })}
-                          </tbody>
-                        </table>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+            <div className="width100pc">
+              <Row id="lBoard" className={"noMargin"}>
+                <Col xs={1} lg={2} className="rank-header centered">
+                  Rank
+                </Col>
+                <Col xs={8} lg={7} className="rank-header centered">
+                  Address
+                </Col>
+                <Col xs={3} lg={3} className="rank-header alignRight">
+                  Amount
+                </Col>
+              </Row>
+              <div className="stats">{this.renderRows()}</div>
             </div>
           )}
         </div>

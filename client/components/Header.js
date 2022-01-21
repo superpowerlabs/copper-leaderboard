@@ -93,13 +93,40 @@ export default class Header extends Base {
     return (
       <Navbar
         expanded={expanded}
-        fixed="top"
+        fixed={this.isMobile() ? undefined : "top"}
         bg="dark"
         expand="lg"
         className={"roboto"}
       >
+        {this.isMobile() ? (
+          <div style={{ width: "60%" }}>
+            <img src={"/images/yellowLogo.png"} style={{ width: "30%" }} />{" "}
+            <span className={"onTitle"}>Copperlaunch Leaderboard</span>
+          </div>
+        ) : null}
+
+        {this.isMobile() ? (
+          this.Store.connectedWallet ? (
+            <div className={"aqua floatRightAbsolute"}>
+              <i
+                className="fas fa-user-astronaut"
+                style={{ marginRight: 10 }}
+              />
+              {address}
+            </div>
+          ) : (
+            <Button
+              className={"floatRightAbsolute"}
+              size={"sm"}
+              onClick={this.props.connect}
+            >
+              Connect your wallet
+            </Button>
+          )
+        ) : null}
+
         <Navbar.Collapse>
-          {this.Store.chainId === 1 ? (
+          {this.Store.chainId === 1 && !this.isMobile() ? (
             <Nav className={"addSynr"} onClick={() => addToken()}>
               Click here to add SYNR to your wallet
             </Nav>
@@ -123,35 +150,37 @@ export default class Header extends Base {
           className="justify-content-end"
           style={{ display: "block" }}
         >
-          <Navbar.Text className={"socialLinks"}>
-            <a
-              href={"https://discord.gg/tSVtRkppnp"}
-              style={{ color: "yellow" }}
-              rel="noreferrer"
-            >
-              <span className={"bitSmaller"}>JOIN US</span>
+          {this.isMobile() ? null : (
+            <Navbar.Text className={"socialLinks"}>
+              <a
+                href={"https://discord.gg/tSVtRkppnp"}
+                style={{ color: "yellow" }}
+                rel="noreferrer"
+              >
+                <span className={"bitSmaller"}>JOIN US</span>
 
-              <i className="fab fa-discord" style={{ color: "yellow" }} />
-            </a>
-            <a
-              href="http://t.me/SynCityHQ"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <i className="fab fa-telegram" />
-            </a>
-            <a
-              href="https://twitter.com/SynCityHQ"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <i className="fab fa-twitter" />
-            </a>
-          </Navbar.Text>
+                <i className="fab fa-discord" style={{ color: "yellow" }} />
+              </a>
+              <a
+                href="http://t.me/SynCityHQ"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i className="fab fa-telegram" />
+              </a>
+              <a
+                href="https://twitter.com/SynCityHQ"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i className="fab fa-twitter" />
+              </a>
+            </Navbar.Text>
+          )}
 
           {/*<Navbar.Text>{connectedTo}</Navbar.Text>*/}
 
-          {this.Store.connectedWallet ? (
+          {this.isMobile() ? null : this.Store.connectedWallet ? (
             <Navbar.Text className={"aqua"}>
               <i
                 className="fas fa-user-astronaut"
@@ -162,14 +191,14 @@ export default class Header extends Base {
           ) : (
             <Button onClick={this.props.connect}>Connect your wallet</Button>
           )}
-          {/*{*/}
-          {/*  this.state.isOperator*/}
-          {/*    ? <Navbar.Text>*/}
-          {/*      <Link to="/admin" className={'gold'}><i className="fas fa-tools"/> Admin</Link>*/}
-          {/*    </Navbar.Text>*/}
-          {/*    : null*/}
-          {/*}*/}
         </Navbar.Collapse>
+        {/*{*/}
+        {/*  this.state.isOperator*/}
+        {/*    ? <Navbar.Text>*/}
+        {/*      <Link to="/admin" className={'gold'}><i className="fas fa-tools"/> Admin</Link>*/}
+        {/*    </Navbar.Text>*/}
+        {/*    : null*/}
+        {/*}*/}
       </Navbar>
     );
   }

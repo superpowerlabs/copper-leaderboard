@@ -27,8 +27,12 @@ class Base extends Common {
     // })
   }
 
-  ellipseAddress(address) {
-    return `${address.slice(0, 6)}...${address.slice(-4)}`;
+  isMobile() {
+    return window.innerWidth < 990;
+  }
+
+  ellipseAddress(address, size = 6) {
+    return `${address.slice(0, size)}...${address.slice(2 - size)}`;
   }
 
   request(api, method, params = {}, query = {}) {
