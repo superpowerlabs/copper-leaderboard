@@ -92,9 +92,6 @@ export default class Leaderboard extends Base {
     let buys = 0;
     let sells = 0;
     let poolId = "";
-    if (this.Store.chainId === 42) {
-      poolId = config.kovanPoolId;
-    }
     if (this.Store.chainId === 1) {
       poolId = config.mainnetPoolId;
     }
@@ -119,10 +116,7 @@ export default class Leaderboard extends Base {
     const query = {
       query: querytext,
     };
-    let url = config.kovanUrl;
-    if (this.Store.chainId === 42) {
-      url = config.kovanUrl;
-    }
+    let url = "";
     if (this.Store.chainId === 1) {
       url = config.mainnet;
     }
@@ -239,7 +233,7 @@ export default class Leaderboard extends Base {
           Please Connect your Wallet to access the leaderboard
         </div>
       );
-    } else if (chainId !== 1 && this.Store.chainId !== 42) {
+    } else if (chainId !== 1) {
       return (
         <div className="notConnectedTxt">Please switch to Ethereum Mainnet</div>
       );
