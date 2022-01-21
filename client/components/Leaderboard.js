@@ -58,6 +58,7 @@ export default class Leaderboard extends Base {
 
   componentDidMount() {
     this.getInvestments();
+    setTimeout(() => window.location.reload(), 300000)
   }
 
   async getPosition() {
