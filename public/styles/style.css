@@ -6,7 +6,6 @@ body {
     color: whitesmoke;
     /*color: #222222;*/
     font-family: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-weight: 300;
     /*background-size: 100%;*/
     /*background-position-y: 0;*/
     /*background-repeat: no-repeat;*/
@@ -21,6 +20,10 @@ body {
     -o-background-size: cover;
     background-size: cover;
     width: 100%;
+}
+
+.dongle {
+    font-family: Dongle, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 /*.navbar-toggler.collapsed {*/
@@ -129,13 +132,6 @@ a {
 /*    display: none !important;*/
 /*}*/
 
-@media (max-width: 800px) {
-    .container {
-        margin: 0 5%;
-        width: 90%;
-    }
-}
-
 @media (min-width: 801px) {
     .noMobile {
         display: inline !important;
@@ -229,8 +225,8 @@ div.textBlock p:last-child {
 }
 
 .container {
-    padding-right: 0;
-    padding-left: 0;
+    padding-right: 12px;
+    padding-left: 12px;
 }
 
 .smallvideo {
@@ -962,11 +958,7 @@ hr.crimson {
 h1.notTooLarge {
     font-size: 2.8rem;
 }
-.landingpageText {
-    font-size: 1.1rem;
-    line-height: 36px;
-    margin: 24px 0;
-}
+
 .nftLogos {
     display: flex;
     flex-direction: row;
@@ -1020,16 +1012,41 @@ h1.notTooLarge {
     width: 220px;
 }
 
-.progressBar {
+.progressBar1 {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
 }
 .progressBar2 {
-    border: 1px white;
-    border-style: solid;
+    width: 100%;
+    margin: 2px 0 0 0;
+}
+
+.progress {
+    height: 34px !important;
+    background-image: url(../images/progress-bg.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    /*background-attachment: fixed;*/
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
     width: 100%;
 }
+.progress .sr-only {
+    position: relative;
+}
+
+.progress .progressBar {
+    height: 32px;
+    color: black;
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 0;
+    text-align: left;
+    margin: 1px;
+}
+
 .bars1 {
     display: flex;
     flex-direction: row;
@@ -1081,6 +1098,7 @@ h1.notTooLarge {
     border: 1px solid #880;
     border-radius: 4px;
     background-image: linear-gradient(gold, yellow);
+    color: #883300;
 }
 
 .progressBarComplete {
@@ -1098,12 +1116,11 @@ h1.notTooLarge {
 }
 
 .parent {
-    max-height: 500px;
-    width: 1000px;
-    border: 0.5px solid white;
-    overflow: hidden;
-    margin-right: auto;
-    margin-left: auto;
+    width: 96%;
+    /*border: 0.5px solid white;*/
+    /*overflow: hidden;*/
+    /*margin-right: auto;*/
+    /*margin-left: auto;*/
 }
 
 table {
@@ -1121,10 +1138,8 @@ table td {
 
 .rank-header {
     color: yellow;
-    font-size: 20px;
+    font-size: 1.2rem;
     font-weight: bold;
-    position: sticky;
-    top: 0px;
 }
 
 .data:first-child {
@@ -1139,26 +1154,17 @@ table td {
 }
 
 .stats {
-    max-height: 500px;
-    width: 1000px;
-    overflow-y: auto;
+    /*max-height: 500px;*/
+    /*width: 1000px;*/
+    /*overflow-y: auto;*/
 }
 
-.rank-header.sortScore {
-    padding-right: 30px;
-    width: 185px;
-}
-
-.rank-header.sortTotal {
+.alignRight {
     text-align: right !important;
-    padding-right: 24px;
 }
 
-.rank-header.sortAlpha {
-    margin-left: auto;
-    margin-right: auto;
-    width: 510px;
-    padding-left: 90px;
+.alignLeft {
+    text-align: left !important;
 }
 
 .myPosition {
@@ -1169,15 +1175,15 @@ table td {
     font-weight: bold;
 }
 
-.data:nth-child(2) {
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 70px;
-}
+/*.data:nth-child(2) {*/
+/*    margin-left: auto;*/
+/*    margin-right: auto;*/
+/*    padding-left: 70px;*/
+/*}*/
 
-.data:nth-child(3) {
-    padding-right: 20px;
-}
+/*.data:nth-child(3) {*/
+/*    padding-right: 20px;*/
+/*}*/
 
 .highlight {
     background-color: #aa0719;
@@ -1230,4 +1236,120 @@ table td {
     color: yellow;
     font-weight: bold;
     font-size: 14px;
+}
+
+.CopyRight {
+    font-size: 0.9rem;
+    padding: 24px 0 12px;
+    color: #880;
+}
+
+#lBoard {
+    border-bottom: 6px solid #ffff0020;
+    margin-bottom: 6px;
+}
+
+.noMargin {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.progressBar {
+    padding-top: 10px;
+}
+
+.landingpageText {
+    font-size: 2rem;
+    line-height: 2rem;
+    margin: 24px 0;
+}
+
+.instructions {
+    margin: 12px 0;
+}
+
+.inInstructions {
+    border-radius: 24px;
+    border-color: yellow;
+    background-color: #ffff0020;
+    margin: 8px;
+    padding: 16px;
+    font-size: 0.8rem;
+}
+
+.inInstructions .bold {
+    font-size: 1rem;
+}
+
+.videoContainer,
+.videoContainer div,
+.videoContainer div div,
+.videoContainer div div video {
+    width: 280px !important;
+    height: 280px !important;
+    border-radius: 50px;
+}
+
+.videoContainer div div video {
+}
+
+.videoContainer div div:first-child {
+    display: none;
+}
+
+.videoContainer {
+    margin: 8px 8px 24px 8px;
+    padding: 12px;
+}
+
+.videoContainer div div {
+    text-align: center;
+}
+
+@media (max-width: 990px) {
+    .myPosition {
+        padding-top: 12px;
+        font-size: 1.2rem;
+    }
+
+    .rank-header {
+        font-size: 0.9rem;
+    }
+    .landingpageText {
+        font-size: 1.4rem;
+        line-height: 1.3rem;
+        margin: 12px 0;
+    }
+
+    .CopyRight {
+        padding-top: 16px;
+    }
+
+    /*.container {*/
+    /*    padding-left: 0;*/
+    /*    padding-right: 0;*/
+    /*    width: 90%;*/
+    /*}*/
+
+    .onTitle {
+        font-weight: bold;
+        font-size: 0.7rem;
+    }
+
+    .floatRightAbsolute {
+        position: absolute;
+        top: 6px;
+        right: 8px;
+    }
+
+    .videoContainer,
+    .videoContainer div,
+    .videoContainer div div,
+    .videoContainer div div video {
+        width: auto !important;
+    }
+
+    .progress {
+        background-image: url(../images/progress-bg-mobile.jpg);
+    }
 }
