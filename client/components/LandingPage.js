@@ -91,7 +91,7 @@ export default class LandingPage extends Base {
                       label={"our launch auction"}
                       link={"https://bit.ly/3Kujw3k"}
                     />
-                    , buy SYNR and hold them in your wallet
+                    , get $SYNR and hold them in your wallet
                   </div>{" "}
                 </Col>
                 <Col xs={12} lg={4}>
