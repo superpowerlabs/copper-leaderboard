@@ -1,7 +1,6 @@
+import VideoLooper from "react-video-looper";
 // eslint-disable-next-line no-undef
 const { Row, Col } = ReactBootstrap;
-
-import VideoLooper from "react-video-looper";
 import Base from "./Base";
 
 // eslint-disable-next-line no-undef
