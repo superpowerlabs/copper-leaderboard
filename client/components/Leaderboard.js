@@ -43,8 +43,8 @@ export default class Leaderboard extends Base {
       users: [],
       address: "",
       progress_now: 0,
-      paginate: 300,
-      myPosition: undefined,
+      paginate: 3000,
+      myPosition: undefined
     };
 
     this.bindMany([
@@ -58,7 +58,7 @@ export default class Leaderboard extends Base {
 
   componentDidMount() {
     this.getInvestments();
-    setTimeout(() => window.location.reload(), 300000)
+    // setTimeout(() => window.location.reload(), 300000)
   }
 
   async getPosition() {
@@ -81,14 +81,13 @@ export default class Leaderboard extends Base {
     this.setState({
       previousConnectedAddress: this.Store.connectedWallet,
     });
-    await this.sleep(30000);
+    await this.sleep(15000);
     await this.getInvestments();
   }
 
   async getInvestments() {
     await this.waitForWeb3();
-    const state_user = [];
-    let dict = {};
+    const {users} = this.state;
     let total = 0;
     let buys = 0;
     let sells = 0;
@@ -99,9 +98,12 @@ export default class Leaderboard extends Base {
     if (this.Store.chainId === 1) {
       poolId = config.mainnetPoolId;
     }
-    const query = {
-      query: ` {
-      swaps( first:1000, where: {poolId: "${poolId}" }, orderBy: timestamp) {
+    const querytext = ` {
+      swaps( first:1000, where: {poolId: "${poolId}" ${
+      this.lastTimestamp
+        ? `, timestamp_gt: ${this.lastTimestamp}`
+        : ""
+    } }, orderBy: timestamp) {
         userAddress {
           id
         }
@@ -110,9 +112,12 @@ export default class Leaderboard extends Base {
         tokenOutSym
         tokenAmountOut
         tx
+        timestamp
       }
     }
-    `,
+    `
+    const query = {
+      query: querytext,
     };
     let url = config.kovanUrl;
     if (this.Store.chainId === 42) {
@@ -122,33 +127,48 @@ export default class Leaderboard extends Base {
       url = config.mainnet;
     }
     const res = await superagent.post(url).send(query);
-    const wallets = res.body.data.swaps.map(({ userAddress }) => userAddress);
+    const {swaps} = res.body.data
+    const wallets = swaps.map(({ userAddress }) => userAddress);
     let address = wallets.map(({ id }) => id);
     address = address.filter(onlyUnique);
-    for (var x = 0; x < address.length; x++) {
-      for (var y = 0; y < res.body.data.swaps.length; y++) {
-        if (address[x] === res.body.data.swaps[y].userAddress.id) {
-          if (res.body.data.swaps[y].tokenInSym === "USDC") {
-            buys += Number(res.body.data.swaps[y].tokenAmountOut);
+
+    const addToStateUser = (address, score) => {
+      for (let i = 0;i<users.length; i++) {
+        let item = users[i]
+        if (item.address === address) {
+          let total = parseFloat(item.score) + score
+          if (total > 0) {
+            item.score = addSomeDecimals(total);
           } else {
-            sells += Number(res.body.data.swaps[y].tokenAmountIn);
+            users.splice(i, 1)
           }
+          return total
         }
       }
-      total = buys - sells;
-      if (total > 0) {
-        dict = { address: address[x], score: total };
-        state_user.push(dict);
+      if (score > 0) {
+        users.push({address, score: addSomeDecimals(score)})
       }
+    }
+
+    for (let x = 0; x < address.length; x++) {
+      for (let y = 0; y < swaps.length; y++) {
+        if (address[x] === swaps[y].userAddress.id) {
+          if (swaps[y].tokenInSym === "USDC") {
+            buys += Number(swaps[y].tokenAmountOut);
+          } else {
+            sells += Number(swaps[y].tokenAmountIn);
+          }
+        }
+        this.lastTimestamp = Math.max(this.lastTimestamp || 0, swaps[y].timestamp)
+      }
+      total = buys - sells;
+      addToStateUser(address[x], total)
       total = 0;
       buys = 0;
       sells = 0;
     }
 
-    this.setState({ users: state_user });
-    for (var u = 0; u < state_user.length; u++) {
-      this.state.users[u].score = addSomeDecimals(this.state.users[u].score);
-    }
+    this.setState({ users });
     this.rankingSorter();
     await this.getPosition();
   }
