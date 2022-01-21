@@ -100,7 +100,7 @@ export default class Leaderboard extends Base {
     }
     const query = {
       query: ` {
-      swaps( first:1000 where: {poolId: "${poolId}" }, orderBy: timestamp) {
+      swaps( first:1000, where: {poolId: "${poolId}" }, orderBy: timestamp) {
         userAddress {
           id
         }
