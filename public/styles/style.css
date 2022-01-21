@@ -1352,10 +1352,9 @@ table td {
     .progress {
         background-image: url(../images/progress-bg-mobile.jpg);
     }
-
 }
-    .CopyRight {
-        padding-top: 16px;
-        border-top: 1px solid #551;
-        margin: 36px 0 12px;
-    }
+.CopyRight {
+    padding-top: 16px;
+    border-top: 1px solid #551;
+    margin: 36px 0 12px;
+}

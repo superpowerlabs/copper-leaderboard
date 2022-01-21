@@ -11,7 +11,7 @@ export default class NFTs extends Base {
         <Col xs={12} lg={4}>
           <div className={"videoContainer"}>
             <VideoLooper
-              source={"https://data.syn.city/assets/top50_2.mp4"}
+              source={"https://data.syn.city/assets/top200_2.mp4"}
               start={0}
               end={25}
               width={this.Store.blockDiv}
@@ -21,11 +21,12 @@ export default class NFTs extends Base {
             />
           </div>
           <div className={"topRow centered"}>
-            <span className={"nftTextGold"}>Top 50 </span>
+            <span className={"nftTextBronze"}>Top 101-200 </span>
             <span className={"nftText"}>reward:</span>
           </div>
-          <b className={"boldNFT centered"}>ORIGINAL SYNNER GOLD</b>
+          <b className={"boldNFT centered"}>ORIGINAL SYNNER BRONZE</b>
         </Col>
+
         <Col xs={12} lg={4}>
           <div className={"videoContainer"}>
             <VideoLooper
@@ -47,7 +48,7 @@ export default class NFTs extends Base {
         <Col xs={12} lg={4}>
           <div className={"videoContainer"}>
             <VideoLooper
-              source={"https://data.syn.city/assets/top200_2.mp4"}
+              source={"https://data.syn.city/assets/top50_2.mp4"}
               start={0}
               end={25}
               width={this.Store.blockDiv}
@@ -57,10 +58,10 @@ export default class NFTs extends Base {
             />
           </div>
           <div className={"topRow centered"}>
-            <span className={"nftTextBronze"}>Top 101-200 </span>
+            <span className={"nftTextGold"}>Top 50 </span>
             <span className={"nftText"}>reward:</span>
           </div>
-          <b className={"boldNFT centered"}>ORIGINAL SYNNER BRONZE</b>
+          <b className={"boldNFT centered"}>ORIGINAL SYNNER GOLD</b>
         </Col>
       </Row>
     );
