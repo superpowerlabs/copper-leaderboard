@@ -79,8 +79,8 @@ export default class Leaderboard extends Base {
     this.setState({
       previousConnectedAddress: this.Store.connectedWallet,
     });
-    await this.sleep(500);
-    this.getInvestments();
+    await this.sleep(30000);
+    await this.getInvestments();
   }
 
   async getInvestments() {
@@ -148,7 +148,7 @@ export default class Leaderboard extends Base {
       this.state.users[u].score = addSomeDecimals(this.state.users[u].score);
     }
     this.rankingSorter();
-    this.getPosition();
+    await this.getPosition();
   }
 
   /**
