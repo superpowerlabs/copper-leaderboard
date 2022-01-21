@@ -1,7 +1,6 @@
+import VideoLooper from "react-video-looper";
 // eslint-disable-next-line no-undef
 const { Row, Col } = ReactBootstrap;
-
-import VideoLooper from "react-video-looper";
 import Base from "./Base";
 
 // eslint-disable-next-line no-undef
@@ -25,7 +24,7 @@ export default class NFTs extends Base {
             <span className={"nftTextGold"}>Top 50 </span>
             <span className={"nftText"}>reward:</span>
           </div>
-          <b className={"boldNFT centered"}>ORIGINAL SYNNER CEO</b>
+          <b className={"boldNFT centered"}>ORIGINAL SYNNER GOLD</b>
         </Col>
         <Col xs={12} lg={4}>
           <div className={"videoContainer"}>
@@ -43,7 +42,7 @@ export default class NFTs extends Base {
             <span className={"nftTextSilver"}>Top 51-100 </span>
             <span className={"nftText"}>reward:</span>
           </div>
-          <b className={"boldNFT centered"}>ORIGINAL SYNNER GUNMAN</b>
+          <b className={"boldNFT centered"}>ORIGINAL SYNNER SILVER</b>
         </Col>
         <Col xs={12} lg={4}>
           <div className={"videoContainer"}>
@@ -61,7 +60,7 @@ export default class NFTs extends Base {
             <span className={"nftTextBronze"}>Top 101-200 </span>
             <span className={"nftText"}>reward:</span>
           </div>
-          <b className={"boldNFT centered"}>ORIGINAL SYNNER WEAPON</b>
+          <b className={"boldNFT centered"}>ORIGINAL SYNNER COPPER</b>
         </Col>
       </Row>
     );
