@@ -235,12 +235,12 @@ export default class Leaderboard extends Base {
                   <br />
                   <span style={{ fontSize: "80%" }}>
                     {this.state.myPosition === 1
-                      ? "Buy more SYNR to consolidate your position"
-                      : "Buy more SYNR to improve your position"}
+                      ? "Get more $SYNR to consolidate your position"
+                      : "Get more $SYNR to improve your position"}
                   </span>
                 </div>
               ) : (
-                "You are not in the leaderboard. Buy SYNR to get your NFT rewards"
+                "You are not in the leaderboard. Get $SYNR to get your NFT rewards"
               )}
             </div>
           ) : null}
@@ -258,7 +258,7 @@ export default class Leaderboard extends Base {
                   <div className="buySYNbtn2">
                     <Button
                       classname="buySYNbtn"
-                      text="Buy $SYNR"
+                      text="Get $SYNR"
                       onClick={copperlaunch}
                     />
                   </div>
