@@ -4,8 +4,6 @@ const { ProgressBar } = ReactBootstrap;
 import PropTypes from "prop-types";
 
 export default function MyProgressBar({ progress }) {
-  progress = 73;
-
   let progress300 = progress > 33 ? 33 : progress || 0;
   let progress200 = progress > 66 ? 33 : progress > 33 ? progress - 33 : 0;
   let progress100 = progress > 83 ? 17 : progress > 66 ? progress - 66 : 0;
