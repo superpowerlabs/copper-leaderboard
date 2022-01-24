@@ -43,8 +43,8 @@ export default class Leaderboard extends Base {
       users: [],
       address: "",
       progress_now: 0,
-      paginate: 3000,
-      myPosition: undefined
+      paginate: 10000,
+      myPosition: undefined,
     };
 
     this.bindMany([
@@ -87,7 +87,7 @@ export default class Leaderboard extends Base {
 
   async getInvestments() {
     await this.waitForWeb3();
-    const {users} = this.state;
+    const { users } = this.state;
     let total = 0;
     let buys = 0;
     let sells = 0;
@@ -100,9 +100,7 @@ export default class Leaderboard extends Base {
     }
     const querytext = ` {
       swaps( first:1000, where: {poolId: "${poolId}" ${
-      this.lastTimestamp
-        ? `, timestamp_gt: ${this.lastTimestamp}`
-        : ""
+      this.lastTimestamp ? `, timestamp_gt: ${this.lastTimestamp}` : ""
     } }, orderBy: timestamp) {
         userAddress {
           id
@@ -115,7 +113,7 @@ export default class Leaderboard extends Base {
         timestamp
       }
     }
-    `
+    `;
     const query = {
       query: querytext,
     };
@@ -127,28 +125,28 @@ export default class Leaderboard extends Base {
       url = config.mainnet;
     }
     const res = await superagent.post(url).send(query);
-    const {swaps} = res.body.data
+    const { swaps } = res.body.data;
     const wallets = swaps.map(({ userAddress }) => userAddress);
     let address = wallets.map(({ id }) => id);
     address = address.filter(onlyUnique);
 
     const addToStateUser = (address, score) => {
-      for (let i = 0;i<users.length; i++) {
-        let item = users[i]
+      for (let i = 0; i < users.length; i++) {
+        let item = users[i];
         if (item.address === address) {
-          let total = parseFloat(item.score) + score
+          let total = parseFloat(item.score) + score;
           if (total > 0) {
             item.score = addSomeDecimals(total);
           } else {
-            users.splice(i, 1)
+            users.splice(i, 1);
           }
-          return total
+          return total;
         }
       }
       if (score > 0) {
-        users.push({address, score: addSomeDecimals(score)})
+        users.push({ address, score: addSomeDecimals(score) });
       }
-    }
+    };
 
     for (let x = 0; x < address.length; x++) {
       for (let y = 0; y < swaps.length; y++) {
@@ -159,10 +157,13 @@ export default class Leaderboard extends Base {
             sells += Number(swaps[y].tokenAmountIn);
           }
         }
-        this.lastTimestamp = Math.max(this.lastTimestamp || 0, swaps[y].timestamp)
+        this.lastTimestamp = Math.max(
+          this.lastTimestamp || 0,
+          swaps[y].timestamp
+        );
       }
       total = buys - sells;
-      addToStateUser(address[x], total)
+      addToStateUser(address[x], total);
       total = 0;
       buys = 0;
       sells = 0;
