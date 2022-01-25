@@ -122,6 +122,7 @@ export default class LandingPage extends Base {
               <NFTs Store={this.Store} setStore={this.setStore} />
 
               <br style={{ clear: "both" }} />
+              <div className={"endResults"}>FINAL RESULTS</div>
 
               <Leaderboard Store={this.Store} setStore={this.setStore} />
               {this.isMobile() ? null : (

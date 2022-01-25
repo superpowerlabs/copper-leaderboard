@@ -1245,7 +1245,7 @@ table td {
 }
 
 #lBoard {
-    border-bottom: 6px solid #ffff0020;
+    /*border-bottom: 6px solid #ffff0020;*/
     margin-bottom: 6px;
 }
 
@@ -1357,4 +1357,29 @@ table td {
     padding-top: 16px;
     border-top: 1px solid #551;
     margin: 36px 0 12px;
+}
+
+.top50 {
+    background-color: #ffdd0060;
+}
+
+.top100 {
+    background-color: #ffdd0040;
+}
+
+.top200 {
+    background-color: #ffdd0020;
+}
+
+.endResults {
+    color: crimson;
+    font-size: 3rem;
+}
+
+.spaceAtBottom {
+    margin-bottom: 16px;
+}
+
+.spaceAtNight {
+    margin-bottom: 2px;
 }

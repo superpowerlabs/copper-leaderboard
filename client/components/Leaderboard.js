@@ -2,16 +2,12 @@
 const { Row, Col, Badge } = ReactBootstrap;
 import Base from "./Base";
 import MyProgressbar from "./MyProgressBar";
-import Button from "./BuySynbtn";
 import Address from "../utils/Address";
 
 const superagent = require("superagent");
 import config from "../config/index";
-// import { add } from "lodash";
+import results from "../config/results.json";
 
-function copperlaunch() {
-  window.open(config.auctionUrl);
-}
 
 const addSomeDecimals = (s, c = 2) => {
   s = s.toString().split(".");
@@ -48,24 +44,27 @@ export default class Leaderboard extends Base {
     };
 
     this.bindMany([
-      "getInvestments",
-      "rankingSorter",
-      // "newleaderboard",
-      // "getNewEvents",
+      // "getInvestments",
+      // "rankingSorter",
+      // // "newleaderboard",
+      // // "getNewEvents",
       "getPosition",
     ]);
   }
 
   componentDidMount() {
-    this.getInvestments();
+    // setTimeout(() => {
+    //   this.setStore({connectedWallet: '0x86255c8e9b91c7c28cd2586be60de95327b1bb48'})
+    this.getPosition();
+    // }, 1000)
+    // this.getInvestments();
     // setTimeout(() => window.location.reload(), 300000)
   }
 
   async getPosition() {
-    const position = this.state.users.map(({ address }) => address);
-    for (let j = 0; j < position.length; j++) {
-      if (Address.equal(position[j], this.Store.connectedWallet)) {
-        const myPosition = this.state.users[j].rank;
+    for (let item of results) {
+      if (Address.equal(item.address, this.Store.connectedWallet)) {
+        const myPosition = item.rank;
         this.setState({
           myPosition,
         });
@@ -81,8 +80,8 @@ export default class Leaderboard extends Base {
     this.setState({
       previousConnectedAddress: this.Store.connectedWallet,
     });
-    await this.sleep(15000);
-    await this.getInvestments();
+    // await this.sleep(15000);
+    // await this.getInvestments();
   }
 
   async getInvestments() {
@@ -205,7 +204,7 @@ export default class Leaderboard extends Base {
   <Col xs={3} lg={3} className="rank-header sortTotal">Amount invested</Col>
   */
 
-  renderRows() {
+  renderRows0() {
     const { ranking } = this.state;
     return ranking.map((user, index) => {
       return user.page === this.state.page ? (
@@ -232,99 +231,111 @@ export default class Leaderboard extends Base {
     });
   }
 
+  renderRows() {
+    const { connectedWallet } = this.Store;
+    return results //.slice(0,250)
+      .map((item) => (
+        <Row
+          key={"statsrow" + item.rank}
+          className={
+            "noMargin" +
+            (item.rank === 50 || item.rank === 100 || item.rank === 200
+              ? " spaceAtBottom "
+              : " spaceAtNight") +
+            (connectedWallet && Address.equal(item.address, connectedWallet)
+              ? " highlight"
+              : item.rank < 51
+              ? " top50"
+              : item.rank < 101
+              ? " top100"
+              : item.rank < 201
+              ? " top200"
+              : "")
+          }
+        >
+          <Col xs={1} lg={2} className={"digit centered"}>
+            #{item.rank}
+          </Col>
+          <Col xs={8} lg={7} className={"digit centered"}>
+            {this.isMobile()
+              ? this.ellipseAddress(item.address, 14)
+              : item.address}
+          </Col>
+          <Col xs={3} lg={3} className={"digit alignRight"}>
+            {item.amount}
+          </Col>
+        </Row>
+      ));
+  }
+
   render() {
-    const { connectedWallet, chainId } = this.Store;
-    if (!connectedWallet) {
-      return (
-        <div className="notConnectedTxt">
-          Please Connect your Wallet to access the leaderboard
-        </div>
-      );
-    } else if (chainId !== 1 && this.Store.chainId !== 42) {
-      return (
-        <div className="notConnectedTxt">Please switch to Ethereum Mainnet</div>
-      );
-    } else {
-      return (
-        <div>
-          {connectedWallet && this.state.users.length > 0 ? (
-            <div className={"myPosition"}>
-              {this.state.myPosition ? (
-                <div>
-                  Your ranking is{" "}
-                  <Badge bg="warning" text="dark">
-                    {this.state.myPosition}
-                  </Badge>
-                  <br />
-                  <span style={{ fontSize: "80%" }}>
-                    {this.state.myPosition === 1
-                      ? "Get more $SYNR to consolidate your position"
-                      : "Get more $SYNR to improve your position"}
-                  </span>
-                </div>
-              ) : (
-                "You are not in the leaderboard. Get $SYNR to get your NFT rewards"
-              )}
-            </div>
-          ) : null}
-          <div className="App">
-            <div className="progressBarComplete">
+    const { connectedWallet
+      // , chainId
+    } = this.Store;
+    // if (!connectedWallet) {
+    //   return (
+    //     <div className="notConnectedTxt">
+    //       Please Connect your Wallet to access the leaderboard
+    //     </div>
+    //   );
+    // } else if (chainId !== 1 && this.Store.chainId !== 42) {
+    //   return (
+    //     <div className="notConnectedTxt">Please switch to Ethereum Mainnet</div>
+    //   );
+    // } else {
+    return (
+      <div>
+        {connectedWallet ? (
+          <div className={"myPosition"}>
+            {this.state.myPosition ? (
               <div>
-                <div className="progressBar1">
-                  <div className="progressBar2">
-                    <MyProgressbar
-                      bgcolor="yellow"
-                      progress={this.state.progress_now}
-                      height={30}
-                    />
-                  </div>
-                  <div className="buySYNbtn2">
-                    <Button
-                      classname="buySYNbtn"
-                      text="Get $SYNR"
-                      onClick={copperlaunch}
-                    />
-                  </div>
-                  {/*</div>*/}
-                  {/*<div className="bars1">*/}
-                  {/*  <div className="Top200">*/}
-                  {/*    <div className="Top200bar"></div>*/}
-                  {/*    Top 200*/}
-                  {/*  </div>*/}
-                  {/*  <div className="Top100">*/}
-                  {/*    <div className="Top100bar"></div>*/}
-                  {/*    Top 100*/}
-                  {/*  </div>*/}
-                  {/*  <div className="Top50">*/}
-                  {/*    <div className="Top50bar"></div>*/}
-                  {/*    Top 50*/}
-                  {/*  </div>*/}
+                Your ranking is{" "}
+                <Badge bg="warning" text="dark">
+                  {this.state.myPosition}
+                </Badge>{" "}
+                — Congratulations!
+              </div>
+            ) : null}
+          </div>
+        ) : null}
+        <div className="App">
+          <div className="progressBarComplete">
+            <div>
+              <div className="progressBar1">
+                <div className="progressBar2">
+                  <MyProgressbar
+                    bgcolor="yellow"
+                    progress={this.state.progress_now}
+                    height={30}
+                  />
                 </div>
+                {/*<div className="buySYNbtn2">*/}
+                {/*  <Button*/}
+                {/*    classname="buySYNbtn"*/}
+                {/*    text="Get $SYNR"*/}
+                {/*    onClick={copperlaunch}*/}
+                {/*  />*/}
+                {/*</div>*/}
               </div>
             </div>
           </div>
-          {this.state.users.length === 0 ? (
-            <div className={"myPosition"}>
-              The Copper Auction has not yet started
-            </div>
-          ) : (
-            <div className="width100pc">
-              <Row id="lBoard" className={"noMargin"}>
-                <Col xs={1} lg={2} className="rank-header centered">
-                  Rank
-                </Col>
-                <Col xs={8} lg={7} className="rank-header centered">
-                  Address
-                </Col>
-                <Col xs={3} lg={3} className="rank-header alignRight">
-                  Amount
-                </Col>
-              </Row>
-              <div className="stats">{this.renderRows()}</div>
-            </div>
-          )}
         </div>
-      );
-    }
+        <div className="width100pc">
+          <Row id="lBoard" className={"noMargin"}>
+            <Col xs={1} lg={2} className="rank-header centered">
+              Rank
+            </Col>
+            <Col xs={8} lg={7} className="rank-header centered">
+              Address
+            </Col>
+            <Col xs={3} lg={3} className="rank-header alignRight">
+              Amount
+            </Col>
+          </Row>
+          <div className="stats">{this.renderRows()}</div>
+        </div>
+      </div>
+    );
+    // }
   }
 }
