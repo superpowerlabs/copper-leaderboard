@@ -8,7 +8,6 @@ const superagent = require("superagent");
 import config from "../config/index";
 import results from "../config/results.json";
 
-
 const addSomeDecimals = (s, c = 2) => {
   s = s.toString().split(".");
   s[1] = (s[1] || "").substring(0, c);
@@ -269,7 +268,8 @@ export default class Leaderboard extends Base {
   }
 
   render() {
-    const { connectedWallet
+    const {
+      connectedWallet,
       // , chainId
     } = this.Store;
     // if (!connectedWallet) {
