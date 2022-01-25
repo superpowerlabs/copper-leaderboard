@@ -90,9 +90,6 @@ export default class Leaderboard extends Base {
     let buys = 0;
     let sells = 0;
     let poolId = "";
-    if (this.Store.chainId === 42) {
-      poolId = config.kovanPoolId;
-    }
     if (this.Store.chainId === 1) {
       poolId = config.mainnetPoolId;
     }
@@ -115,10 +112,7 @@ export default class Leaderboard extends Base {
     const query = {
       query: querytext,
     };
-    let url = config.kovanUrl;
-    if (this.Store.chainId === 42) {
-      url = config.kovanUrl;
-    }
+    let url = "";
     if (this.Store.chainId === 1) {
       url = config.mainnet;
     }
@@ -288,6 +282,7 @@ export default class Leaderboard extends Base {
         {connectedWallet ? (
           <div className={"myPosition"}>
             {this.state.myPosition ? (
+
               <div>
                 Your ranking is{" "}
                 <Badge bg="warning" text="dark">
