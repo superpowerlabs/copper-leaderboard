@@ -282,7 +282,6 @@ export default class Leaderboard extends Base {
         {connectedWallet ? (
           <div className={"myPosition"}>
             {this.state.myPosition ? (
-
               <div>
                 Your ranking is{" "}
                 <Badge bg="warning" text="dark">
