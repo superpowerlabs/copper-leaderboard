@@ -4,6 +4,8 @@ const { Navbar, Nav, Button } = ReactBootstrap;
 import Base from "./Base";
 import { addToken } from "../utils/Wallet";
 
+import Logo from "./lib/Logo";
+
 export default class Header extends Base {
   constructor(props) {
     super(props);
@@ -75,6 +77,8 @@ export default class Header extends Base {
       }
     }
 
+    const left = window.innerWidth / 2 - 146 / 2;
+
     // let connectedTo = "";
     //   =
     //   (
@@ -98,12 +102,14 @@ export default class Header extends Base {
         expand="lg"
         className={"roboto"}
       >
-        {this.isMobile() ? (
-          <div style={{ width: "60%" }}>
-            <img src={"/images/yellowLogo.png"} style={{ width: "30%" }} />{" "}
+        <div style={{ width: this.isMobile() ? "60%" : "30%" }}>
+          <Logo cls={"centeredLogo"} style={{ left, width: 146 }} />{" "}
+          {this.isMobile() ? (
             <span className={"onTitle"}>Copperlaunch Leaderboard</span>
-          </div>
-        ) : null}
+          ) : (
+            ""
+          )}
+        </div>
 
         {this.isMobile() ? (
           this.Store.connectedWallet ? (

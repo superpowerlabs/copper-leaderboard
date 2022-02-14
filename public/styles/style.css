@@ -497,7 +497,7 @@ span.button {
 }
 
 .navbar {
-    background-color: #00000020 !important;
+    background-color: #00000080 !important;
     border-bottom: none !important;
     background-size: 100%;
     padding: 0.2rem 1.4rem !important;
@@ -1235,7 +1235,11 @@ table td {
     cursor: pointer;
     color: yellow;
     font-weight: bold;
-    font-size: 14px;
+    position: absolute;
+    font-size: 0.7rem;
+    top: 12px;
+    left: 20px;
+    z-index: 1;
 }
 
 .CopyRight {
@@ -1377,9 +1381,15 @@ table td {
 }
 
 .spaceAtBottom {
-    margin-bottom: 16px;
+    margin-bottom: 32px;
 }
 
 .spaceAtNight {
     margin-bottom: 2px;
+}
+
+.centeredLogo {
+    position: absolute;
+    top: 8px;
+    z-index: 1;
 }

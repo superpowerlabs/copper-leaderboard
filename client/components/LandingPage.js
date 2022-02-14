@@ -5,6 +5,8 @@ import Leaderboard from "./Leaderboard";
 // import Button from "./BuySynbtn";
 import Base from "./Base";
 import Ab from "./lib/Ab";
+import Logo from "./lib/Logo";
+import { isSynCity } from "../config";
 
 // eslint-disable-next-line no-undef
 const { Container, Row, Col } = ReactBootstrap;
@@ -58,14 +60,9 @@ export default class LandingPage extends Base {
   render() {
     return (
       <div>
-        <Container>
+        <Container style={{ marginTop: 80 }}>
           <div className={"centered"}>
             <div className={"inside"}>
-              {this.isMobile() ? null : (
-                <div className={"yellowLogo"}>
-                  <img src={"/images/yellowLogo.png"} />
-                </div>
-              )}
               <div className={"topsynnersLogo"}>
                 <img src={"/images/topSinners.png"} />
               </div>
@@ -98,7 +95,7 @@ export default class LandingPage extends Base {
                 <Col xs={12} lg={4}>
                   <div className={"inInstructions"}>
                     <div className={"bold"}> How to get more info</div>
-                    Visit Syn City Official Blog:
+                    Visit {isSynCity ? "Syn City" : "Mob Land"} Official Blog:
                     <br />
                     <Ab
                       label={"How to get $SYNR guide here"}
@@ -127,7 +124,7 @@ export default class LandingPage extends Base {
               <Leaderboard Store={this.Store} setStore={this.setStore} />
               {this.isMobile() ? null : (
                 <div className="foot">
-                  <img src={"/images/yellowLogo.png"} alt={"footer"} />
+                  <Logo />
                 </div>
               )}
 
@@ -160,7 +157,7 @@ export default class LandingPage extends Base {
                     </a>
                   </span>
                 ) : null}
-                (c) 2022, Syn City
+                (c) 2022, {isSynCity ? "Syn City" : "Mob Land"}
               </div>
             </div>
           </div>

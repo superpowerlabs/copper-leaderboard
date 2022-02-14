@@ -1,7 +1,6 @@
 // eslint-disable-next-line no-undef
 const { Row, Col, Badge } = ReactBootstrap;
 import Base from "./Base";
-import MyProgressbar from "./MyProgressBar";
 import Address from "../utils/Address";
 
 const superagent = require("superagent");
@@ -292,28 +291,28 @@ export default class Leaderboard extends Base {
             ) : null}
           </div>
         ) : null}
-        <div className="App">
-          <div className="progressBarComplete">
-            <div>
-              <div className="progressBar1">
-                <div className="progressBar2">
-                  <MyProgressbar
-                    bgcolor="yellow"
-                    progress={this.state.progress_now}
-                    height={30}
-                  />
-                </div>
-                {/*<div className="buySYNbtn2">*/}
-                {/*  <Button*/}
-                {/*    classname="buySYNbtn"*/}
-                {/*    text="Get $SYNR"*/}
-                {/*    onClick={copperlaunch}*/}
-                {/*  />*/}
-                {/*</div>*/}
-              </div>
-            </div>
-          </div>
-        </div>
+        {/*<div className="App">*/}
+        {/*  <div className="progressBarComplete">*/}
+        {/*    <div>*/}
+        {/*      <div className="progressBar1">*/}
+        {/*        <div className="progressBar2">*/}
+        {/*          <MyProgressbar*/}
+        {/*            bgcolor="yellow"*/}
+        {/*            progress={this.state.progress_now}*/}
+        {/*            height={30}*/}
+        {/*          />*/}
+        {/*        </div>*/}
+        {/*        /!*<div className="buySYNbtn2">*!/*/}
+        {/*        /!*  <Button*!/*/}
+        {/*        /!*    classname="buySYNbtn"*!/*/}
+        {/*        /!*    text="Get $SYNR"*!/*/}
+        {/*        /!*    onClick={copperlaunch}*!/*/}
+        {/*        /!*  />*!/*/}
+        {/*        /!*</div>*!/*/}
+        {/*      </div>*/}
+        {/*    </div>*/}
+        {/*  </div>*/}
+        {/*</div>*/}
         <div className="width100pc">
           <Row id="lBoard" className={"noMargin"}>
             <Col xs={1} lg={2} className="rank-header centered">

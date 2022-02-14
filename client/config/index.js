@@ -28,6 +28,7 @@ const config = {
     //42: "0x0f65a9629ae856a6fe3e8292fba577f478b944e0",
     // 1: ""
   },
+  isSynCity: /syn.city/.test(window.location.origin),
 };
 
 module.exports = config;
