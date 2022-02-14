@@ -186,17 +186,17 @@ export default class Header extends Base {
 
           {/*<Navbar.Text>{connectedTo}</Navbar.Text>*/}
 
-          {this.isMobile() ? null : this.Store.connectedWallet ? (
-            <Navbar.Text className={"aqua"}>
-              <i
-                className="fas fa-user-astronaut"
-                style={{ marginRight: 10 }}
-              />
-              {address}
-            </Navbar.Text>
-          ) : (
-            <Button onClick={this.props.connect}>Connect your wallet</Button>
-          )}
+          {/*{this.isMobile() ? null : this.Store.connectedWallet ? (*/}
+          {/*  <Navbar.Text className={"aqua"}>*/}
+          {/*    <i*/}
+          {/*      className="fas fa-user-astronaut"*/}
+          {/*      style={{ marginRight: 10 }}*/}
+          {/*    />*/}
+          {/*    {address}*/}
+          {/*  </Navbar.Text>*/}
+          {/*) : (*/}
+          {/*  <Button onClick={this.props.connect}>Connect your wallet</Button>*/}
+          {/*)}*/}
         </Navbar.Collapse>
         {/*{*/}
         {/*  this.state.isOperator*/}
