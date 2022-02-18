@@ -95,7 +95,7 @@ export default class LandingPage extends Base {
                 <Col xs={12} lg={4}>
                   <div className={"inInstructions"}>
                     <div className={"bold"}> How to get more info</div>
-                    Visit {isSynCity ? "Syn City" : "Mob Land"} Official Blog:
+                    Visit {isSynCity ? "Syn City" : "Mobland"} Official Blog:
                     <br />
                     <Ab
                       label={"How to get $SYNR guide here"}
@@ -157,7 +157,7 @@ export default class LandingPage extends Base {
                     </a>
                   </span>
                 ) : null}
-                (c) 2022, {isSynCity ? "Syn City" : "Mob Land"}
+                (c) 2022, {isSynCity ? "Syn City" : "Mobland"}
               </div>
             </div>
           </div>
