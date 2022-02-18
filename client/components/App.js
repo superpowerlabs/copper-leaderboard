@@ -13,14 +13,18 @@ import Header from "./Header";
 import LandingPage from "./LandingPage";
 import Error404 from "./Error404";
 
+import { isSynCity } from "../config";
+
 class App extends Common {
   constructor(props) {
     super(props);
 
+    if (isSynCity) {
+      window.location = window.location.href.replace(/syn\.city/, "mob.land");
+    }
+
     let localStore = JSON.parse(ls("localStore") || "{}");
     let pathhash = ethers.utils.id(window.location.pathname);
-
-    // console.log(pathhash)
 
     this.state = {
       Store: Object.assign(
