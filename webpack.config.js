@@ -24,5 +24,11 @@ module.exports = {
     path: path.join(__dirname, "public"),
     filename: "bundle/bundle.min.js",
   },
-  plugins: [new webpack.optimize.OccurrenceOrderPlugin()],
+  plugins: [new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.LoaderOptionsPlugin({
+      options: {
+        mode: process.env.NODE_ENV || "production",
+      },
+    }),
+  ],
 };
