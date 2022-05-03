@@ -61,8 +61,7 @@
   "scripts": {
     "start": "node .",
     "start:dev": "NODE_ENV=development node .",
-    "build-syn-city": "./set-syn-city.sh && webpack",
-    "build": "./set-mob-land.sh && webpack",
+    "build": "webpack",
     "format": "npx prettier --write .",
     "lint": "npm run lint:client && npm run lint:server",
     "lint:client": "eslint client/**/*.js",
