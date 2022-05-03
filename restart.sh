@@ -1,4 +1,4 @@
 #!/bin/env bash
 
-git pull && pnpm i && pnpm build-mob-land &&
+git pull && pnpm i && pnpm build &&
     pm2 restart leaderboard
