@@ -69,8 +69,8 @@ export default class LandingPage extends Base {
               <div className={"home-section centered"}></div>
 
               <Row className={"instructions"}>
-                <Col xs={12} lg={4} ref={this.blockdiv}></Col>
-                <Col xs={12} lg={4}>
+                <Col xs={12} lg={2} ref={this.blockdiv}></Col>
+                <Col xs={12} lg={8}>
                   <div className={"inInstructions"}>
                     <div className={"bold"}> How to get more info</div>
                     Visit {isSynCity ? "Syn City" : "Mobland"} Official Blog:
@@ -84,13 +84,13 @@ export default class LandingPage extends Base {
                   </div>
                 </Col>
 
-                <Col xs={12} lg={4}>
-                  <div className={"inInstructions"}>
-                    <div className={"bold"}> Campaign duration:</div>
-                    Starts on 21st Jan; 9 AM PST / 5 PM UTC
-                    <br />
-                    Ends on 24th Jan; 3 PM PST / 11 PM UTC
-                  </div>
+                <Col xs={12} lg={2}>
+                  {/*<div className={"inInstructions"}>*/}
+                  {/*  <div className={"bold"}> Campaign duration:</div>*/}
+                  {/*  Starts on 21st Jan; 9 AM PST / 5 PM UTC*/}
+                  {/*  <br />*/}
+                  {/*  Ends on 24th Jan; 3 PM PST / 11 PM UTC*/}
+                  {/*</div>*/}
                 </Col>
               </Row>
 
