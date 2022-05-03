@@ -168,14 +168,14 @@ export default class Header extends Base {
                 <i className="fab fa-discord" style={{ color: "yellow" }} />
               </a>
               <a
-                href="http://t.me/SynCityHQ"
+                href="https://t.me/MobLandAnnouncements"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <i className="fab fa-telegram" />
               </a>
               <a
-                href="https://twitter.com/SynCityHQ"
+                href="https://twitter.com/MobLandHQ"
                 target="_blank"
                 rel="noopener noreferrer"
               >

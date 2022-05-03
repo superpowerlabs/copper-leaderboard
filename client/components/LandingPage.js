@@ -67,30 +67,10 @@ export default class LandingPage extends Base {
                 <img src={"/images/topSinners.png"} />
               </div>
               <div className={"home-section centered"}>
-                <div className={"landingpageText dongle"}>
-                  Win exclusive "ORIGINAL SYNNER" NFTs by becoming top
-                  contributor during{" "}
-                  <Ab
-                    label={"our launch auction"}
-                    link={"https://bit.ly/3Kujw3k"}
-                  />
-                  . Ranking is based on net SYNR holding in your Ethereum wallet
-                  address. A snapshot at the end of the auction will decide the
-                  winners.
-                </div>
               </div>
 
               <Row className={"instructions"}>
                 <Col xs={12} lg={4} ref={this.blockdiv}>
-                  <div className={"inInstructions"}>
-                    <div className={"bold"}> How to participate</div>
-                    Visit{" "}
-                    <Ab
-                      label={"our launch auction"}
-                      link={"https://bit.ly/3Kujw3k"}
-                    />
-                    , get $SYNR and hold them in your wallet
-                  </div>{" "}
                 </Col>
                 <Col xs={12} lg={4}>
                   <div className={"inInstructions"}>
@@ -142,14 +122,14 @@ export default class LandingPage extends Base {
                       />
                     </a>
                     <a
-                      href="http://t.me/SynCityHQ"
+                      href="https://t.me/MobLandAnnouncements"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
                       <i className="fab fa-telegram" />
                     </a>
                     <a
-                      href="https://twitter.com/SynCityHQ"
+                      href="https://twitter.com/MobLandHQ"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
