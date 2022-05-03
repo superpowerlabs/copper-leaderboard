@@ -120,7 +120,7 @@ export default class LandingPage extends Base {
                       />
                     </a>
                     <a
-                      href="http://t.me/SynCityHQ"
+                      href="https://t.me/MobLandAnnouncements"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
