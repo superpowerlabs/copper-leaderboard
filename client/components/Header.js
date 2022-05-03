@@ -175,7 +175,7 @@ export default class Header extends Base {
                 <i className="fab fa-telegram" />
               </a>
               <a
-                href="https://twitter.com/SynCityHQ"
+                href="https://twitter.com/MobLandHQ"
                 target="_blank"
                 rel="noopener noreferrer"
               >
