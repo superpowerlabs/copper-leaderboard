@@ -66,12 +66,10 @@ export default class LandingPage extends Base {
               <div className={"topsynnersLogo"}>
                 <img src={"/images/topSinners.png"} />
               </div>
-              <div className={"home-section centered"}>
-              </div>
+              <div className={"home-section centered"}></div>
 
               <Row className={"instructions"}>
-                <Col xs={12} lg={4} ref={this.blockdiv}>
-                </Col>
+                <Col xs={12} lg={4} ref={this.blockdiv}></Col>
                 <Col xs={12} lg={4}>
                   <div className={"inInstructions"}>
                     <div className={"bold"}> How to get more info</div>
