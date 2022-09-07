@@ -39,7 +39,7 @@ const config = {
     "react-dom": "ReactDOM",
     "react-router-dom": "ReactRouterDOM",
     // "react-bootstrap": "ReactBootstrap",
-    ethers: "ethers",
+    // ethers: "ethers",
     lodash: "_",
   },
   mode,

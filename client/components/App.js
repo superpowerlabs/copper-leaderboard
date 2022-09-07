@@ -4,7 +4,9 @@ const { BrowserRouter, Route, Switch } = ReactRouterDOM;
 // eslint-disable-next-line no-undef
 const { Modal, Button } = ReactBootstrap;
 
-const ethers = require("ethers");
+// const ethers = require("ethers");
+import { ethers } from "ethers";
+
 import clientApi from "../utils/ClientApi";
 import config from "../config";
 import ls from "local-storage";
