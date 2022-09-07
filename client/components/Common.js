@@ -1,3 +1,4 @@
+import React from "react";
 import ls from "local-storage";
 
 // eslint-disable-next-line no-undef

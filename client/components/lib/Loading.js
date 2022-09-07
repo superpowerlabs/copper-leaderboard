@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-undef
-const { Spinner } = ReactBootstrap;
+import React from "react";
+import { Spinner } from "react-bootstrap";
 
 // eslint-disable-next-line no-undef
 export default class Loading extends React.Component {

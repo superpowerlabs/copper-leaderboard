@@ -1,3 +1,4 @@
+import React from "react";
 // eslint-disable-next-line no-undef
 import NFTs from "./NFTs";
 import Leaderboard from "./Leaderboard";
@@ -9,8 +10,7 @@ import Logo from "./lib/Logo";
 import { isSynCity } from "../config";
 
 // eslint-disable-next-line no-undef
-const { Container, Row, Col } = ReactBootstrap;
-// const progress_now = 25;
+import { Container, Row, Col } from "react-bootstrap";
 
 // eslint-disable-next-line no-undef
 

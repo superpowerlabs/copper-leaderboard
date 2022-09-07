@@ -1,5 +1,5 @@
-// eslint-disable-next-line no-undef
-const { ProgressBar } = ReactBootstrap;
+import React from "react";
+import { ProgressBar } from "react-bootstrap";
 
 import PropTypes from "prop-types";
 

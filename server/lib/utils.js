@@ -1,7 +1,6 @@
 const ethers = require("ethers");
 const { Contract } = require("@ethersproject/contracts");
 const config = require("../../client/config");
-// const _ = require('lodash')
 
 const contracts = {};
 

@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-undef
-const { Row, Col } = ReactBootstrap;
+import React from "react";
+import { Row, Col } from "react-bootstrap";
 
 import Ab from "./Ab";
 
