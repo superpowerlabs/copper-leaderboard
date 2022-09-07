@@ -2,7 +2,7 @@ import { isSynCity } from "../../config";
 
 function Logo(props) {
   let src = isSynCity
-    ? "https://data.syn.city/assets/SynCityYellowLogo.png"
+    ? "https://data.mob.land/assets/SynCityYellowLogo.png"
     : "https://s3.mob.land/assets/Mobland_Title_Stylized300.png";
 
   return (

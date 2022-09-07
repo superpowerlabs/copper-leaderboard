@@ -11,7 +11,7 @@ export default class NFTs extends Base {
         <Col xs={12} lg={4}>
           <div className={"videoContainer"}>
             <VideoLooper
-              source={"https://data.syn.city/assets/top200_2.mp4"}
+              source={"https://data.mob.land/assets/top200_2.mp4"}
               start={0}
               end={25}
               width={this.Store.blockDiv}
@@ -30,7 +30,7 @@ export default class NFTs extends Base {
         <Col xs={12} lg={4}>
           <div className={"videoContainer"}>
             <VideoLooper
-              source={"https://data.syn.city/assets/top100_2.mp4"}
+              source={"https://data.mob.land/assets/top100_2.mp4"}
               start={0}
               end={25}
               width={this.Store.blockDiv}
@@ -48,7 +48,7 @@ export default class NFTs extends Base {
         <Col xs={12} lg={4}>
           <div className={"videoContainer"}>
             <VideoLooper
-              source={"https://data.syn.city/assets/top50_2.mp4"}
+              source={"https://data.mob.land/assets/top50_2.mp4"}
               start={0}
               end={25}
               width={this.Store.blockDiv}
