@@ -37,7 +37,6 @@ const config = {
   externals: {
     react: "React",
     "react-dom": "ReactDOM",
-    "react-router-dom": "ReactRouterDOM",
     // ethers: "ethers",
     lodash: "_",
   },

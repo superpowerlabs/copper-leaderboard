@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-undef
-const { BrowserRouter, Route, Switch } = ReactRouterDOM;
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 // eslint-disable-next-line no-undef
 import { Modal, Button } from "react-bootstrap";
