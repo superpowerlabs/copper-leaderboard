@@ -35,9 +35,6 @@ const config = {
     }),
   ],
   externals: {
-    react: "React",
-    "react-dom": "ReactDOM",
-    // ethers: "ethers",
     lodash: "_",
   },
   mode,
