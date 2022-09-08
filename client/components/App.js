@@ -2,7 +2,7 @@
 const { BrowserRouter, Route, Switch } = ReactRouterDOM;
 
 // eslint-disable-next-line no-undef
-const { Modal, Button } = ReactBootstrap;
+import { Modal, Button } from "react-bootstrap";
 
 // const ethers = require("ethers");
 import { ethers } from "ethers";

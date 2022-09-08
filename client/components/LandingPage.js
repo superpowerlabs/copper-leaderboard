@@ -9,7 +9,7 @@ import Logo from "./lib/Logo";
 import { isSynCity } from "../config";
 
 // eslint-disable-next-line no-undef
-const { Container, Row, Col } = ReactBootstrap;
+import { Container, Row, Col } from "react-bootstrap";
 // const progress_now = 25;
 
 // eslint-disable-next-line no-undef
