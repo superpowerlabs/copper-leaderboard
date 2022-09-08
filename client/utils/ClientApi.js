@@ -1,3 +1,4 @@
+import "babel-polyfill";
 import superagent from "superagent";
 
 class ClientApi {

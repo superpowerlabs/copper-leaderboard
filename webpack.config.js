@@ -34,14 +34,7 @@ const config = {
       template: join(__dirname, "/public/index.html"),
     }),
   ],
-  externals: {
-    react: "React",
-    "react-dom": "ReactDOM",
-    "react-router-dom": "ReactRouterDOM",
-    // "react-bootstrap": "ReactBootstrap",
-    // ethers: "ethers",
-    lodash: "_",
-  },
+  externals: {},
   mode,
 };
 

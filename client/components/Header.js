@@ -1,5 +1,6 @@
+import React from "react";
 // eslint-disable-next-line no-undef
-const { Navbar, Nav, Button } = ReactBootstrap;
+import { Navbar, Nav, Button } from "react-bootstrap";
 
 import Base from "./Base";
 import { addToken } from "../utils/Wallet";

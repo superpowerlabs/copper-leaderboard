@@ -1,7 +1,8 @@
+import React from "react";
 import Base from "./Base";
 
 // eslint-disable-next-line no-undef
-const { Container } = ReactBootstrap;
+import { Container } from "react-bootstrap";
 
 class Error404 extends Base {
   constructor(props) {
