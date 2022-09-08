@@ -34,9 +34,7 @@ const config = {
       template: join(__dirname, "/public/index.html"),
     }),
   ],
-  externals: {
-    lodash: "_",
-  },
+  externals: {},
   mode,
 };
 
