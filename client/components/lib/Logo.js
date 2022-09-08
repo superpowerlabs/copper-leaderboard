@@ -1,3 +1,4 @@
+import React from "react";
 import { isSynCity } from "../../config";
 
 function Logo(props) {

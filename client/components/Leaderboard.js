@@ -1,3 +1,4 @@
+import React from "react";
 // eslint-disable-next-line no-undef
 import { Row, Col, Badge } from "react-bootstrap";
 import Base from "./Base";

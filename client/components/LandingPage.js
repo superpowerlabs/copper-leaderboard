@@ -1,3 +1,4 @@
+import React from "react";
 // eslint-disable-next-line no-undef
 import NFTs from "./NFTs";
 import Leaderboard from "./Leaderboard";
