@@ -1,5 +1,4 @@
 const express = require("express");
-const fs = require("fs-extra");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const Logger = require("./lib/Logger");
@@ -7,6 +6,15 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const rateLimit = require("express-rate-limit");
 const apiV1 = require("./routes/apiV1");
+const helmet = require("helmet");
+const fs = require("fs");
+const pino = require("pino")("./logs/info.log");
+const csp = require("helmet-csp");
+const expressPino = require("express-pino-logger")({
+  logger: pino,
+});
+
+const crypto = require("crypto");
 
 process.on("uncaughtException", function (error) {
   Logger.error(error.message);
@@ -15,6 +23,58 @@ process.on("uncaughtException", function (error) {
   // if(!error.isOperational)
   //   process.exit(1)
 });
+
+const app = express();
+app.use(expressPino);
+app.use(helmet());
+
+app.use((req, res, next) => {
+  res.locals.nonce = crypto.randomBytes(16).toString("hex");
+  res.locals.isFirefox = /Firefox/.test(req.get("user-agent"));
+  next();
+});
+
+app.use((req, res, next) => {
+  csp({
+    useDefaults: true,
+    directives: {
+      "default-src": ["'self'", "api.coingecko.com", "*.mob.land"],
+      "script-src": [
+        "'self'",
+        "'unsafe-inline'",
+        `'nonce-${res.locals.nonce}'`,
+        "*.mob.land",
+        "'wasm-unsafe-eval'",
+      ],
+      "img-src": ["'self", "https: data: blob:"],
+      "style-src": ["'self'", `'nonce-${res.locals.nonce}'`],
+      "script-src-attr": null,
+    },
+  })(req, res, next);
+});
+
+app.use((req, res, next) => {
+  if (res.locals.isFirefox) {
+    res.removeHeader("content-security-policy");
+  }
+  next();
+});
+
+app.disable("x-powered-by");
+
+const limiter = rateLimit({
+  windowMs: 10 * 1000,
+  max: 60,
+  keyGenerator: (req) => {
+    const ip =
+      req.headers["x-real-ip"] ||
+      req.headers["x-forwarded-for"] ||
+      req.connection.remoteAddress;
+    return ip;
+  },
+});
+
+app.use(limiter);
 
 let indexText;
 
@@ -25,17 +85,20 @@ function getIndex() {
       "utf-8"
     );
   }
-  return indexText;
+  if (res.locals.isFirefox) {
+    return indexText;
+  } else {
+    return indexText
+      .replace(
+        /script src="\/static\/js/g,
+        `script nonce="${res.locals.nonce}" src="/static/js`
+      )
+      .replace(
+        /link href="\/static\/css/g,
+        `link nonce="${res.locals.nonce}" href="/static/css`
+      );
+  }
 }
-
-const app = express();
-
-const limiter = rateLimit({
-  windowMs: 10 * 1000,
-  max: 60,
-});
-
-app.use(limiter);
 
 app.use(cors());
 app.use(cookieParser());
@@ -63,7 +126,7 @@ app.use("/:anything", function (req, res, next) {
       next();
       break;
     default:
-      res.send(getIndex());
+      res.send(getIndex(res));
   }
 });
 
