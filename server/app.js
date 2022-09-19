@@ -5,8 +5,12 @@ const cookieParser = require("cookie-parser");
 const Logger = require("./lib/Logger");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const rateLimit = require("express-rate-limit");
 const apiV1 = require("./routes/apiV1");
+
+const limiter = require("./security/rate-limiter");
+const middlewares = require("./security/middlewares");
+
+const helmet = require("helmet");
 
 process.on("uncaughtException", function (error) {
   Logger.error(error.message);
@@ -16,25 +20,36 @@ process.on("uncaughtException", function (error) {
   //   process.exit(1)
 });
 
-let indexText;
+let html;
 
-function getIndex() {
-  if (!indexText) {
-    indexText = fs.readFileSync(
+function getIndex(res) {
+  if (!html) {
+    html = fs.readFileSync(
       path.resolve(__dirname, "../public/index.html"),
       "utf-8"
     );
   }
-  return indexText;
+  if (res.locals.isFirefox === true) {
+    return html;
+  } else {
+    return html
+      .replace(/<script/g, `<script nonce="${res.locals.nonce}"`)
+      .replace(/<link/g, `<link nonce="${res.locals.nonce}"`);
+  }
 }
 
 const app = express();
 
-const limiter = rateLimit({
-  windowMs: 10 * 1000,
-  max: 60,
-});
+app.use(
+  helmet({
+    crossOriginEmbedderPolicy: false,
+  })
+);
 
+app.use(middlewares.setNonce);
+app.use(middlewares.detectBrowser);
+app.use(middlewares.leaderboardCSP);
+app.use(middlewares.limitCSPforFirefox);
 app.use(limiter);
 
 app.use(cors());
@@ -52,18 +67,27 @@ app.use("/healthcheck", function (req, res) {
   res.send("ok");
 });
 
+app.use("*", function (req, res, next) {
+  if (req.params["0"] === "/") {
+    res.send(getIndex(res));
+  } else {
+    next();
+  }
+});
+
 app.use("/:anything", function (req, res, next) {
   let v = req.params.anything;
   switch (v) {
     case "favicon.png":
     case "favicon.ico":
     case "styles":
+    case "all":
     case "images":
     case "bundle":
       next();
       break;
     default:
-      res.send(getIndex());
+      res.send(getIndex(res));
   }
 });
 
