@@ -1,0 +1,12 @@
+{
+  "name": "splarmor",
+  "version": "0.9.0",
+  "description": "Super Power Lab Armor",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Yacin Bahi <yacin@superpower.io>",
+  "license": "MIT"
+}

@@ -6,10 +6,9 @@ const Logger = require("./lib/Logger");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const apiV1 = require("./routes/apiV1");
+const splamor = require("splamor");
 
 const limiter = require("./security/rate-limiter");
-const middlewares = require("./security/middlewares");
-
 const helmet = require("helmet");
 
 process.on("uncaughtException", function (error) {
@@ -46,10 +45,7 @@ app.use(
   })
 );
 
-app.use(middlewares.setNonce);
-app.use(middlewares.detectBrowser);
-app.use(middlewares.leaderboardCSP);
-app.use(middlewares.limitCSPforFirefox);
+app.use(splamor);
 app.use(limiter);
 
 app.use(cors());
