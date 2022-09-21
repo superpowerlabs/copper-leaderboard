@@ -1,8 +1,11 @@
 import React from "react";
-import VideoLooper from "react-video-looper";
 // eslint-disable-next-line no-undef
 import { Row, Col } from "react-bootstrap";
 import Base from "./Base";
+
+import top200 from "../../public/videos/top200_2.gif";
+import top100 from "../../public/videos/top100_2.gif";
+import top50 from "../../public/videos/top50_2.gif";
 
 // eslint-disable-next-line no-undef
 export default class NFTs extends Base {
@@ -11,14 +14,10 @@ export default class NFTs extends Base {
       <Row className={"nftLogos bold"}>
         <Col xs={12} lg={4}>
           <div className={"videoContainer"}>
-            <VideoLooper
-              source={"https://data.mob.land/assets/top200_2.mp4"}
-              start={0}
-              end={25}
+            <img
+              src={top200}
               width={this.Store.blockDiv}
               height={this.Store.blockDiv}
-              autoPlay={true}
-              loopCount={100}
             />
           </div>
           <div className={"topRow centered"}>
@@ -30,14 +29,10 @@ export default class NFTs extends Base {
 
         <Col xs={12} lg={4}>
           <div className={"videoContainer"}>
-            <VideoLooper
-              source={"https://data.mob.land/assets/top100_2.mp4"}
-              start={0}
-              end={25}
+            <img
+              src={top100}
               width={this.Store.blockDiv}
               height={this.Store.blockDiv}
-              autoPlay={true}
-              loopCount={100}
             />
           </div>
           <div className={"topRow centered"}>
@@ -48,14 +43,10 @@ export default class NFTs extends Base {
         </Col>
         <Col xs={12} lg={4}>
           <div className={"videoContainer"}>
-            <VideoLooper
-              source={"https://data.mob.land/assets/top50_2.mp4"}
-              start={0}
-              end={25}
+            <img
+              src={top50}
               width={this.Store.blockDiv}
               height={this.Store.blockDiv}
-              autoPlay={true}
-              loopCount={100}
             />
           </div>
           <div className={"topRow centered"}>
