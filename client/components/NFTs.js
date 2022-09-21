@@ -3,9 +3,9 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 import Base from "./Base";
 
-import top200 from "../../public/videos/top200_2.gif";
-import top100 from "../../public/videos/top100_2.gif";
-import top50 from "../../public/videos/top50_2.gif";
+const top200 = "https://data.mob.land/assets/top200_2.gif";
+const top100 = "https://data.mob.land/assets/top100_2.gif";
+const top50 = "https://data.mob.land/assets/top50_2.gif";
 
 // eslint-disable-next-line no-undef
 export default class NFTs extends Base {
