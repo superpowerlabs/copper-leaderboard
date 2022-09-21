@@ -6,10 +6,8 @@ const Logger = require("./lib/Logger");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const apiV1 = require("./routes/apiV1");
-const splamor = require("splamor");
 
-const limiter = require("./security/rate-limiter");
-const helmet = require("helmet");
+const applySecurity = require("./applySecurity");
 
 process.on("uncaughtException", function (error) {
   Logger.error(error.message);
@@ -39,19 +37,28 @@ function getIndex(res) {
 
 const app = express();
 
-app.use(
-  helmet({
-    crossOriginEmbedderPolicy: false,
-  })
-);
-
-app.use(splamor);
-app.use(limiter);
+applySecurity(app, {
+  script: ["'unsafe-eval'"],
+  connect: ["ka-f.fontawesome.com"],
+  style: [
+    "'unsafe-hashes'",
+    "fonts.googleapis.com/",
+    "cdnjs.cloudflare.com/ajax/libs/bootstrap/",
+    "use.fontawesome.com/releases/v6.0.0-beta1/",
+  ],
+  font: ["fonts.gstatic.com/", "use.fontawesome.com/"],
+  img: ["www.w3.org/"],
+});
 
 app.use(cors());
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ limit: "10mb", extended: false }));
+
+app.use((req, res, next) => {
+  res.locals.isFirefox = /Firefox/.test(req.get("user-agent"));
+  next();
+});
 
 app.use("/api/v1", apiV1);
 
