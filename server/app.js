@@ -1,5 +1,4 @@
 const express = require("express");
-const fs = require("fs-extra");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const Logger = require("./lib/Logger");
@@ -8,36 +7,16 @@ const cors = require("cors");
 const apiV1 = require("./routes/apiV1");
 
 const applySecurity = require("./applySecurity");
+let html;
 
 process.on("uncaughtException", function (error) {
   Logger.error(error.message);
   Logger.error(error.stack);
-
-  // if(!error.isOperational)
-  //   process.exit(1)
 });
-
-let html;
-
-function getIndex(res) {
-  if (!html) {
-    html = fs.readFileSync(
-      path.resolve(__dirname, "../public/index.html"),
-      "utf-8"
-    );
-  }
-  if (res.locals.isFirefox === true) {
-    return html;
-  } else {
-    return html
-      .replace(/<script/g, `<script nonce="${res.locals.nonce}"`)
-      .replace(/<link/g, `<link nonce="${res.locals.nonce}"`);
-  }
-}
 
 const app = express();
 
-applySecurity(app, {
+applySecurity(app, html, {
   script: ["'unsafe-eval'"],
   connect: ["ka-f.fontawesome.com"],
   style: [
@@ -55,11 +34,6 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ limit: "10mb", extended: false }));
 
-app.use((req, res, next) => {
-  res.locals.isFirefox = /Firefox/.test(req.get("user-agent"));
-  next();
-});
-
 app.use("/api/v1", apiV1);
 
 app.use("/index.html", function (req, res) {
@@ -68,30 +42,6 @@ app.use("/index.html", function (req, res) {
 
 app.use("/healthcheck", function (req, res) {
   res.send("ok");
-});
-
-app.use("*", function (req, res, next) {
-  if (req.params["0"] === "/") {
-    res.send(getIndex(res));
-  } else {
-    next();
-  }
-});
-
-app.use("/:anything", function (req, res, next) {
-  let v = req.params.anything;
-  switch (v) {
-    case "favicon.png":
-    case "favicon.ico":
-    case "styles":
-    case "all":
-    case "images":
-    case "bundle":
-      next();
-      break;
-    default:
-      res.send(getIndex(res));
-  }
 });
 
 app.use(express.static(path.resolve(__dirname, "../public")));
