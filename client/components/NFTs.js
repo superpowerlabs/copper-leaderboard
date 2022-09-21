@@ -1,8 +1,11 @@
 import React from "react";
-import VideoLooper from "react-video-looper";
 // eslint-disable-next-line no-undef
 import { Row, Col } from "react-bootstrap";
 import Base from "./Base";
+
+const top200 = "https://data.mob.land/assets/top200_2.gif";
+const top100 = "https://data.mob.land/assets/top100_2.gif";
+const top50 = "https://data.mob.land/assets/top50_2.gif";
 
 // eslint-disable-next-line no-undef
 export default class NFTs extends Base {
@@ -11,15 +14,7 @@ export default class NFTs extends Base {
       <Row className={"nftLogos bold"}>
         <Col xs={12} lg={4}>
           <div className={"videoContainer"}>
-            <VideoLooper
-              source={"https://data.mob.land/assets/top200_2.mp4"}
-              start={0}
-              end={25}
-              width={this.Store.blockDiv}
-              height={this.Store.blockDiv}
-              autoPlay={true}
-              loopCount={100}
-            />
+            <img src={top200} />
           </div>
           <div className={"topRow centered"}>
             <span className={"nftTextBronze"}>Top 101-200 </span>
@@ -30,15 +25,7 @@ export default class NFTs extends Base {
 
         <Col xs={12} lg={4}>
           <div className={"videoContainer"}>
-            <VideoLooper
-              source={"https://data.mob.land/assets/top100_2.mp4"}
-              start={0}
-              end={25}
-              width={this.Store.blockDiv}
-              height={this.Store.blockDiv}
-              autoPlay={true}
-              loopCount={100}
-            />
+            <img src={top100} />
           </div>
           <div className={"topRow centered"}>
             <span className={"nftTextSilver"}>Top 51-100 </span>
@@ -48,15 +35,7 @@ export default class NFTs extends Base {
         </Col>
         <Col xs={12} lg={4}>
           <div className={"videoContainer"}>
-            <VideoLooper
-              source={"https://data.mob.land/assets/top50_2.mp4"}
-              start={0}
-              end={25}
-              width={this.Store.blockDiv}
-              height={this.Store.blockDiv}
-              autoPlay={true}
-              loopCount={100}
-            />
+            <img src={top50} />
           </div>
           <div className={"topRow centered"}>
             <span className={"nftTextGold"}>Top 50 </span>
