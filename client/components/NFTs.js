@@ -14,11 +14,7 @@ export default class NFTs extends Base {
       <Row className={"nftLogos bold"}>
         <Col xs={12} lg={4}>
           <div className={"videoContainer"}>
-            <img
-              src={top200}
-              width={this.Store.blockDiv}
-              height={this.Store.blockDiv}
-            />
+            <img src={top200} />
           </div>
           <div className={"topRow centered"}>
             <span className={"nftTextBronze"}>Top 101-200 </span>
@@ -29,11 +25,7 @@ export default class NFTs extends Base {
 
         <Col xs={12} lg={4}>
           <div className={"videoContainer"}>
-            <img
-              src={top100}
-              width={this.Store.blockDiv}
-              height={this.Store.blockDiv}
-            />
+            <img src={top100} />
           </div>
           <div className={"topRow centered"}>
             <span className={"nftTextSilver"}>Top 51-100 </span>
@@ -43,11 +35,7 @@ export default class NFTs extends Base {
         </Col>
         <Col xs={12} lg={4}>
           <div className={"videoContainer"}>
-            <img
-              src={top50}
-              width={this.Store.blockDiv}
-              height={this.Store.blockDiv}
-            />
+            <img src={top50} />
           </div>
           <div className={"topRow centered"}>
             <span className={"nftTextGold"}>Top 50 </span>
