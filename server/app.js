@@ -51,7 +51,10 @@ app.use("/healthcheck", function (req, res) {
   res.send("ok");
 });
 
-applyNonce(app, {});
+applyNonce(app, {
+  index_file: "../../public/index.html",
+  static_assets: ["images", "styles", "bundle"],
+});
 
 app.use(express.static(path.resolve(__dirname, "../public")));
 
