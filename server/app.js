@@ -38,7 +38,6 @@ function getIndex(res) {
 const app = express();
 
 applySecurity(app, {
-  script: ["'unsafe-eval'"],
   connect: ["ka-f.fontawesome.com"],
   style: [
     "'unsafe-hashes'",
@@ -47,7 +46,7 @@ applySecurity(app, {
     "use.fontawesome.com/releases/v6.0.0-beta1/",
   ],
   font: ["fonts.gstatic.com/", "use.fontawesome.com/"],
-  img: ["www.w3.org/"],
+  img: ["data:", "www.w3.org/"],
 });
 
 app.use(cors());
