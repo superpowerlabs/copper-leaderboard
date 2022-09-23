@@ -47,13 +47,5 @@ module.exports = (env, argv) => {
     config.devtool = "inline-source-map";
   }
 
-  if (mode === "production" || argv.mode === "production") {
-    config.plugins.push(
-      new ESLintPlugin({
-        files: "src/**/*.js",
-      })
-    );
-  }
-
   return config;
 };
