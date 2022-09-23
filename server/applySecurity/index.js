@@ -6,14 +6,39 @@ const noCSPIfFirefox = require("./noCSPIfFirefox");
 const nonce = require("./nonce");
 
 module.exports = (app, extraConfig) => {
-  app.use(
-    helmet({
-      crossOriginEmbedderPolicy: false,
-    })
-  );
+  let static_assets = extraConfig.static_assets || [];
+
+  app.use("/:anything", function (req, res, next) {
+    let v = req.params.anything;
+    // if static_assets is not empty, we skip CSP for everything but index
+    if (static_assets.length && static_assets.includes(v)) {
+      next();
+    } else {
+      res.locals.isHome = true;
+    }
+  });
+
+  app.use((req, res, next) => {
+    if (res.locals.isHome) {
+      console.info("helmet on for index");
+      helmet()(req, res, next);
+    } else {
+      next();
+    }
+  });
+
   app.use(ip);
   app.use(limiter);
   app.use(nonce);
-  app.use(CSP(extraConfig));
+
+  app.use((req, res, next) => {
+    if (res.locals.isHome) {
+      console.info("CSP on for index");
+      CSP(extraConfig)(req, res, next);
+    } else {
+      next();
+    }
+  });
+
   app.use(noCSPIfFirefox);
 };

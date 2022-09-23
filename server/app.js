@@ -12,14 +12,11 @@ const applyNonce = require("./applyNonce");
 process.on("uncaughtException", function (error) {
   Logger.error(error.message);
   Logger.error(error.stack);
-
-  // if(!error.isOperational)
-  //   process.exit(1)
 });
 
 const app = express();
 
-applySecurity(app, {
+const security_config = {
   connect: ["ka-f.fontawesome.com"],
   style: [
     "'unsafe-hashes'",
@@ -29,7 +26,11 @@ applySecurity(app, {
   ],
   font: ["fonts.gstatic.com/", "use.fontawesome.com/"],
   img: ["data:", "www.w3.org/"],
-});
+  index_file: "../../public/index.html",
+  static_assets: ["images", "styles", "bundle"],
+};
+
+applySecurity(app, security_config);
 
 app.use(cors());
 app.use(cookieParser());
@@ -51,11 +52,7 @@ app.use("/healthcheck", function (req, res) {
   res.send("ok");
 });
 
-applyNonce(app, {
-  index_file: "../../public/index.html",
-  static_assets: ["images", "styles", "bundle"],
-});
-
+applyNonce(app, security_config);
 app.use(express.static(path.resolve(__dirname, "../public")));
 
 // catch 404 and forward to error handler
