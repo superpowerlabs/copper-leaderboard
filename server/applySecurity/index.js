@@ -20,7 +20,6 @@ module.exports = (app, extraConfig) => {
 
   app.use((req, res, next) => {
     if (res.locals.isHome) {
-      console.info("helmet on for index");
       helmet()(req, res, next);
     } else {
       next();
@@ -33,7 +32,6 @@ module.exports = (app, extraConfig) => {
 
   app.use((req, res, next) => {
     if (res.locals.isHome) {
-      console.info("CSP on for index");
       CSP(extraConfig)(req, res, next);
     } else {
       next();
