@@ -37,11 +37,6 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ limit: "10mb", extended: false }));
 
-app.use((req, res, next) => {
-  res.locals.isFirefox = /Firefox/.test(req.get("user-agent"));
-  next();
-});
-
 app.use("/api/v1", apiV1);
 
 app.use("/index.html", function (req, res) {

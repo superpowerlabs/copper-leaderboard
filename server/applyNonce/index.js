@@ -8,9 +8,9 @@ function getIndex(html, index_file) {
   return html;
 }
 
-function insertNonce(res, html, index_file) {
+function insertNonce(res, req, html, index_file) {
   html = getIndex(html, index_file);
-  if (res.locals.isFirefox === true) {
+  if (/Firefox/.test(req.get("user-agent"))) {
     return html;
   } else {
     return html
@@ -28,7 +28,7 @@ module.exports = (app, extraConfig) => {
 
   app.use("*", function (req, res, next) {
     if (req.params["0"] === "/") {
-      res.send(insertNonce(res, html, index_file));
+      res.send(insertNonce(res, req, html, index_file));
     } else {
       next();
     }
@@ -39,7 +39,7 @@ module.exports = (app, extraConfig) => {
     if (static_assets.includes(v)) {
       next();
     } else {
-      res.send(insertNonce(res, html, index_file));
+      res.send(insertNonce(res, req, html, index_file));
     }
   });
 };
