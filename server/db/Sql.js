@@ -1,6 +1,7 @@
 const knex = require("knex");
 const Spinner = require("cli-spinner").Spinner;
 const _ = require("lodash");
+const dbConfig = require("./dbConfig");
 
 async function sleep(millis) {
   // eslint-disable-next-line no-undef
@@ -14,30 +15,45 @@ class Sql {
     this.pgData = pgData;
   }
 
-  async sql() {
-    if (!this.client) {
+  async sql(useReplica) {
+    let clientKey = "client";
+    if (useReplica) {
+      clientKey = "replicaClient";
+    }
+    if (!this[clientKey]) {
       const spinner = new Spinner("Waiting for Postgres %s ");
       spinner.setSpinnerString("|/-\\");
       let started = false;
+      const config = _.clone(dbConfig);
+      if (useReplica) {
+        config.connection.host = config.connection.hostReplica;
+      }
       for (;;) {
         try {
-          this.client = knex({
-            client: "pg",
-            connection: pgData,
-          });
-          await this.client.raw("select 1+1 as result");
+          this[clientKey] = knex(config);
+          await this[clientKey].raw("select 1+1 as result");
           spinner.stop();
           break;
         } catch (err) {
           if (/database ".*" does not exist/.test(err)) {
-            const pgData0 = _.clone(pgData);
-            const newDb = pgData0.database;
-            delete pgData0.database;
+            await sleep(1000);
+            const { connection } = config;
             let tmpClient = knex({
               client: "pg",
-              connection: pgData0,
+              connection: {
+                host: connection.host,
+                user: connection.user,
+                password: connection.password,
+                port: connection.port,
+              },
             });
-            await tmpClient.raw("create database " + newDb);
+            try {
+              await tmpClient.raw("create database " + connection.database);
+            } catch (e) {
+              // most likely trying to re-create an already created database
+            }
+            spinner.stop();
+            break;
           } else {
             // console.error(err);
           }
@@ -49,7 +65,7 @@ class Sql {
         }
       }
     }
-    return this.client;
+    return this[clientKey];
   }
 }
 
