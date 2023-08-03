@@ -1,20 +1,24 @@
 const Sql = require("../db/Sql");
 
+let dbw;
+let dbr;
 class DbManager extends Sql {
   // for reference
   // https://knexjs.org
 
+  async init() {
+    dbw = await this.sql();
+    dbr = await this.sql(true); // read only
+    this.initiated = true;
+  }
   async getInvestments(network) {
-    const investments = (await this.sql())
-      .select("*")
-      .from("investments_" + network);
+    const investments = dbr.select("*").from("investments_" + network);
     return investments;
   }
 
   async newInvestment(amount, wallet, tx_hash, network) {
-    const sql = await this.sql();
     const exist = (
-      await sql
+      await dbw
         .select("*")
         .from("investments_" + network)
         .where({
@@ -25,7 +29,7 @@ class DbManager extends Sql {
       return false;
     }
     try {
-      await sql
+      await dbw
         .insert({
           amount,
           wallet,
