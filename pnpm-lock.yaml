@@ -1423,7 +1423,7 @@ packages:
     dependencies:
       babel-core: 6.26.3
       find-cache-dir: 1.0.0
-      loader-utils: 1.4.0
+      loader-utils: 1.4.2
       mkdirp: 0.5.6
       webpack: 5.74.0(webpack-cli@4.10.0)
     dev: true
@@ -2661,7 +2661,7 @@ packages:
       camelcase: 5.3.1
       cssesc: 3.0.0
       icss-utils: 4.1.1
-      loader-utils: 1.4.0
+      loader-utils: 1.4.2
       normalize-path: 3.0.0
       postcss: 7.0.39
       postcss-modules-extract-imports: 2.0.0
@@ -4710,8 +4710,8 @@ packages:
     engines: {node: '>=6.11.5'}
     dev: true
 
-  /loader-utils@1.4.0:
-    resolution: {integrity: sha512-qH0WSMBtn/oHuwjy/NucEgbx5dbxxnxup9s4PVXJUDHZBQY+s0NWA9rJf53RBnQZxfch7euUui7hpoAPvALZdA==}
+  /loader-utils@1.4.2:
+    resolution: {integrity: sha512-I5d00Pd/jwMD2QCduo657+YM/6L3KZu++pmX9VFncxaxvHcru9jx1lBaFft+r4Mt2jK0Yhp41XlRAihzPxHNCg==}
     engines: {node: '>=4.0.0'}
     dependencies:
       big.js: 5.2.2
